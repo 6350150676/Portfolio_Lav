@@ -5,12 +5,13 @@ export default function Footer() {
     <footer style={{
       background: 'var(--bg)',
       borderTop: '1px solid var(--border)',
-      padding: '2rem 4rem',
+      padding: 'clamp(1.5rem, 4vw, 2rem) clamp(1.25rem, 5vw, 4rem)',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       flexWrap: 'wrap',
       gap: '1rem',
+      textAlign: 'center',
     }}>
       <div style={{
         fontFamily: 'var(--font-display)',

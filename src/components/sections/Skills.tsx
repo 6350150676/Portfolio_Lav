@@ -2,9 +2,8 @@ import { skills } from '../../data'
 
 export default function Skills() {
   return (
-    <section id="skills" style={{
+    <section id="skills" className="section-pad" style={{
       minHeight: '100vh',
-      padding: '6rem 4rem',
       background: 'var(--bg)',
       position: 'relative',
       overflow: 'hidden',

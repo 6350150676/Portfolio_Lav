@@ -2,9 +2,8 @@ import { projects } from '../../data'
 
 export default function Projects() {
   return (
-    <section id="projects" style={{
+    <section id="projects" className="section-pad" style={{
       minHeight: '100vh',
-      padding: '6rem 4rem',
       background: 'linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%)',
       position: 'relative',
       overflow: 'hidden',

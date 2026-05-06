@@ -2,9 +2,8 @@ import { personalInfo } from '../../data'
 
 export default function Contact() {
   return (
-    <section id="contact" style={{
+    <section id="contact" className="section-pad" style={{
       minHeight: '100vh',
-      padding: '6rem 4rem',
       background: 'linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%)',
       display: 'flex',
       alignItems: 'center',
@@ -28,7 +27,7 @@ export default function Contact() {
         <h2 className="section-title">Let's Build<br />Something</h2>
         <div className="accent-line" />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', marginTop: '3rem' }}>
+        <div className="responsive-grid-2col" style={{ marginTop: '3rem' }}>
           {/* Left: Info */}
           <div>
             <p style={{

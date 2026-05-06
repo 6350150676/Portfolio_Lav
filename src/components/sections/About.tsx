@@ -2,11 +2,10 @@ import { personalInfo, education, certifications } from '../../data'
 
 export default function About() {
   return (
-    <section id="about" style={{
+    <section id="about" className="section-pad" style={{
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
-      padding: '6rem 4rem',
       background: 'linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%)',
       position: 'relative',
       overflow: 'hidden',
@@ -24,7 +23,7 @@ export default function About() {
         pointerEvents: 'none',
       }} />
 
-      <div style={{ maxWidth: 1100, width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+      <div className="responsive-grid-2col" style={{ maxWidth: 1100, width: '100%', margin: '0 auto' }}>
         {/* Left: Avatar block */}
         <div style={{ position: 'relative' }}>
           {/* Main avatar box */}

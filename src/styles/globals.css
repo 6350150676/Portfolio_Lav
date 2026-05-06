@@ -193,3 +193,103 @@ section {
   background: linear-gradient(90deg, var(--accent), transparent);
   margin: 1rem 0;
 }
+
+/* ---------------------------------------------------------------- */
+/* Responsive helpers                                                */
+/* ---------------------------------------------------------------- */
+
+/* Section padding helpers (override inline padding via class) */
+.section-pad {
+  padding: 6rem 4rem;
+}
+
+.responsive-grid-2,
+.responsive-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.responsive-flex-row {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .section-pad {
+    padding: 5rem 2.5rem;
+  }
+  .responsive-grid-2,
+  .responsive-grid-2col {
+    gap: 3rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  /* Disable scroll snap on mobile so users can scroll freely */
+  html {
+    scroll-snap-type: none;
+  }
+  section {
+    scroll-snap-align: none;
+  }
+
+  /* Compact section padding */
+  .section-pad {
+    padding: 4rem 1.25rem;
+  }
+
+  /* Collapse 2-col grids to single column */
+  .responsive-grid-2,
+  .responsive-grid-2col {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+  }
+
+  /* Native cursor on touch devices — custom dot is useless */
+  body {
+    cursor: auto;
+  }
+  #cursor,
+  #cursor-ring {
+    display: none !important;
+  }
+
+  /* Smaller scanline density */
+  body::before {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 229, 255, 0.012) 3px,
+      rgba(0, 229, 255, 0.012) 5px
+    );
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+  }
+}
+
+/* Very small phones */
+@media (max-width: 420px) {
+  .section-pad {
+    padding: 3.5rem 1rem;
+  }
+}
+
+/* Touch-only devices: kill custom cursor regardless of width */
+@media (hover: none) and (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+  #cursor,
+  #cursor-ring {
+    display: none !important;
+  }
+}

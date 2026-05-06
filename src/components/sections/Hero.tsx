@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stars } from '@react-three/drei'
 import Scene3D from '../3d/Scene3D'
@@ -6,6 +6,15 @@ import { personalInfo, stats } from '../../data'
 
 export default function Hero() {
   const titleRef = useRef<HTMLHeadingElement>(null)
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+  )
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   useEffect(() => {
     // Typing effect for subtitle
@@ -44,13 +53,27 @@ export default function Hero() {
       {/* 3D Canvas */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <Canvas
-          camera={{ position: [0, 0, 8], fov: 60 }}
+          camera={{ position: [0, 0, isMobile ? 9 : 8], fov: isMobile ? 70 : 60 }}
           style={{ background: 'transparent' }}
-          dpr={[1, 1.5]}
+          dpr={[1, isMobile ? 1.25 : 1.5]}
         >
-          <Stars radius={100} depth={50} count={3000} factor={3} saturation={0} fade speed={1} />
+          <Stars
+            radius={100}
+            depth={50}
+            count={isMobile ? 1500 : 3000}
+            factor={3}
+            saturation={0}
+            fade
+            speed={1}
+          />
           <Scene3D />
-          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.3} />
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            enableRotate={!isMobile}
+            autoRotate
+            autoRotateSpeed={0.3}
+          />
         </Canvas>
       </div>
 
@@ -64,8 +87,9 @@ export default function Hero() {
       {/* Content */}
       <div style={{
         position: 'relative', zIndex: 2,
-        padding: '8rem 4rem 4rem',
+        padding: isMobile ? '7rem 1.25rem 4rem' : '8rem 4rem 4rem',
         maxWidth: 800,
+        width: '100%',
       }}>
         <div className="section-tag" style={{ marginBottom: '1rem', animation: 'fadeIn 0.8s ease' }}>
           ⚡ AVAILABLE FOR HIRE
@@ -77,7 +101,7 @@ export default function Hero() {
           data-text={personalInfo.name}
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(3rem, 8vw, 6rem)',
+            fontSize: 'clamp(2.5rem, 9vw, 6rem)',
             fontWeight: 900,
             color: 'var(--text)',
             lineHeight: 1,
@@ -90,22 +114,23 @@ export default function Hero() {
 
         <div style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(1.2rem, 3vw, 2rem)',
+          fontSize: 'clamp(1rem, 3.5vw, 2rem)',
           color: 'var(--accent)',
           marginBottom: '0.5rem',
           letterSpacing: '0.05em',
           display: 'flex',
           alignItems: 'center',
           gap: '0.5rem',
+          flexWrap: 'wrap',
         }}>
           Unity Game Developer &amp;{' '}
-          <span id="hero-subtitle" style={{ color: 'var(--accent2)', minWidth: 200 }}></span>
+          <span id="hero-subtitle" style={{ color: 'var(--accent2)', minWidth: isMobile ? 140 : 200 }}></span>
           <span style={{ animation: 'pulse 1s infinite', color: 'var(--accent)' }}>|</span>
         </div>
 
         <p style={{
           fontFamily: 'var(--font-body)',
-          fontSize: '1.2rem',
+          fontSize: isMobile ? '1rem' : '1.2rem',
           color: 'var(--text-dim)',
           maxWidth: 500,
           lineHeight: 1.7,
@@ -153,12 +178,16 @@ export default function Hero() {
         </div>
 
         {/* Stats */}
-        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(120px, max-content))',
+          gap: isMobile ? '1.25rem' : '2rem',
+        }}>
           {stats.map((s) => (
             <div key={s.label}>
               <div style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: '2rem',
+                fontSize: isMobile ? '1.5rem' : '2rem',
                 fontWeight: 900,
                 color: 'var(--accent)',
                 textShadow: '0 0 20px var(--accent)',
@@ -178,20 +207,22 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div style={{
-        position: 'absolute',
-        bottom: '2rem',
-        right: '2rem',
-        zIndex: 2,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '0.5rem',
-      }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--text-dim)', letterSpacing: '0.3em', writingMode: 'vertical-rl' }}>SCROLL</span>
-        <div style={{ width: 1, height: 60, background: 'linear-gradient(to bottom, var(--accent), transparent)' }} />
-      </div>
+      {/* Scroll indicator (hidden on mobile) */}
+      {!isMobile && (
+        <div style={{
+          position: 'absolute',
+          bottom: '2rem',
+          right: '2rem',
+          zIndex: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '0.5rem',
+        }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--text-dim)', letterSpacing: '0.3em', writingMode: 'vertical-rl' }}>SCROLL</span>
+          <div style={{ width: 1, height: 60, background: 'linear-gradient(to bottom, var(--accent), transparent)' }} />
+        </div>
+      )}
     </section>
   )
 }

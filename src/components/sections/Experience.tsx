@@ -2,9 +2,8 @@ import { experience } from '../../data'
 
 export default function Experience() {
   return (
-    <section id="experience" style={{
+    <section id="experience" className="section-pad" style={{
       minHeight: '100vh',
-      padding: '6rem 4rem',
       background: 'var(--bg)',
       position: 'relative',
       overflow: 'hidden',
