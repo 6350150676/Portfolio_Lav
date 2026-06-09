@@ -466,25 +466,51 @@ section[id] {
   transform: rotate(45deg);
 }
 
-/* Theme toggle button */
-.theme-toggle {
-  display: inline-flex;
+/* Theme toggle — sliding switch */
+.theme-switch {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;
+}
+.theme-switch-track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 58px;
+  height: 28px;
+  border-radius: 999px;
+  padding: 0 7px;
+  background: var(--chip-bg);
+  border: 1px solid var(--border-strong);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.theme-switch:hover .theme-switch-track { border-color: var(--accent); }
+.theme-switch-track .hint {
+  width: 13px;
+  height: 13px;
+  color: var(--text-faint);
+}
+.theme-switch-knob {
+  position: absolute;
+  top: 2.5px;
+  left: 2.5px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: transparent;
-  border: 1px solid var(--border-strong);
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px var(--glow-strong);
+  transition: transform 0.26s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.theme-toggle:hover {
-  border-color: var(--accent);
-  color: var(--accent2);
-  background: var(--accent-soft);
-}
+.theme-switch-knob svg { width: 13px; height: 13px; }
+/* data-on = light → knob left; dark → knob right */
+.theme-switch[data-on='false'] .theme-switch-knob { transform: translateX(30px); }
 .bit-bubble-close {
   pointer-events: auto;
   position: absolute;

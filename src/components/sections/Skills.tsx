@@ -1,22 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
-import { skills, proficiencies } from '../../data'
+import { skills } from '../../data'
 import Reveal from '../ui/Reveal'
 
 export default function Skills() {
-  const barsRef = useRef<HTMLDivElement>(null)
-  const [barsIn, setBarsIn] = useState(false)
-
-  useEffect(() => {
-    const el = barsRef.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setBarsIn(true); obs.disconnect() } },
-      { threshold: 0.3 }
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-
   return (
     <section id="skills" className="section-pad" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
       <div style={{
@@ -64,33 +49,6 @@ export default function Skills() {
               </div>
             </Reveal>
           ))}
-        </div>
-
-        {/* Proficiency bars — fill when scrolled into view */}
-        <div ref={barsRef} style={{ marginTop: '4rem' }}>
-          <Reveal>
-            <div className="eyebrow" style={{ marginBottom: '2rem' }}>Proficiency</div>
-          </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.4rem' }}>
-            {proficiencies.map((skill, i) => (
-              <div key={i}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
-                  <span style={{ fontSize: '0.92rem', fontWeight: 500, color: 'var(--text)' }}>{skill.name}</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: skill.color }}>{skill.pct}%</span>
-                </div>
-                <div style={{ height: 6, background: 'var(--track)', borderRadius: 999, overflow: 'hidden' }}>
-                  <div style={{
-                    height: '100%',
-                    width: barsIn ? `${skill.pct}%` : '0%',
-                    background: `linear-gradient(90deg, ${skill.color}, ${skill.color}99)`,
-                    borderRadius: 999,
-                    boxShadow: `0 0 12px ${skill.color}66`,
-                    transition: `width 1.1s cubic-bezier(0.2,0.7,0.2,1) ${i * 80}ms`,
-                  }} />
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

@@ -28,8 +28,8 @@ type Ent =
 type Shot = { wx: number; y: number }
 
 const PAL = {
-  dark: { bg1: '#0a0e1a', bg2: '#0f1422', ground: 'rgba(124,108,255,0.5)', text: '#e7ecf6', sub: '#9aa6bb', star: 'rgba(124,108,255,0.28)' },
-  light: { bg1: '#eaeefb', bg2: '#dde4f5', ground: 'rgba(107,79,251,0.55)', text: '#0e1525', sub: '#5b647a', star: 'rgba(107,79,251,0.22)' },
+  dark: { bg1: '#0a0e1a', bg2: '#0f1422', ground: 'rgba(124,108,255,0.5)', text: '#e7ecf6', sub: '#9aa6bb', star: 'rgba(124,108,255,0.28)', bullet: '#7cf6ff', gun: '#cdbbff' },
+  light: { bg1: '#eaeefb', bg2: '#dde4f5', ground: 'rgba(107,79,251,0.55)', text: '#0e1525', sub: '#5b647a', star: 'rgba(107,79,251,0.22)', bullet: '#6d28d9', gun: '#4c1d95' },
 }
 
 const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function SkillGame({ height = 360 }, ref) {
@@ -145,8 +145,8 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
             if (Math.abs(e.wx - pwx) < 28 && Math.abs(ey - py) < 38) {
               e.got = true; g.score += 50
               g.flash = 0.7; g.pop = 1
-              g.floats.push({ wx: pwx, y: py - 30, text: e.label, life: 1, color: '#cdbbff' })
-              g.rings.push({ wx: pwx, y: py, life: 1, color: '#a78bfa' })
+              g.floats.push({ wx: pwx, y: py - 30, text: e.label, life: 1, color: '#ffd98a' })
+              g.rings.push({ wx: pwx, y: py, life: 1, color: '#f5c542' })
               if (!gotRef.current.has(e.label)) { gotRef.current.add(e.label); setSkills(Array.from(gotRef.current)) }
               if (g.hp < 3) { g.hp += 1; setHealth(g.hp) } // power-up heals
             }
@@ -191,11 +191,14 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
         if (sx < -110 || sx > W + 110) continue
         if (e.type === 'skill' && !e.got) {
           const ey = e.high ? groundY - 100 : groundY - 6
-          const pulse = 13 + Math.sin(g.cam * 0.05 + e.wx) * 1.5
-          ctx.beginPath(); ctx.arc(sx, ey, pulse, 0, Math.PI * 2); ctx.fillStyle = 'rgba(124,108,255,0.2)'; ctx.fill()
-          ctx.lineWidth = 2; ctx.strokeStyle = '#a78bfa'; ctx.stroke()
-          ctx.fillStyle = '#cdbbff'; ctx.font = '700 11px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.fillText('+', sx, ey + 4)
-          ctx.fillStyle = pal.text; ctx.font = '600 10px "JetBrains Mono", monospace'; ctx.fillText(e.label, sx, ey - 22)
+          // spinning gold coin
+          const rw = 12 * (0.3 + 0.7 * Math.abs(Math.sin(g.t * 0.07 + e.wx * 0.02)))
+          ctx.save(); ctx.translate(sx, ey)
+          ctx.beginPath(); ctx.ellipse(0, 0, rw, 12, 0, 0, Math.PI * 2); ctx.fillStyle = '#f5c542'; ctx.fill()
+          ctx.lineWidth = 2; ctx.strokeStyle = '#c8901a'; ctx.stroke()
+          ctx.beginPath(); ctx.ellipse(0, 0, rw * 0.55, 7, 0, 0, Math.PI * 2); ctx.fillStyle = '#ffe28a'; ctx.fill()
+          ctx.restore()
+          ctx.fillStyle = pal.text; ctx.font = '600 10px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.fillText(e.label, sx, ey - 22)
         } else if (e.type === 'bug' && !e.dead) {
           const ey = groundY - 12 + Math.sin(g.t * 0.06 + e.phase) * 12
           ctx.fillStyle = '#ff5470'; roundRect(ctx, sx - 12, ey - 9, 24, 18, 6); ctx.fill()
@@ -236,8 +239,14 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
       }
 
       // bullets / enemy shots
-      ctx.fillStyle = '#7cf6ff'
-      for (const b of g.bullets) { const bx = b.wx - g.cam; if (bx < W + 20) { roundRect(ctx, bx, b.y - 2, 12, 4, 2); ctx.fill() } }
+      for (const b of g.bullets) {
+        const bx = b.wx - g.cam
+        if (bx < W + 20) {
+          ctx.fillStyle = pal.bullet
+          roundRect(ctx, bx, b.y - 2.5, 14, 5, 2.5); ctx.fill()
+          ctx.globalAlpha = 0.35; ctx.fillStyle = pal.bullet; roundRect(ctx, bx - 8, b.y - 1.5, 8, 3, 1.5); ctx.fill(); ctx.globalAlpha = 1
+        }
+      }
       ctx.fillStyle = '#ff8a5b'
       for (const b of g.eshots) { const bx = b.wx - g.cam; if (bx > -20) { ctx.beginPath(); ctx.arc(bx, b.y, 4, 0, Math.PI * 2); ctx.fill() } }
 
@@ -249,7 +258,7 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
       const inv = g.invuln > 0 && Math.floor(g.invuln / 4) % 2 === 0
       ctx.fillStyle = inv ? '#7c84a0' : '#a78bfa'; roundRect(ctx, PLAYER_X - ps / 2, py - ps / 2, ps, ps, 6); ctx.fill()
       ctx.fillStyle = pal.bg1; ctx.fillRect(PLAYER_X + ps * 0.12, py - 5, 4, 4)
-      ctx.fillStyle = '#cdbbff'; ctx.fillRect(PLAYER_X + ps / 2 - 2, py - 2, 13, 5)
+      ctx.fillStyle = pal.gun; ctx.fillRect(PLAYER_X + ps / 2 - 2, py - 2.5, 14, 6)
 
       // floating power-up labels
       ctx.textAlign = 'center'
