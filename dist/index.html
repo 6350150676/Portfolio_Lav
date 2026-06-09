@@ -4,15 +4,33 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Lav Naruka – Unity Game Developer & Level Designer Portfolio" />
-    <title>Lav Naruka | Game Developer</title>
+    <meta name="theme-color" content="#090c14" />
+    <meta name="description" content="Lav Naruka — Unity & VR/XR Game Developer. ~2 years shipping production mobile games solo: gameplay systems, multiplayer, and Arduino-driven VR. Open to work." />
+    <title>Lav Naruka — Unity &amp; VR/XR Game Developer</title>
+
+    <!-- Social / link previews -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Lav Naruka — Unity &amp; VR/XR Game Developer" />
+    <meta property="og:description" content="~2 years shipping production mobile games solo. Gameplay systems, multiplayer, and Arduino-driven VR. Open to work." />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/assets/index-4UrOQETw.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-IYeg68mL.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="/assets/index-qCMwoThc.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BRBfUIr8.css">
   </head>
   <body>
+    <script>
+      // Apply saved theme before paint to avoid a flash. Default: dark.
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
     <div id="root"></div>
   </body>
 </html>

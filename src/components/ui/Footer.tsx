@@ -1,4 +1,5 @@
 import { personalInfo } from '../../data'
+import { openMail } from '../../lib/mail'
 
 export default function Footer() {
   return (
@@ -30,7 +31,7 @@ export default function Footer() {
         letterSpacing: '0.15em',
         textAlign: 'center',
       }}>
-        © 2025 {personalInfo.name} · UNITY GAME DEVELOPER · BUILT WITH REACT + THREE.JS
+        © 2026 {personalInfo.name} · UNITY & VR/XR DEVELOPER · BUILT WITH REACT + THREE.JS
       </div>
 
       <div style={{ display: 'flex', gap: '1.5rem' }}>
@@ -42,8 +43,9 @@ export default function Footer() {
           <a
             key={s.label}
             href={s.href}
-            target="_blank"
+            target={s.href.startsWith('http') ? '_blank' : undefined}
             rel="noopener noreferrer"
+            onClick={(e) => { if (s.href.startsWith('mailto:')) { e.preventDefault(); openMail(s.href) } }}
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.65rem',

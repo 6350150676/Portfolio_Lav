@@ -1,6 +1,18 @@
+import { useState } from 'react'
 import { personalInfo } from '../../data'
+import { openMail, copyToClipboard } from '../../lib/mail'
 
 export default function Contact() {
+  const [copied, setCopied] = useState(false)
+
+  const copyEmail = async () => {
+    const ok = await copyToClipboard(personalInfo.email)
+    if (ok) {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1800)
+    }
+  }
+
   return (
     <section id="contact" className="section-pad" style={{
       minHeight: '100vh',
@@ -17,17 +29,16 @@ export default function Contact() {
           left: 0, right: 0,
           top: `${15 + i * 18}%`,
           height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(0,229,255,0.05), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(124,108,255,0.05), transparent)',
           pointerEvents: 'none',
         }} />
       ))}
 
       <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%' }}>
-        <div className="section-tag">05 / CONTACT</div>
-        <h2 className="section-title">Let's Build<br />Something</h2>
-        <div className="accent-line" />
+        <div className="eyebrow">05 / Contact</div>
+        <h2 className="section-title">Let's build something</h2>
 
-        <div className="responsive-grid-2col" style={{ marginTop: '3rem' }}>
+        <div className="responsive-grid-2col" style={{ marginTop: '2.5rem' }}>
           {/* Left: Info */}
           <div>
             <p style={{
@@ -39,6 +50,20 @@ export default function Contact() {
             }}>
               I'm actively looking for game development roles — full-time, freelance, or contract. If you're building a mobile game, XR experience, or need a Unity developer who ships, let's talk.
             </p>
+
+            {/* Primary actions — copy avoids the OS mail popup entirely */}
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+              <button onClick={copyEmail} className="btn btn-primary" style={{ minWidth: 170 }}>
+                {copied ? '✓ Copied!' : 'Copy email'}
+              </button>
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="btn btn-ghost"
+                onClick={(e) => { e.preventDefault(); openMail(`mailto:${personalInfo.email}`) }}
+              >
+                Email me
+              </a>
+            </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               {[
@@ -72,6 +97,7 @@ export default function Contact() {
                   href={item.href}
                   target={item.href.startsWith('http') ? '_blank' : undefined}
                   rel="noopener noreferrer"
+                  onClick={(e) => { if (item.href.startsWith('mailto:')) { e.preventDefault(); openMail(item.href) } }}
                   className="hex-border"
                   style={{
                     display: 'flex',
@@ -84,14 +110,27 @@ export default function Contact() {
                   }}
                   onMouseEnter={e => {
                     e.currentTarget.style.borderColor = 'var(--accent)'
-                    e.currentTarget.style.background = 'rgba(0,229,255,0.05)'
+                    e.currentTarget.style.background = 'var(--accent-soft)'
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.borderColor = 'var(--border)'
                     e.currentTarget.style.background = ''
                   }}
                 >
-                  <span style={{ fontSize: '1.3rem' }}>{item.icon}</span>
+                  <span style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.7rem',
+                    fontWeight: 500,
+                    color: 'var(--accent)',
+                    border: '1px solid var(--border-strong)',
+                    borderRadius: 8,
+                    width: 38,
+                    height: 38,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}>{item.label.slice(0, 2)}</span>
                   <div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--text-dim)', letterSpacing: '0.2em', marginBottom: '0.15rem' }}>
                       {item.label}
@@ -127,7 +166,7 @@ export default function Contact() {
                     fontSize: '1rem',
                     outline: 'none',
                     transition: 'border-color 0.2s',
-                    clipPath: 'polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)',
+                    borderRadius: 'var(--radius-sm)',
                   }}
                   onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
                   onBlur={e => (e.target.style.borderColor = 'var(--border)')}
@@ -146,12 +185,14 @@ export default function Contact() {
                   outline: 'none',
                   resize: 'vertical',
                   transition: 'border-color 0.2s',
+                  borderRadius: 'var(--radius-sm)',
                 }}
                 onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
                 onBlur={e => (e.target.style.borderColor = 'var(--border)')}
               />
               <a
                 href={`mailto:${personalInfo.email}`}
+                onClick={(e) => { e.preventDefault(); openMail(`mailto:${personalInfo.email}`) }}
                 style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.75rem',
@@ -161,14 +202,14 @@ export default function Contact() {
                   padding: '1rem 2rem',
                   textDecoration: 'none',
                   textAlign: 'center',
-                  clipPath: 'polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%)',
-                  boxShadow: '0 0 30px var(--glow)',
+                  borderRadius: 'var(--radius-sm)',
+                  boxShadow: '0 8px 24px var(--glow)',
                   transition: 'all 0.2s',
                   display: 'block',
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.background = 'var(--accent2)'
-                  e.currentTarget.style.boxShadow = '0 0 40px rgba(255,107,53,0.4)'
+                  e.currentTarget.style.boxShadow = '0 0 40px rgba(91,140,255,0.4)'
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.background = 'var(--accent)'

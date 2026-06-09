@@ -1,27 +1,31 @@
 import { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import Logo from './Logo'
+import ThemeToggle from './ThemeToggle'
+import { personalInfo } from '../../data'
 
 const navItems = [
-  { label: 'HOME', href: '#home' },
-  { label: 'ABOUT', href: '#about' },
-  { label: 'WORK', href: '#experience' },
-  { label: 'PROJECTS', href: '#projects' },
-  { label: 'SKILLS', href: '#skills' },
-  { label: 'CONTACT', href: '#contact' },
+  { label: 'Home', id: 'home' },
+  { label: 'About', id: 'about' },
+  { label: 'Experience', id: 'experience' },
+  { label: 'Projects', id: 'projects' },
+  { label: 'Skills', id: 'skills' },
+  { label: 'Contact', id: 'contact' },
 ]
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [active, setActive] = useState('HOME')
+  const [active, setActive] = useState('Home')
   const [open, setOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(
-    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+    typeof window !== 'undefined' ? window.innerWidth <= 820 : false
   )
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
+    const onScroll = () => setScrolled(window.scrollY > 24)
     const onResize = () => {
-      setIsMobile(window.innerWidth <= 768)
-      if (window.innerWidth > 768) setOpen(false)
+      setIsMobile(window.innerWidth <= 820)
+      if (window.innerWidth > 820) setOpen(false)
     }
     window.addEventListener('scroll', onScroll)
     window.addEventListener('resize', onResize)
@@ -31,197 +35,185 @@ export default function Navbar() {
     }
   }, [])
 
-  const handleNavClick = (label: string) => {
-    setActive(label)
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const go = (e: React.MouseEvent, item: { label: string; id: string }) => {
+    setActive(item.label)
     setOpen(false)
+    if (location.pathname === '/') {
+      // already home → smooth-scroll in place
+      e.preventDefault()
+      document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      // on a project page → go home, then scroll once mounted
+      e.preventDefault()
+      navigate('/')
+      setTimeout(() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' }), 60)
+    }
   }
 
   return (
-    <nav style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 1000,
-      padding: isMobile ? '0.85rem 1.25rem' : '1rem 2rem',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      background: scrolled || open ? 'rgba(5,10,15,0.95)' : 'transparent',
-      backdropFilter: scrolled || open ? 'blur(20px)' : 'none',
-      borderBottom: scrolled || open ? '1px solid rgba(0,229,255,0.1)' : 'none',
-      transition: 'all 0.3s ease',
-    }}>
-      {/* Logo */}
-      <a href="#home" style={{
-        fontFamily: 'var(--font-display)',
-        fontSize: isMobile ? '1rem' : '1.2rem',
-        fontWeight: 900,
-        color: 'var(--accent)',
-        textDecoration: 'none',
-        letterSpacing: '0.2em',
-        textShadow: '0 0 20px var(--accent)',
-      }}>
-        LN<span style={{ color: 'var(--text)', opacity: 0.5 }}>.DEV</span>
-      </a>
-
-      {/* Desktop nav links */}
-      {!isMobile && (
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={() => handleNavClick(item.label)}
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.65rem',
-                letterSpacing: '0.2em',
-                color: active === item.label ? 'var(--accent)' : 'var(--text-dim)',
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-                position: 'relative',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
-              onMouseLeave={e => (e.currentTarget.style.color = active === item.label ? 'var(--accent)' : 'var(--text-dim)')}
-            >
-              {item.label}
-              {active === item.label && (
-                <span style={{
-                  position: 'absolute',
-                  bottom: -4,
-                  left: 0,
-                  width: '100%',
-                  height: '1px',
-                  background: 'var(--accent)',
-                  boxShadow: '0 0 8px var(--accent)',
-                }} />
-              )}
-            </a>
-          ))}
-          <a
-            href="mailto:lovenaruka514@gmail.com"
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.65rem',
-              letterSpacing: '0.15em',
-              color: 'var(--bg)',
-              background: 'var(--accent)',
-              padding: '0.5rem 1rem',
-              textDecoration: 'none',
-              clipPath: 'polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)',
-              transition: 'background 0.2s',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'var(--accent2)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'var(--accent)')}
-          >
-            HIRE ME
-          </a>
-        </div>
-      )}
-
-      {/* Mobile hamburger button */}
-      {isMobile && (
-        <button
-          aria-label="Toggle menu"
-          onClick={() => setOpen(o => !o)}
+    <nav
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        background: scrolled || open ? 'var(--nav-bg)' : 'transparent',
+        backdropFilter: scrolled || open ? 'blur(16px)' : 'none',
+        borderBottom: scrolled || open ? '1px solid var(--border)' : '1px solid transparent',
+        transition: 'all 0.3s ease',
+      }}
+    >
+      <div
+        className="container"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          height: 68,
+        }}
+      >
+        {/* Logo */}
+        <a
+          href="/#home"
+          onClick={(e) => go(e, { label: 'Home', id: 'home' })}
           style={{
-            background: 'transparent',
-            border: '1px solid var(--accent)',
-            padding: '0.55rem 0.7rem',
-            cursor: 'pointer',
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.05rem',
+            fontWeight: 700,
+            color: 'var(--text)',
+            textDecoration: 'none',
+            letterSpacing: '-0.01em',
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            gap: 4,
-            width: 38,
-            height: 34,
-            clipPath: 'polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%)',
+            alignItems: 'center',
+            gap: '0.6rem',
           }}
         >
-          <span style={{
-            display: 'block',
-            width: 18,
-            height: 1.5,
-            background: 'var(--accent)',
-            transition: 'transform 0.25s',
-            transform: open ? 'translateY(3px) rotate(45deg)' : 'none',
-          }} />
-          <span style={{
-            display: 'block',
-            width: 18,
-            height: 1.5,
-            background: 'var(--accent)',
-            opacity: open ? 0 : 1,
-            transition: 'opacity 0.2s',
-          }} />
-          <span style={{
-            display: 'block',
-            width: 18,
-            height: 1.5,
-            background: 'var(--accent)',
-            transition: 'transform 0.25s',
-            transform: open ? 'translateY(-3.5px) rotate(-45deg)' : 'none',
-          }} />
-        </button>
-      )}
+          <Logo size={34} />
+          Lav Naruka
+        </a>
+
+        {/* Desktop links */}
+        {!isMobile && (
+          <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={`/#${item.id}`}
+                onClick={(e) => go(e, item)}
+                className={`nav-link ${active === item.label ? 'active' : ''}`}
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  color: active === item.label ? 'var(--text)' : 'var(--text-dim)',
+                  textDecoration: 'none',
+                  padding: '0.5rem 0.85rem',
+                  borderRadius: 8,
+                  transition: 'color 0.2s, background 0.2s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = active === item.label ? 'var(--text)' : 'var(--text-dim)')}
+              >
+                {item.label}
+              </a>
+            ))}
+            <a href={personalInfo.github} target="_blank" rel="noreferrer" className="nav-link" style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', fontWeight: 500, color: 'var(--text-dim)', textDecoration: 'none', padding: '0.5rem 0.85rem' }}>
+              GitHub
+            </a>
+            <a href="/resume.pdf" download="Lav_Naruka_Resume.pdf" className="nav-link" style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', fontWeight: 500, color: 'var(--text-dim)', textDecoration: 'none', padding: '0.5rem 0.85rem' }}>
+              CV
+            </a>
+            <ThemeToggle style={{ marginLeft: '0.25rem' }} />
+            <a href="/#contact" onClick={(e) => go(e, { label: 'Contact', id: 'contact' })} className="btn btn-primary" style={{ padding: '0.55rem 1.1rem', fontSize: '0.85rem', marginLeft: '0.5rem' }}>
+              Hire me
+            </a>
+          </div>
+        )}
+
+        {/* Mobile: theme toggle + hamburger */}
+        {isMobile && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <ThemeToggle />
+          <button
+            aria-label="Toggle menu"
+            onClick={() => setOpen((o) => !o)}
+            style={{
+              background: 'transparent',
+              border: '1px solid var(--border-strong)',
+              borderRadius: 8,
+              padding: '0.5rem 0.6rem',
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 4,
+              width: 40,
+            }}
+          >
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                style={{
+                  display: 'block',
+                  width: 18,
+                  height: 2,
+                  borderRadius: 2,
+                  background: 'var(--text)',
+                  transition: 'all 0.25s',
+                  transform: open && i === 0 ? 'translateY(6px) rotate(45deg)' : open && i === 2 ? 'translateY(-6px) rotate(-45deg)' : 'none',
+                  opacity: open && i === 1 ? 0 : 1,
+                }}
+              />
+            ))}
+          </button>
+          </div>
+        )}
+      </div>
 
       {/* Mobile drawer */}
       {isMobile && (
         <div
           style={{
-            position: 'fixed',
-            top: 56,
-            left: 0,
-            right: 0,
-            background: 'rgba(5,10,15,0.98)',
-            backdropFilter: 'blur(20px)',
-            borderBottom: '1px solid rgba(0,229,255,0.15)',
-            padding: open ? '1.5rem 1.25rem 2rem' : '0 1.25rem',
-            maxHeight: open ? 500 : 0,
             overflow: 'hidden',
-            transition: 'all 0.3s ease',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.25rem',
+            maxHeight: open ? 420 : 0,
+            transition: 'max-height 0.3s ease',
+            background: 'var(--panel)',
+            backdropFilter: 'blur(16px)',
+            borderBottom: open ? '1px solid var(--border)' : 'none',
           }}
         >
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={() => handleNavClick(item.label)}
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.85rem',
-                letterSpacing: '0.2em',
-                color: active === item.label ? 'var(--accent)' : 'var(--text)',
-                textDecoration: 'none',
-                padding: '0.85rem 0.25rem',
-                borderBottom: '1px solid rgba(26,58,80,0.4)',
-              }}
-            >
-              {item.label}
+          <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', padding: open ? '1rem 2rem 1.5rem' : '0 2rem' }}>
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={`/#${item.id}`}
+                onClick={(e) => go(e, item)}
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '1rem',
+                  fontWeight: 500,
+                  color: active === item.label ? 'var(--accent2)' : 'var(--text)',
+                  textDecoration: 'none',
+                  padding: '0.8rem 0',
+                  borderBottom: '1px solid var(--border)',
+                }}
+              >
+                {item.label}
+              </a>
+            ))}
+            <a href={personalInfo.github} target="_blank" rel="noreferrer" style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', fontWeight: 500, color: 'var(--text)', textDecoration: 'none', padding: '0.8rem 0', borderBottom: '1px solid var(--border)' }}>
+              GitHub ↗
             </a>
-          ))}
-          <a
-            href="mailto:lovenaruka514@gmail.com"
-            onClick={() => setOpen(false)}
-            style={{
-              marginTop: '1rem',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.75rem',
-              letterSpacing: '0.15em',
-              color: 'var(--bg)',
-              background: 'var(--accent)',
-              padding: '0.85rem 1rem',
-              textDecoration: 'none',
-              textAlign: 'center',
-              clipPath: 'polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%)',
-            }}
-          >
-            HIRE ME →
-          </a>
+            <a href="/resume.pdf" download="Lav_Naruka_Resume.pdf" style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', fontWeight: 500, color: 'var(--text)', textDecoration: 'none', padding: '0.8rem 0', borderBottom: '1px solid var(--border)' }}>
+              Download CV
+            </a>
+            <a href="/#contact" onClick={(e) => go(e, { label: 'Contact', id: 'contact' })} className="btn btn-primary" style={{ marginTop: '1rem' }}>
+              Hire me
+            </a>
+          </div>
         </div>
       )}
     </nav>

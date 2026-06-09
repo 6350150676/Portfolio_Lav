@@ -1,29 +1,20 @@
-import Cursor from './components/ui/Cursor'
-import DataFlow from './components/ui/DataFlow'
+import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/ui/Navbar'
 import Footer from './components/ui/Footer'
-import Hero from './components/sections/Hero'
-import About from './components/sections/About'
-import Experience from './components/sections/Experience'
-import Projects from './components/sections/Projects'
-import Skills from './components/sections/Skills'
-import Contact from './components/sections/Contact'
+import Companion from './components/ui/Companion'
+import HomePage from './pages/HomePage'
+import ProjectPage from './pages/ProjectPage'
 
 export default function App() {
   return (
     <>
-      <Cursor />
-      <DataFlow />
       <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <Skills />
-        <Contact />
-      </main>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/projects/:id" element={<ProjectPage />} />
+      </Routes>
       <Footer />
+      <Companion />
     </>
   )
 }
