@@ -342,10 +342,67 @@ export const education = [
   },
 ];
 
-export const certifications = [
-  { name: "Unity Junior Programmer Certified", issuer: "Unity Technologies" },
-  { name: "GATE 2025 Qualified", issuer: "Computer Science" },
+// ── CERTIFICATIONS & ACHIEVEMENTS ────────────────────────────────────────
+//  Drop real badge images in /public/badges and set `badge` to e.g.
+//  "/badges/unity-junior.png" — the card renders the image if present,
+//  otherwise a clean generated emblem.
+export const achievements = [
+  {
+    id: "unity-jr",
+    title: "Unity Junior Programmer",
+    issuer: "Unity Technologies",
+    kind: "Certification Pathway",
+    color: "#7c6cff",
+    emblem: "U",
+    badge: "/badges/unity-junior.png",
+    credentialId: "1aa7cb11f74fa122a4ffa55d3fa55878",
+    link: "https://linkedin.com/in/lavnaruka",
+    blurb:
+      "Completed the Unity Junior Programmer Pathway — foundational Unity & C# game development for real-world game projects.",
+    points: [
+      "Building games in Unity using C#",
+      "Interactive 2D & 3D gameplay features",
+      "Game logic, animation & physics",
+      "Debugging, prototyping & real-time problem-solving",
+    ],
+  },
+  {
+    id: "python-gfg",
+    title: "Python — Beginner to Advanced",
+    issuer: "GeeksforGeeks",
+    kind: "6-Week Intensive",
+    color: "#38bdf8",
+    emblem: "Py",
+    badge: "/badges/python-gfg.png",
+    credentialId: "ECfsOmNg",
+    link: "https://linkedin.com/in/lavnaruka",
+    blurb:
+      "Completed an intensive Python Full Course (beginner → advanced), building a strong OOP and problem-solving foundation.",
+    points: [
+      "Python fundamentals & syntax",
+      "Object-Oriented Programming (OOP)",
+      "File handling, exceptions & debugging",
+      "Problem-solving with Python",
+    ],
+  },
+  {
+    id: "gate-2025",
+    title: "GATE 2025 Qualified",
+    issuer: "Computer Science (CS)",
+    kind: "National-Level Exam",
+    color: "#a78bfa",
+    emblem: "GATE",
+    badge: "",
+    credentialId: "",
+    link: "",
+    blurb:
+      "Qualified GATE 2025 in Computer Science — a competitive national-level examination in India.",
+    points: [],
+  },
 ];
+
+// kept for the small chips elsewhere
+export const certifications = achievements.map((a) => ({ name: a.title, issuer: a.issuer }));
 
 export const stats = [
   { label: "Yrs · Unity", value: "2+" },

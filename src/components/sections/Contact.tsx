@@ -35,7 +35,7 @@ export default function Contact() {
       ))}
 
       <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%' }}>
-        <div className="eyebrow">05 / Contact</div>
+        <div className="eyebrow">06 / Contact</div>
         <h2 className="section-title">Let's build something</h2>
 
         <div className="responsive-grid-2col" style={{ marginTop: '2.5rem' }}>
