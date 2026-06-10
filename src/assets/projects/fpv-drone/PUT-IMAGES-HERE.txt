@@ -1,0 +1,5 @@
+Drop this project's images here.
+
+- cover.jpg  = thumbnail / hero (optional; else first image is used)
+- 01-name.jpg, 02-name.jpg ... = gallery screens (filename = caption, order by number)
+- any number is fine; empty folder = nothing shown.

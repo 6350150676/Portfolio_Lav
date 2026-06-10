@@ -9,9 +9,9 @@ import { projects, personalInfo } from '../../data'
 export type SkillGameHandle = { press: (b: string) => void }
 
 const SKILLS = [
-  'Unity', 'C#', 'OOP', 'Firebase', 'Unity Ads', 'ironSource', 'Google AdMob',
-  'SDK Integration', 'Object Pooling', 'Addressables', 'Clean Architecture',
-  'ScriptableObjects', 'UI/UX Systems', 'Optimization', 'REST APIs', 'Git',
+  'Unity', 'C#', 'OOP', 'WebSockets', 'Photon', 'Firebase', 'OAuth',
+  'Google AdMob', 'Unity Ads', 'ironSource', 'In-Game Chat', 'Emoji Systems',
+  'Object Pooling', 'Clean Architecture', 'Cinemachine', 'Optimization',
 ]
 const PCOLORS = ['#7c6cff', '#a78bfa', '#5b8cff', '#38bdf8', '#7c6cff']
 const PLAYER_X = 150
@@ -96,7 +96,7 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
   }
   const ensure = () => { if (G.current.mode !== 'playing') reset() }
   const jump = () => { ensure(); const g = G.current; if (g.onGround) { g.vy = JUMP; g.onGround = false } }
-  const shoot = () => { ensure(); const g = G.current; const H = canvasRef.current?.clientHeight ?? height; g.bullets.push({ wx: g.cam + PLAYER_X + 20, y: H - 70 + g.py - 4 }); if (g.bullets.length > 28) g.bullets.shift() }
+  const shoot = () => { ensure(); const g = G.current; g.bullets.push({ wx: g.cam + PLAYER_X + 20, y: 326 + g.py }); if (g.bullets.length > 28) g.bullets.shift() }
   const dash = () => { ensure(); const g = G.current; g.dash = 26; g.invuln = Math.max(g.invuln, 24) }
   const press = (b: string) => { if (b === 'A') jump(); else if (b === 'B') shoot(); else if (b === 'X') dash(); else if (b === 'Y') setCodex((c) => !c) }
   useImperativeHandle(ref, () => ({ press }))
@@ -107,26 +107,38 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
     const ctx = canvas.getContext('2d')
     if (!ctx) return
     let raf = 0
-    let W = 0, H = 0
+    // Fixed virtual resolution — the whole game is rendered at VW×VH and
+    // scaled uniformly to the canvas width, so it looks identical (just
+    // smaller) on mobile instead of cramping individual elements.
+    const VW = 640
+    let W = VW, H = 400
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
-    const resize = () => { W = canvas.clientWidth; H = canvas.clientHeight; canvas.width = W * dpr; canvas.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0) }
+    const resize = () => { canvas.width = canvas.clientWidth * dpr; canvas.height = canvas.clientHeight * dpr }
     resize()
     window.addEventListener('resize', resize)
 
-    const hit = () => { const g = G.current; if (g.invuln > 0) return; g.invuln = 80; g.cam = Math.max(0, g.cam - 50); g.hp -= 1; if (g.hp <= 0) g.hp = 3; setHealth(g.hp) }
+    const hit = () => { const g = G.current; if (g.invuln > 0) return; g.invuln = 80; g.hp -= 1; if (g.hp <= 0) g.hp = 3; setHealth(g.hp) }
 
     const loop = () => {
       const g = G.current
+      // scale the entire game uniformly to fit the canvas width
+      const cw = canvas.clientWidth || VW
+      const ch = canvas.clientHeight || 400
+      // keep the pixel buffer matched to the element (handles mount + resize)
+      if (canvas.width !== Math.round(cw * dpr) || canvas.height !== Math.round(ch * dpr)) {
+        canvas.width = Math.round(cw * dpr); canvas.height = Math.round(ch * dpr)
+      }
+      const s = cw / VW
+      ctx.setTransform(dpr * s, 0, 0, dpr * s, 0, 0)
+      W = VW
+      H = s > 0 ? ch / s : 400
       const pal = PAL[document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark']
       const groundY = H - 70
       const PS = 22
 
       if (g.mode === 'playing' && !codexRef.current) {
-        // boss block
-        let block = Infinity
-        for (const e of ent.current) if (e.type === 'boss' && e.hp > 0) { const tg = e.wx - (PLAYER_X + 34); if (g.cam >= tg - 4 && g.cam <= tg + 240) block = Math.min(block, tg) }
-        const speed = BASE_SPEED + (g.dash > 0 ? 6 : 0)
-        if (block !== Infinity && g.cam + speed > block) { g.cam = block; g.blocked = true } else { g.cam += speed; g.blocked = false }
+        // the run never stops — always move forward
+        g.cam += BASE_SPEED + (g.dash > 0 ? 6 : 0)
         if (g.dash > 0) g.dash--
         if (g.invuln > 0) g.invuln--
         g.t++
@@ -156,12 +168,14 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
             for (const b of g.bullets) if (Math.abs(b.wx - e.wx) < 22 && Math.abs(b.y - ey) < 22) { e.dead = true; b.wx = 1e9; g.score += 30; g.rings.push({ wx: e.wx, y: ey, life: 0.8, color: '#ff5470' }) }
             if (!e.dead && Math.abs(e.wx - pwx) < 24 && Math.abs(ey - py) < 26) { if (g.dash > 0) { e.dead = true; g.score += 30 } else hit() }
           } else if (e.type === 'boss' && e.hp > 0) {
-            for (const b of g.bullets) if (b.wx - g.cam > PLAYER_X && Math.abs(b.wx - e.wx) < 38 && b.y > groundY - 78) { e.hp -= 2; b.wx = 1e9; g.score += 10 }
-            if (e.hp <= 0) { g.score += 150; if (!unlRef.current.has(e.label)) { unlRef.current.add(e.label); setUnlocked(Array.from(unlRef.current)) } }
-            // boss attacks while you fight it
-            if (g.blocked && Math.abs(e.wx - (PLAYER_X + 34 + g.cam)) < 6) {
-              e.cd--
-              if (e.cd <= 0) { g.eshots.push({ wx: e.wx - 30, y: groundY - 4 }); e.cd = 80 }
+            const ox = e.wx - g.cam
+            for (const b of g.bullets) if (b.wx - g.cam > PLAYER_X && Math.abs(b.wx - e.wx) < 38 && b.y > groundY - 78) { e.hp -= 2; b.wx = 1e9; g.score += 10; g.rings.push({ wx: e.wx, y: groundY - 36, life: 0.7, color: '#ff4d6d' }) }
+            if (e.hp <= 0) { g.score += 150; g.flash = 0.6; if (!unlRef.current.has(e.label)) { unlRef.current.add(e.label); setUnlocked(Array.from(unlRef.current)) } }
+            else {
+              // attacks while approaching — dodge its shots
+              if (ox > PLAYER_X + 50 && ox < W) { e.cd--; if (e.cd <= 0) { g.eshots.push({ wx: e.wx - 30, y: groundY - 4 }); e.cd = 75 } }
+              // contact: lose a heart but slip THROUGH (run doesn't stop)
+              if (g.invuln === 0 && Math.abs(e.wx - pwx) < 28) { hit(); g.cam += 40 }
             }
           }
         }
@@ -208,23 +222,32 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
           ctx.fillStyle = '#fff'; ctx.fillRect(sx - 5, ey - 3, 4, 4); ctx.fillRect(sx + 1, ey - 3, 4, 4)
         } else if (e.type === 'boss') {
           const alive = e.hp > 0
-          ctx.fillStyle = alive ? `${e.color}22` : `${e.color}14`
+          const c = alive ? '#ff4d6d' : e.color // alive = danger red, defeated = project color
+          if (alive) { ctx.shadowColor = c; ctx.shadowBlur = 14 }
+          ctx.fillStyle = alive ? 'rgba(255,77,109,0.18)' : `${e.color}14`
           roundRect(ctx, sx - 32, groundY - 80, 64, 92, 10); ctx.fill()
-          ctx.lineWidth = 2.5; ctx.strokeStyle = e.color; ctx.stroke(); ctx.textAlign = 'center'
+          ctx.lineWidth = 2.5; ctx.strokeStyle = c; ctx.stroke()
+          ctx.shadowBlur = 0
+          ctx.textAlign = 'center'
           if (alive) {
+            // warning spikes
+            ctx.fillStyle = c
+            ctx.beginPath(); ctx.moveTo(sx - 18, groundY - 80); ctx.lineTo(sx - 10, groundY - 90); ctx.lineTo(sx - 2, groundY - 80); ctx.closePath(); ctx.fill()
+            ctx.beginPath(); ctx.moveTo(sx + 2, groundY - 80); ctx.lineTo(sx + 10, groundY - 90); ctx.lineTo(sx + 18, groundY - 80); ctx.closePath(); ctx.fill()
             // angry eyes
-            ctx.fillStyle = e.color; ctx.fillRect(sx - 16, groundY - 60, 11, 7); ctx.fillRect(sx + 5, groundY - 60, 11, 7)
-            ctx.fillStyle = pal.bg1; ctx.fillRect(sx - 13, groundY - 58, 4, 4); ctx.fillRect(sx + 8, groundY - 58, 4, 4)
+            ctx.fillRect(sx - 16, groundY - 58, 11, 7); ctx.fillRect(sx + 5, groundY - 58, 11, 7)
+            ctx.fillStyle = '#fff'; ctx.fillRect(sx - 13, groundY - 56, 4, 4); ctx.fillRect(sx + 8, groundY - 56, 4, 4)
             // mouth
-            ctx.fillStyle = e.color; ctx.fillRect(sx - 12, groundY - 42, 24, 4)
-            ctx.fillStyle = pal.sub; ctx.font = '500 8px "JetBrains Mono", monospace'; ctx.fillText('SHOOT (B)', sx, groundY - 24)
+            ctx.fillStyle = c; ctx.fillRect(sx - 12, groundY - 42, 24, 4)
             // hp bar
-            ctx.fillStyle = 'rgba(127,127,127,0.4)'; ctx.fillRect(sx - 26, groundY - 92, 52, 5)
-            ctx.fillStyle = e.color; ctx.fillRect(sx - 26, groundY - 92, 52 * (e.hp / e.max), 5)
+            ctx.fillStyle = 'rgba(127,127,127,0.45)'; ctx.fillRect(sx - 26, groundY - 96, 52, 5)
+            ctx.fillStyle = c; ctx.fillRect(sx - 26, groundY - 96, 52 * (e.hp / e.max), 5)
+            // name + prompt (high-contrast, always readable)
             ctx.fillStyle = pal.text; ctx.font = '700 8px "Space Grotesk", sans-serif'; wrap(ctx, e.label, sx, groundY - 12, 58, 9)
+            ctx.fillStyle = '#ffd166'; ctx.font = '700 7px "JetBrains Mono", monospace'; ctx.fillText('SHOOT (B)!', sx, groundY - 26)
           } else {
             ctx.fillStyle = e.color; ctx.font = '700 10px "Space Grotesk", sans-serif'; wrap(ctx, e.label, sx, groundY - 46, 56, 12)
-            ctx.fillStyle = pal.sub; ctx.font = '500 7px "JetBrains Mono", monospace'; ctx.fillText('UNLOCKED ✓', sx, groundY + 4)
+            ctx.fillStyle = '#22c55e'; ctx.font = '600 7px "JetBrains Mono", monospace'; ctx.fillText('UNLOCKED', sx, groundY + 4)
           }
         }
       }
@@ -284,8 +307,13 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
         ctx.fillStyle = pal.sub; ctx.font = '500 11px "JetBrains Mono", monospace'
         ctx.fillText('press A to start — collect skills, defeat projects', W / 2, H / 2 + 4)
         ctx.fillText('A jump · B shoot · X dash · Y codex', W / 2, H / 2 + 22)
-      } else if (g.blocked) {
-        ctx.fillStyle = '#ffd166'; ctx.font = '600 12px "JetBrains Mono", monospace'; ctx.fillText('BOSS! PRESS  B  TO DEFEAT IT', PLAYER_X + 250, groundY - 100)
+      } else if (g.mode === 'done' && !codexRef.current) {
+        ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(0, 0, W, H)
+        ctx.fillStyle = '#fff'; ctx.font = '700 22px "Space Grotesk", sans-serif'; ctx.fillText('RUN COMPLETE!', W / 2, H / 2 - 16)
+        ctx.fillStyle = '#ffd166'; ctx.font = '700 14px "Space Grotesk", sans-serif'; ctx.fillText('One more time?', W / 2, H / 2 + 8)
+        ctx.fillStyle = 'rgba(255,255,255,0.82)'; ctx.font = '500 11px "JetBrains Mono", monospace'; ctx.fillText('press A — or click Replay', W / 2, H / 2 + 28)
+      } else if (g.mode === 'playing') {
+        for (const e of ent.current) if (e.type === 'boss' && e.hp > 0) { const ox = e.wx - g.cam; if (ox > PLAYER_X + 30 && ox < W - 30) { ctx.fillStyle = '#ff4d6d'; ctx.font = '700 11px "JetBrains Mono", monospace'; ctx.fillText('! BOSS AHEAD — SHOOT (B)', W / 2, 58); break } }
       }
       raf = requestAnimationFrame(loop)
     }
@@ -295,15 +323,27 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
 
   return (
     <div style={{ position: 'relative', width: '100%' }}>
-      <canvas ref={canvasRef} style={{ width: '100%', height, display: 'block', borderRadius: 14, border: '1px solid var(--border-strong)', boxShadow: 'inset 0 0 30px rgba(0,0,0,0.35)' }} />
+      <canvas ref={canvasRef} style={{ width: '100%', aspectRatio: '16 / 10', display: 'block', borderRadius: 14, border: '1px solid var(--border-strong)', boxShadow: 'inset 0 0 30px rgba(0,0,0,0.35)' }} />
 
       {codex && (
         <div style={{ position: 'absolute', inset: 0, background: 'color-mix(in srgb, var(--surface) 90%, transparent)', backdropFilter: 'blur(6px)', borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
           <div style={{ width: '100%', maxHeight: '100%', overflowY: 'auto', padding: '0.5rem 0.25rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.8rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: done ? '0.2rem' : '0.8rem' }}>
               <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.2rem', color: 'var(--text)' }}>{done ? 'Run complete!' : 'Codex'}</h3>
-              <button onClick={() => setCodex(false)} className="btn btn-ghost" style={{ marginLeft: 'auto', padding: '0.4rem 0.9rem', fontSize: '0.8rem' }}>{done ? 'Play again ▸' : 'Resume ▸'}</button>
+              <button
+                onClick={() => (done ? reset() : setCodex(false))}
+                className={done ? 'btn btn-primary' : 'btn btn-ghost'}
+                style={{ marginLeft: 'auto', padding: '0.4rem 0.9rem', fontSize: '0.8rem' }}
+              >
+                {done ? '▶ One more time?' : 'Resume ▸'}
+              </button>
             </div>
+            {done && (
+              <p style={{ color: 'var(--text-dim)', fontSize: '0.82rem', marginBottom: '0.9rem' }}>
+                You cleared the run with <strong style={{ color: 'var(--text)' }}>{skills.length}/{SKILLS.length}</strong> skills and{' '}
+                <strong style={{ color: 'var(--text)' }}>{unlocked.length}/{projects.length}</strong> projects. Replay, or take the shortcut:
+              </p>
+            )}
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.18em', color: 'var(--accent)', marginBottom: '0.5rem' }}>SKILLS · POWER-UPS {skills.length}/{SKILLS.length}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1rem' }}>
               {SKILLS.map((sk) => { const g = skills.includes(sk); return (
@@ -321,8 +361,10 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
             </div>
             {done && (
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '1rem' }}>
-                <a href="/resume.pdf" download="Lav_Naruka_Resume.pdf" className="btn btn-primary" style={{ fontSize: '0.8rem' }}>Download CV</a>
+                <button onClick={reset} className="btn btn-primary" style={{ fontSize: '0.8rem' }}>▶ Replay</button>
+                <a href="/resume.pdf" download="Lav_Naruka_Resume.pdf" className="btn btn-ghost" style={{ fontSize: '0.8rem' }}>Download CV</a>
                 <a href={personalInfo.github} target="_blank" rel="noreferrer" className="btn btn-ghost" style={{ fontSize: '0.8rem' }}>GitHub</a>
+                <button onClick={() => setCodex(false)} className="btn btn-ghost" style={{ fontSize: '0.8rem' }}>Back to site</button>
               </div>
             )}
           </div>

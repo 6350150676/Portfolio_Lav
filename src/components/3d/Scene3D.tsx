@@ -236,7 +236,7 @@ function Particles({ count = 220 }: { count?: number }) {
 // What each button projects as a holographic UI
 const HOLO: Record<string, { title: string; lines: string[] }> = {
   A: { title: 'ABOUT', lines: ['Unity Game Developer', 'NIT Hamirpur · Physics', 'Open to work'] },
-  Y: { title: 'PROJECTS', lines: ['Multiplayer Ludo', 'PathLock', 'VR Acrophobia', 'FPV Sim · Racing'] },
+  Y: { title: 'PROJECTS', lines: ['Online Checkers', 'Zip Puzzle', 'VR Acrophobia', 'FPV Drone · Racing'] },
   B: { title: 'SKILLS', lines: ['Unity · C# · OOP', 'Firebase · SDKs', 'Unity Ads · ironSource', 'Optimization · Pooling'] },
   X: { title: 'CONTACT', lines: ['lovenaruka514', '@gmail.com', '+91-6350150676'] },
 }

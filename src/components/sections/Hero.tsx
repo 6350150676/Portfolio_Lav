@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import CountUp from '../ui/CountUp'
 import { personalInfo, stats, projects } from '../../data'
 
-// Showreel placeholder — swap for your real gameplay reel (YouTube URL/id)
-const SHOWREEL = 'https://www.youtube.com/embed/ScMzIvxBSi4'
+// Set this to your gameplay-reel YouTube embed URL when ready; empty = "coming soon".
+const SHOWREEL = ''
 
 export default function Hero() {
   const [isMobile, setIsMobile] = useState(
@@ -76,7 +76,7 @@ export default function Hero() {
 
           {/* recruiter quick-scan facts */}
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.55rem 0.85rem', marginTop: '1.1rem', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-dim)' }}>
-            {['India · remote-friendly', '2+ yrs Unity', 'Full-time / Contract', 'Mobile · Monetization · SDKs'].map((f, i) => (
+            {['India · remote-friendly', '1+ year Unity', 'Full-time / Contract', 'Multiplayer · Monetization · SDKs'].map((f, i) => (
               <span key={f} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.85rem' }}>
                 {i > 0 && <span style={{ width: 3, height: 3, borderRadius: '50%', background: 'var(--text-faint)' }} />}
                 {f}
@@ -118,17 +118,22 @@ export default function Hero() {
               Showreel
             </div>
             <div style={{ position: 'relative', paddingTop: '56.25%' }}>
-              <iframe
-                src={SHOWREEL}
-                title="Gameplay showreel"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
-              />
+              {SHOWREEL ? (
+                <iframe
+                  src={SHOWREEL}
+                  title="Gameplay showreel"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
+                />
+              ) : (
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.85rem', background: 'linear-gradient(135deg, var(--surface), var(--bg))', textAlign: 'center', padding: '1rem' }}>
+                  <div style={{ width: 62, height: 62, borderRadius: '50%', border: '2px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', fontSize: '1.2rem', paddingLeft: 5, boxShadow: '0 0 30px var(--glow)' }}>▶</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '1.1rem', color: 'var(--text)' }}>Gameplay showreel — coming soon</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.66rem', color: 'var(--text-faint)', letterSpacing: '0.06em' }}>A montage of my games will live here</div>
+                </div>
+              )}
             </div>
-          </div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-faint)', marginTop: '0.6rem', textAlign: 'center' }}>
-            ✦ placeholder reel — drop your real gameplay montage here
           </div>
 
           {/* quick featured projects under the reel */}

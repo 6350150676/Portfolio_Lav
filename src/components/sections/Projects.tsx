@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { projects, projectCategories } from '../../data'
+import { getMedia } from '../../lib/projectMedia'
 import Reveal from '../ui/Reveal'
 
 export default function Projects() {
@@ -35,7 +36,9 @@ export default function Projects() {
 
               {/* cards */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
-                {items.map((p, ci) => (
+                {items.map((p, ci) => {
+                  const cover = getMedia(p.id).cover
+                  return (
                   <Reveal key={p.id} delay={ci * 80} style={{ display: 'flex' }}>
                   <Link
                     to={`/projects/${p.id}`}
@@ -54,12 +57,18 @@ export default function Projects() {
                   >
                     {/* cover */}
                     <div style={{ position: 'relative' }}>
-                      <img
-                        src={p.cover}
-                        alt={p.title}
-                        loading="lazy"
-                        style={{ width: '100%', display: 'block', aspectRatio: '16/10', objectFit: 'cover' }}
-                      />
+                      {cover ? (
+                        <img
+                          src={cover}
+                          alt={p.title}
+                          loading="lazy"
+                          style={{ width: '100%', display: 'block', aspectRatio: '16/10', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div style={{ width: '100%', aspectRatio: '16/10', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg, ${p.color}2e, var(--surface))` }}>
+                          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--text)', opacity: 0.75, padding: '0 1rem', textAlign: 'center' }}>{p.title}</span>
+                        </div>
+                      )}
                       <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, transparent 35%, rgba(9,12,20,0.55) 85%), linear-gradient(120deg, ${p.color}33, transparent 60%)` }} />
                       <span style={{
                         position: 'absolute', top: 12, left: 12,
@@ -103,7 +112,8 @@ export default function Projects() {
                     </div>
                   </Link>
                   </Reveal>
-                ))}
+                  )
+                })}
               </div>
             </div>
           )

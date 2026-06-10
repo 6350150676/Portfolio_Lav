@@ -13,7 +13,7 @@ export default function Experience() {
         <Reveal>
           <div className="eyebrow">02 / Experience</div>
           <h2 className="section-title">Where I've shipped</h2>
-          <p className="lead">From intern to sole developer shipping production games — ~2 years in the trenches.</p>
+          <p className="lead">From intern to developer shipping real-time multiplayer games — over a year of production work.</p>
         </Reveal>
 
         <div style={{ position: 'relative', marginTop: '3.5rem' }}>

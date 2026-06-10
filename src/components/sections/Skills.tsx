@@ -15,8 +15,8 @@ export default function Skills() {
           <div className="eyebrow">04 / Skills</div>
           <h2 className="section-title">Technical Skills</h2>
           <p className="lead">
-            The stack I use to ship production mobile games — engine &amp; language, monetization &amp; SDKs,
-            architecture, and the optimization that keeps it all at 60 fps.
+            The full stack I build with — from real-time multiplayer, monetization &amp; clean architecture
+            to GPU optimization and hands-on embedded hardware.
           </p>
         </Reveal>
 

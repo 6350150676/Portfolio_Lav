@@ -25,21 +25,22 @@ export const personalInfo = {
   githubHandle: "github.com/6350150676",
   location: "India",
   bio:
-    "I'm a Unity developer focused on production mobile games. For the past ~2 years I've shipped titles end-to-end as the sole developer at RENXO — architecting reusable gameplay and UI systems, integrating Firebase and ad-monetization SDKs (Unity Ads, ironSource), and optimizing for a smooth 60 fps on low-end Android and iOS devices.",
+    "I'm a Unity developer focused on real-time multiplayer mobile games. Over the past year at RENXO I've built WebSocket-based titles — Checkers, Ludo, Zip & Tango — one live with 2,000+ players — with in-game chat, Google/Apple OAuth, and ad monetization (AdMob · Unity Ads · ironSource), all tuned for a stable 60 fps on low-end Android & iOS.",
   bio2:
-    "I care about clean, modular architecture and the parts that actually make a game shippable: object pooling, memory optimization, SDK and REST API integration, and a reliable build-and-publish pipeline. My Engineering Physics background from NIT Hamirpur gives me a strong foundation in math, simulation, and systems thinking that I bring to gameplay and tooling.",
+    "I care about clean, modular architecture and the parts that actually make a game shippable: reusable gameplay systems, object pooling, SDK & backend integration, and reliable real-time networking. My Engineering Physics background from NIT Hamirpur gives me a strong foundation in math, simulation, and systems thinking that I bring to gameplay and tooling.",
 };
 
 // "What I work on" — capability highlights for the About section
 export const capabilities = [
-  "Touch input & gameplay interaction systems in Unity",
-  "Firebase integration across Android & iOS (auth, push, remote config)",
-  "Ad monetization — Unity Ads & ironSource mediation (Google AdMob in progress)",
-  "Reusable, modular gameplay systems with clean architecture",
-  "UI/UX systems, emoji & in-game interaction features",
-  "SDK & third-party service integration",
-  "Performance & memory optimization (object pooling, Addressables)",
-  "Mobile publishing & deployment pipelines (Play Store / App Store)",
+  "Real-time multiplayer with WebSockets & backend integration",
+  "In-game chat & custom emoji systems in Unity",
+  "Firebase with Google & Apple OAuth sign-in",
+  "Ad monetization — Google AdMob, Unity Ads & ironSource",
+  "Photon voice chat & multiplayer (10+ concurrent players)",
+  "Ready Player Me avatars, Mixamo & Cinemachine",
+  "Reusable, modular gameplay systems & clean architecture",
+  "Custom 3D game assets modeled in Blender (via Claude MCP)",
+  "Performance & memory optimization for low-end devices",
 ];
 
 // ── WORK EXPERIENCE (résumé-accurate) ────────────────────────────────────
@@ -50,13 +51,12 @@ export const experience = [
     period: "Jul 2024 – Present",
     type: "Full-Time",
     color: "#7c6cff",
-    stack: ["Unity", "C#", "Firebase", "Unity Ads", "ironSource", "ScriptableObjects", "Android/iOS"],
+    stack: ["Unity", "C#", "WebSockets", "Firebase", "OAuth", "AdMob", "Unity Ads", "ironSource"],
     bullets: [
-      "Sole Unity developer for 2+ years — shipped multiple production mobile games end-to-end across Android & iOS, owning architecture, core systems, build pipelines, and store-ready polish.",
-      "Integrated Firebase (auth, push notifications, remote config) and ad-monetization SDKs — Unity Ads and ironSource mediation — to power live-ops and revenue across titles.",
-      "Engineered reusable, modular gameplay and UI systems with ScriptableObjects, state machines, and object pooling; profiled and optimized memory and draw calls for a stable 60 fps on low-end devices.",
-      "Built a real-time multiplayer Ludo game with OAuth login, WebSocket game-state sync, and fluid DOTween animation.",
-      "Owned the full publish-and-deploy pipeline to the Google Play Store and Apple App Store.",
+      "Built real-time multiplayer games as a Unity developer — Checkers, Ludo, Zip & Tango — one live with 2,000+ real players, the rest in final testing.",
+      "Architected WebSocket-based multiplayer with backend integration, an in-game chat system, and a custom in-Unity emoji system.",
+      "Implemented Firebase with Google & Apple OAuth sign-in, plus full ad monetization via Google AdMob, Unity Ads & ironSource mediation.",
+      "Engineered reusable, modular gameplay & UI systems and profiled/optimized for a stable 60 fps on low-end Android & iOS.",
     ],
   },
   {
@@ -65,11 +65,11 @@ export const experience = [
     period: "Feb 2025 – Jul 2025",
     type: "Internship",
     color: "#5b8cff",
-    stack: ["Unity", "C#", "Photon PUN", "Mixamo", "Mobile UI"],
+    stack: ["Unity", "C#", "Photon", "Ready Player Me", "Mixamo", "Cinemachine"],
     bullets: [
-      "Integrated Photon PUN voice chat into a live multiplayer project; designed and shipped 2 gameplay levels.",
-      "Built 8 rigged playable characters with custom Mixamo animations.",
-      "Maintained clean asset pipelines and smooth media integration, collaborating across disciplines throughout the project lifecycle.",
+      "Built a real-time voice-chat system with Photon and scaled live gameplay to 10 concurrent players.",
+      "Integrated Ready Player Me avatars with Mixamo animations and Cinemachine camera work.",
+      "Maintained clean asset pipelines, collaborating across disciplines throughout the project lifecycle.",
     ],
   },
 ];
@@ -81,243 +81,357 @@ export const projectCategories = [
   { key: "Hardware & Simulation", blurb: "Unity talking to real-world hardware." },
 ];
 
-// Dummy placeholder video used everywhere until real gameplay clips exist
-const DUMMY_VIDEO = "https://www.youtube.com/watch?v=ScMzIvxBSi4";
+// No real gameplay clips yet — project pages show a "coming soon" placeholder.
+// When you have a clip, set a project's `video` to its YouTube URL.
+const DUMMY_VIDEO = "";
 const img = (seed: string, w = 1280, h = 720) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
 export const projects = [
   {
     id: "vr-acrophobia",
     title: "VR Acrophobia Therapy",
-    subtitle: "Biometric-Driven Therapeutic VR",
+    subtitle: "Heart-Rate-Driven Exposure Therapy",
     category: "VR / XR",
     status: "Shipped",
     color: "#a78bfa",
-    tech: ["Unity", "C#", "Oculus SDK", "OpenXR", "Arduino"],
-    tagline: "Your heart rate sets the difficulty. Literally.",
+    tech: ["Unity", "C#", "Oculus", "ESP32", "BLE", "Pulse Sensor"],
+    tagline: "Virtual heights rise only as fast as your heart rate allows.",
     cover: img("vracro-cover", 900, 560),
     description:
-      "An immersive VR exposure-therapy environment for fear of heights, where difficulty adapts in real time to the patient's live physiology. An MPU-6050 and a pulse sensor feed Unity over a low-latency serial pipeline, and the full XR interaction layer is built on Oculus SDK + OpenXR.",
+      "A VR simulation for acrophobia (fear-of-heights) treatment. The patient is taken through gradually increasing virtual heights while their heart rate is monitored in real time over a pulse sensor, so the experience adapts to their comfort for personalized therapy sessions.",
     overview:
-      "This is the project where my physics background and game dev collide. The system reads a patient's pulse and motion (MPU-6050 + pulse sensor on an Arduino) and streams it into Unity over serial with low latency, then drives a dynamic-difficulty loop: the calmer you are, the higher you climb. The XR interaction layer is architected on Oculus SDK and OpenXR with comfort and clinical safety as first-class constraints — the kind of patient-responsive pipeline that's directly reusable for medical simulation.",
+      "A VR acrophobia-therapy simulation built in Unity for Oculus. It guides a patient through gradually rising virtual heights while reading their live heart rate from a pulse sensor wired to an ESP32, which streams the data wirelessly over BLE. The simulation uses that signal to pace the exposure to the patient's comfort — heights only increase as they stay calm — making each session personalized rather than one-size-fits-all.",
     highlights: [
-      "Real-time biometric input via Arduino",
-      "Dynamic difficulty from live pulse rate",
-      "Low-latency sensor → Unity serial pipeline",
-      "Oculus SDK + OpenXR interaction layer",
-      "Comfort & clinical-safety focused",
+      "Gradual height-exposure therapy loop",
+      "Real-time heart-rate monitoring",
+      "ESP32 + BLE wireless biometric link",
+      "Comfort-adaptive, personalized pacing",
+      "Built in Unity for Oculus",
     ],
     images: [
-      { src: img("vracro-1"), caption: "The exposure scene — height scales with the patient's calm." },
-      { src: img("vracro-2"), caption: "Live biometric readout driving difficulty." },
-      { src: img("vracro-3"), caption: "Arduino + MPU-6050 + pulse-sensor rig." },
+      { src: img("vracro-1"), caption: "Exposure scene — virtual height rises with the session." },
+      { src: img("vracro-2"), caption: "Live heart-rate readout pacing the experience." },
+      { src: img("vracro-3"), caption: "ESP32 + pulse-sensor biometric rig (BLE)." },
     ],
     video: DUMMY_VIDEO,
     process: [
-      { title: "Sensor rig", detail: "Wired an MPU-6050 + pulse sensor to an Arduino and streamed clean data over serial." },
-      { title: "Unity bridge", detail: "Built a low-latency serial → Unity ingestion layer for real-time physiological signals." },
-      { title: "Adaptive loop", detail: "Mapped live pulse/motion to a dynamic-difficulty system that scales challenge to the patient." },
-      { title: "XR layer", detail: "Architected the interaction layer on Oculus SDK + OpenXR with comfort/safety constraints." },
+      { title: "Biometric rig", detail: "Wired a pulse sensor to an ESP32 and streamed heart-rate data wirelessly over BLE." },
+      { title: "Unity link", detail: "Ingested the live heart-rate stream into Unity over BLE in real time." },
+      { title: "Exposure loop", detail: "Gradually increased virtual height, paced by the patient's heart rate / comfort." },
+      { title: "VR build", detail: "Built the immersive scene and interactions in Unity for Oculus." },
     ],
     roadmap: [
-      { label: "Biometric pipeline working", done: true },
-      { label: "Adaptive difficulty loop", done: true },
-      { label: "Clinician dashboard / session logs", done: false },
-      { label: "Multi-scenario therapy environments", done: false },
+      { label: "Heart-rate → Unity over BLE", done: true },
+      { label: "Comfort-paced exposure loop", done: true },
+      { label: "Session logs for clinicians", done: false },
+      { label: "More phobia scenarios", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "https://example.com", playStore: "" },
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
   },
   {
-    id: "pathlock",
-    title: "PathLock",
-    subtitle: "Direction-Aware Grid Puzzle",
+    id: "zip-puzzle",
+    title: "Zip Puzzle",
+    subtitle: "Grid Path-Drawing Puzzle (inspired by LinkedIn Zip)",
     category: "Games",
-    status: "Shipped",
+    status: "Complete",
     color: "#7c6cff",
-    tech: ["Unity 2022 LTS", "C#", "Mobile", "ScriptableObjects", "DOTween"],
-    tagline: "20 hand-authored levels, 4 tile mechanics, zero hardcoded level data.",
-    cover: img("pathlock-cover", 900, 560),
+    tech: ["Unity 6", "C#", "URP", "Input System", "Mobile", "ScriptableObjects"],
+    tagline: "Draw one path through every cell — with a real-time hint solver.",
+    cover: img("zip-cover", 900, 560),
     description:
-      "A mobile grid puzzle built from GDD to store: 20 hand-authored levels (2×2 → 6×6) with tuned difficulty curves, a touch-input path-validation state machine, and a ScriptableObject pipeline that fully decouples level data from game logic.",
+      "A complete, polished mobile puzzle game in Unity 6 (~11.5K LOC, 45 scripts). Players draw a single continuous path that connects numbered checkpoints in order and fills every cell exactly once — a Hamiltonian-path puzzle with walls blocking moves. 80 hand-authored levels, a real-time hint solver, and an entirely code-driven UI.",
     overview:
-      "PathLock is a direction-aware grid puzzle where every tile constrains how a path can flow. I owned the whole thing — design, code, and UI/UX. The headline architectural win is a ScriptableObject-driven level pipeline: levels are authored as data assets, so adding or re-tuning a level never touches game logic. It ships with 3 modes (Normal / Timed / Zen), each with its own UI state, and cohesive DOTween transitions throughout.",
+      "Zip Puzzle is a grid path-drawing game where you draw one continuous line that visits numbered checkpoints in order and fills every cell exactly once (a Hamiltonian path), with walls blocking certain moves. I built it end-to-end in Unity 6 / C# — gameplay, UI, audio, save system and tutorial — with a real-time hint solver and a clean, decoupled architecture. The standout piece is the solver: generating a hint means solving the puzzle from the player's current position, so a naive DFS would freeze on big grids; I added connectivity pruning (skip states that orphan cells) and a node budget to keep the main thread responsive.",
     highlights: [
-      "20 hand-authored levels (2×2 → 6×6)",
-      "4 original tile mechanics",
-      "3 modes: Normal / Timed / Zen",
-      "ScriptableObject level pipeline",
-      "Touch path-validation state machine",
-      "Full UI/UX + DOTween polish",
+      "80 hand-authored levels",
+      "Hamiltonian-path validation engine",
+      "Real-time DFS hint solver (pruned + budgeted)",
+      "100% code-driven UI (UIFactory)",
+      "Decoupled: Service Locator · Event Bus · FSM",
+      "Optional API level provider (HMAC-signed)",
     ],
     images: [
-      { src: img("pathlock-1"), caption: "A 5×5 level mid-solve with the path highlighted." },
-      { src: img("pathlock-2"), caption: "Level-select screen with difficulty curve." },
-      { src: img("pathlock-3"), caption: "ScriptableObject level asset in the Unity inspector." },
+      { src: img("zip-1"), caption: "Drawing a path across the grid." },
+      { src: img("zip-2"), caption: "Completed path — win state." },
+      { src: img("zip-3"), caption: "Level select with non-linear progression." },
     ],
     video: DUMMY_VIDEO,
     process: [
-      { title: "Design the grammar", detail: "Defined 4 tile mechanics and the rules for how a valid path can move across the grid." },
-      { title: "Data-driven levels", detail: "Built a ScriptableObject pipeline so each level is an authored asset, decoupled from logic." },
-      { title: "Path-validation FSM", detail: "Implemented a touch-input state machine that validates the player's path in real time." },
-      { title: "Modes & UI", detail: "Added Normal / Timed / Zen modes with mode-specific UI and DOTween transitions." },
-      { title: "Tuning & ship", detail: "Hand-authored and difficulty-curved all 20 levels, polished, and shipped." },
+      { title: "Core puzzle engine", detail: "Hamiltonian-path validation — adjacency checks, wall-blocking, checkpoint ordering, and a drag-to-backtrack mechanic returning rich move results (Success / Backtrack / Win / DeadEnd / Invalid)." },
+      { title: "Hint solver", detail: "Depth-first search with connectivity pruning and a node budget so hints stay responsive on larger grids; short-circuits to the authored solution when the player is still on the optimal route." },
+      { title: "Decoupled architecture", detail: "Service Locator (DI), Event Bus (pub/sub), Factory, Strategy and State Machine so gameplay, UI and audio never call each other directly." },
+      { title: "Code-driven UI + config", detail: "Every panel built in code via a UIFactory with tween transitions; 200+ design values centralized in one ScriptableObject for no-code tuning." },
+      { title: "Content + optional API", detail: "80 levels authored via an 'RLUD' move-string DSL; an optional provider loads levels over HTTP with HMAC-SHA256 signed requests, caching & timeout, with a local fallback (Strategy)." },
     ],
     roadmap: [
-      { label: "20 levels + 3 modes shipped", done: true },
-      { label: "ScriptableObject level editor", done: true },
-      { label: "More tile mechanics + level packs", done: false },
-      { label: "Daily-challenge mode", done: false },
+      { label: "80 levels + solver + UI complete", done: true },
+      { label: "Responsive 3×3 → 8×8+ boards", done: true },
+      { label: "WebGL / APK build to share", done: false },
+      { label: "Deploy the optional level API", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "https://example.com", playStore: "" },
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
   },
   {
-    id: "ludo-multiplayer",
-    title: "Real-Time Multiplayer Ludo",
-    subtitle: "Production Mobile Game @ RENXO",
+    id: "checkers-multiplayer",
+    title: "Online Multiplayer Checkers",
+    subtitle: "Real-Time Multiplayer Board Game · Android + iOS",
     category: "Games",
     status: "Shipped",
     color: "#38bdf8",
-    tech: ["Unity", "C#", "Firebase", "WebSockets", "Unity Ads", "ironSource"],
-    tagline: "Production multiplayer: OAuth, Firebase, ad monetization & authoritative sync.",
-    cover: img("ludo-cover", 900, 560),
+    tech: ["Unity", "C#", "WebSockets", "JWT Auth", "Firebase", "AdMob/Meta/LevelPlay", "Blender"],
+    tagline: "Real-time online checkers — 23K+ lines: dual-socket netcode, matchmaking, betting & ads.",
+    cover: img("checkers-cover", 900, 560),
     description:
-      "A production real-time multiplayer Ludo game shipped at RENXO: OAuth login, Firebase (push + remote config), WebSocket-based authoritative game-state sync, ad monetization via Unity Ads & ironSource mediation, and fluid DOTween animation — engineered for stable 60 fps on low-end devices.",
+      "A production-grade real-time multiplayer checkers game in Unity / C# (~23K lines, 57 scripts): online matchmaking, two-currency betting, chat + friends, three sign-in methods, ad monetization, and shipped Android + iOS builds. Custom 3D pieces & boards modeled in Blender.",
     overview:
-      "A live, real-time multiplayer Ludo title built as the sole developer. Players sign in with OAuth, get re-engaged through Firebase push notifications, and play on authoritative game state synced over WebSockets so every client agrees on the board. Monetization runs through Unity Ads with ironSource mediation, the UI and piece feedback are powered by DOTween, and the whole title is profiled to hold 60 fps on low-end Android/iOS — a full production slice from architecture to store.",
+      "A full real-time multiplayer board game built from scratch in Unity / C# — engine, networking, matchmaking, monetization, social systems and store-ready mobile builds. The standout is the netcode: a dual-WebSocket layer (one persistent connection for lobby / chat / matchmaking, a second per-match connection for gameplay) with heartbeats, auto-reconnect using exponential backoff, a reconnect watchdog, and connection persistence across app backgrounding — over a custom JWT-authenticated client with proactive token refresh and region-aware routing (NA / UK / India) that auto-selects the lowest-latency server. All 3D assets — pieces, boards, crowns, frames — were modeled by me in Blender via Claude MCP.",
     highlights: [
-      "OAuth login + Firebase remote config",
-      "WebSocket authoritative game-state sync",
-      "Unity Ads + ironSource mediation",
-      "Modular, reusable game systems",
-      "60 fps on low-end devices",
+      "Dual-WebSocket netcode + auto-reconnect",
+      "JWT auth + region-aware server routing",
+      "Checkers engine: variants & 8 custom rules",
+      "Two-currency wallet & bet tiers",
+      "3 sign-ins: Google · Apple · Guest",
+      "AdMob · Meta · LevelPlay + custom 3D (Blender)",
     ],
     images: [
-      { src: img("ludo-1"), caption: "The live multiplayer board." },
-      { src: img("ludo-2"), caption: "Matchmaking & lobby flow." },
-      { src: img("ludo-3"), caption: "Win screen with DOTween celebration." },
+      { src: img("checkers-1"), caption: "In-game HUD — turn timer & capture counts." },
+      { src: img("checkers-2"), caption: "Animated matchmaking VS reveal." },
+      { src: img("checkers-3"), caption: "Theme customization — pieces, boards, crowns." },
     ],
     video: DUMMY_VIDEO,
     process: [
-      { title: "Auth & accounts", detail: "Integrated OAuth login and player identity." },
-      { title: "Realtime layer", detail: "Built WebSocket game-state sync so all clients stay authoritative & consistent." },
-      { title: "Engagement", detail: "Wired Firebase push notifications for re-engagement." },
-      { title: "Game feel", detail: "Polished piece movement with DOTween and profiled to a stable 60 fps." },
+      { title: "Game engine", detail: "Full checkers rules with multiple variants and 8 configurable rules (flying kings, forced/max capture, orthogonal moves, 8/10/12 boards) — move validation, captures, promotion, draw/resign — plus an orbit camera with 2D/3D toggle and auto-fit zoom." },
+      { title: "Networking", detail: "Dual-WebSocket layer (lobby + per-match) with heartbeats, exponential-backoff reconnect, a watchdog, and persistence across app backgrounding." },
+      { title: "Auth & routing", detail: "Custom JWT-authenticated WebSocket client with proactive token refresh; Google (Firebase), Apple Sign-In (native iOS) and Guest behind a pluggable abstraction; region-aware routing (NA/UK/India)." },
+      { title: "Social", detail: "Real-time chat & friends (1K+ lines): DMs, in-game broadcast/targeted chat, friend requests, block states, unread badges, and private join-code 'Play with Friends' lobbies." },
+      { title: "Monetization", detail: "Two-currency wallet & server-driven bet tiers with prize payouts; AdMob + Meta Audience Network + IronSource LevelPlay mediation (interstitial + rewarded)." },
+      { title: "UI, tooling & 3D", detail: "~15 screens via a code-driven UI framework; custom Editor tools (emoji→TMP sprite-atlas builder, automated iOS build post-processor); all 3D pieces/boards/crowns modeled in Blender via Claude MCP." },
     ],
     roadmap: [
-      { label: "Core multiplayer loop shipped", done: true },
-      { label: "Auth + push + sync live", done: true },
-      { label: "Tournaments / ranked", done: false },
-      { label: "Spectator mode", done: false },
+      { label: "Engine + dual-socket netcode", done: true },
+      { label: "Android APK + iOS builds shipped", done: true },
+      { label: "Ranked / tournaments", done: false },
+      { label: "Live-ops & analytics dashboard", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "https://example.com", playStore: "" },
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
   },
   {
     id: "car-racing",
     title: "Multi-Environment Car Racing",
-    subtitle: "Performance-First Mobile Racer",
+    subtitle: "Architecture & Optimization-Focused Racer",
     category: "Games",
     status: "In Development",
     color: "#7c6cff",
-    tech: ["Unity", "C#", "ProBuilder", "Mobile"],
-    tagline: "Draw-call surgery for a buttery 60 fps arcade feel.",
+    tech: ["Unity", "C#", "WheelColliders", "Compute Shaders", "ProBuilder", "Mobile"],
+    tagline: "WheelCollider physics, terrain streaming & GPU-grass compute shaders.",
     cover: img("racing-cover", 900, 560),
     description:
-      "A mobile arcade racer engineered for performance: GPU Instancing, multi-tier LOD, and Static/Dynamic Batching slash draw calls to sustain 60 fps on mid-range hardware. Custom vehicle physics deliver a tight arcade feel across ProBuilder-authored environments.",
+      "A mobile racer built as a systems & architecture showcase: a state-driven race flow, an EventBus-decoupled HUD, WheelCollider car physics with swappable keyboard/mobile/AI input, a speed-reactive chase camera, plus terrain streaming and GPU grass via compute shaders. (The 3D art is from licensed asset packs — I built all the C#, integrated the assets, and assembled the scenes with ProBuilder + splat-mapped terrain.)",
     overview:
-      "A mobile racing game where the real opponent is the frame budget. I applied GPU Instancing, multi-tier LOD, and Static/Dynamic Batching to cut draw calls hard and hold 60 fps on mid-range phones, then tuned custom vehicle physics — handling, drift, and collision response — for a crisp arcade feel. Built on a scalable 3-environment level pipeline (ProBuilder-authored), with the first environment fully playable.",
+      "A mobile racing game I built primarily as a programming and architecture showcase. Game phases run through a State system (Menu → Racing → Paused → GameOver), and systems stay decoupled through an EventBus — the race fires events while the HUD, countdown, results screen and car all simply listen. The car drives on Unity WheelColliders (steer front, power rear, brake all four), input is an abstraction so keyboard, mobile and AI drivers are interchangeable, and the chase camera widens its FOV and adds motion blur as speed climbs. On the optimization side, terrain streaming loads only the world patch around the player, and grass is drawn with GPU compute shaders. To be clear: the 3D art — cars, trees, water, roads, skyboxes — is from licensed asset packs; what's mine is the ~35 C# systems, the architecture, the optimization, the interactive garage, and the scene assembly (ProBuilder geometry + splat-mapped terrain).",
     highlights: [
-      "GPU Instancing + multi-tier LOD",
-      "Static / Dynamic Batching",
-      "Custom drift & handling physics",
-      "ProBuilder environment pipeline",
-      "60 fps on mid-range mobile",
+      "State machine: Menu → Race → Pause → GameOver",
+      "EventBus-decoupled HUD & race flow",
+      "WheelCollider car physics",
+      "Swappable input: keyboard · mobile · AI",
+      "Speed-reactive chase cam (FOV + blur)",
+      "Terrain streaming + GPU-grass compute shaders",
     ],
     images: [
-      { src: img("racing-1"), caption: "Environment 1 — fully playable." },
-      { src: img("racing-2"), caption: "Drift physics tuning pass." },
-      { src: img("racing-3"), caption: "Draw-call profiler before/after batching." },
+      { src: img("racing-1"), caption: "Race HUD — timer, checkpoints, speed." },
+      { src: img("racing-2"), caption: "Interactive garage — drag-to-spin & paint." },
+      { src: img("racing-3"), caption: "Streamed terrain with GPU grass." },
     ],
     video: DUMMY_VIDEO,
     process: [
-      { title: "Environment pipeline", detail: "Authored race environments in ProBuilder on a scalable 3-environment structure." },
-      { title: "Vehicle physics", detail: "Tuned handling, drift, and collision response for a tight arcade feel." },
-      { title: "Perf pass", detail: "Applied GPU Instancing, LOD, and batching to slash draw calls to 60 fps." },
+      { title: "Race systems", detail: "Countdown, timer, checkpoints, finish line and win/lose flow, with WheelCollider car control — steer the front wheels, power the rear, brake all four." },
+      { title: "Decoupled architecture", detail: "A State system drives game phases and an EventBus lets the car, HUD, countdown and results screen communicate without holding references to each other." },
+      { title: "Swappable input", detail: "Keyboard, mobile touch and AI are interchangeable drivers behind one input interface (Strategy), so the car code never changes." },
+      { title: "Optimization", detail: "Terrain streaming loads only the world patch around the player; grass is generated & culled on the GPU with compute shaders for dense foliage at frame budget." },
+      { title: "Garage UI/UX", detail: "Swipe between screens, drag-to-spin the car with realistic inertia, a 'hoist' car-swap animation, and live paint-color changes." },
+      { title: "Levels & art", detail: "Assembled the scenes with ProBuilder geometry and splat-mapped terrain; the cars, trees, water, roads and skyboxes are licensed asset packs I integrated." },
     ],
     roadmap: [
-      { label: "Environment 1 playable", done: true },
-      { label: "Perf-optimized to 60 fps", done: true },
-      { label: "Environments 2 & 3", done: false },
+      { label: "Core systems + optimization", done: true },
+      { label: "Interactive garage", done: true },
+      { label: "More environments & opponents", done: false },
       { label: "Online time-trial leaderboards", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "https://example.com", playStore: "" },
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
   },
   {
-    id: "fpv-sim",
-    title: "FPV Drone Simulator",
-    subtitle: "Hardware-in-the-Loop Flight Sim",
+    id: "fpv-drone",
+    title: "FPV Programmable Quadcopter",
+    subtitle: "Custom-Built Drone · Final-Year Major Project @ NIT Hamirpur",
     category: "Hardware & Simulation",
-    status: "Shipped",
+    status: "Built",
     color: "#5b8cff",
-    tech: ["Unity", "Embedded C", "Arduino", "Betaflight", "Serial"],
-    tagline: "Real sticks, real firmware, virtual drone.",
+    tech: ["SpeedyBee F405 V4", "Betaflight", "BLS 55A ESC", "DSHOT", "Blackbox", "Soldering"],
+    tagline: "A custom FPV quadcopter — soldered, wired and Betaflight-tuned for immersive VR control.",
     cover: img("fpv-cover", 900, 560),
     description:
-      "A real-time drone simulator that bridges Unity and physical hardware over serial. Betaflight-compatible control logic and an FPV camera-feedback loop replicate genuine flight dynamics, with a bidirectional Unity ↔ Arduino layer written in Embedded C.",
+      "A custom-built FPV quadcopter for immersive VR control, with flexible dual-battery (3S/6S) operation and tuned flight stability. As my Engineering Physics final-year major project I led the FPV/electronics & flight-systems build and worked on the embedded side — full hardware integration, Betaflight firmware tuning, and blackbox-driven debugging.",
     overview:
-      "A hardware-in-the-loop FPV simulator: physical control inputs run through Betaflight-compatible logic, drive a simulated drone in Unity, and feed an FPV camera loop back to the pilot — closing the loop on authentic flight feel without risking a real airframe. The bidirectional Unity ↔ Arduino communication layer (Embedded C firmware) is a reusable foundation for any XR peripheral or haptic device integration.",
+      "An FPV programmable quadcopter I built as my final-year major project in Engineering Physics at NIT Hamirpur. I led the electronics and flight-systems development and worked on the embedded side: full hardware integration (soldered and wired a SpeedyBee F405 V4 BLS 55A flight controller, BLS 55A ESCs and an FrSky receiver), Betaflight firmware tuning (PID loops, rate profiles, throttle response, DSHOT and ESC calibration), and dual-battery 3S/6S switching from the transmitter for flexible flight modes. I diagnosed and fixed real flight issues — motor desyncs, throttle surges and failsafe events — using blackbox logging and CLI debugging, and analyzed flights in Blackbox Explorer across Acro and Angle modes. The result is a stable, responsive build; I'm now working on a second-generation drone focused on modularity and autonomy.",
     highlights: [
-      "Real-time Unity ↔ hardware serial bridge",
-      "Betaflight-compatible control logic",
-      "FPV camera feedback loop",
-      "Bidirectional Embedded C firmware",
-      "Reusable for XR / haptic peripherals",
+      "SpeedyBee F405 V4 FC + BLS 55A ESCs",
+      "Betaflight: PID loops, rates, throttle",
+      "Dual-battery 3S/6S switching via TX",
+      "DSHOT ESC protocol + calibration",
+      "Blackbox Explorer telemetry analysis",
+      "Acro & Angle flight modes",
     ],
     images: [
-      { src: img("fpv-1"), caption: "Simulated drone in the Unity FPV view." },
-      { src: img("fpv-2"), caption: "The physical sticks + Arduino bridge." },
-      { src: img("fpv-3"), caption: "Telemetry streaming over serial." },
+      { src: img("fpvdrone-1"), caption: "The finished FPV quadcopter build." },
+      { src: img("fpvdrone-2"), caption: "Soldered flight controller, ESCs & wiring." },
+      { src: img("fpvdrone-3"), caption: "Blackbox log analysis in Betaflight." },
     ],
     video: DUMMY_VIDEO,
     process: [
-      { title: "Comm layer", detail: "Wrote bidirectional Unity ↔ Arduino serial firmware in Embedded C." },
-      { title: "Flight model", detail: "Implemented Betaflight-compatible control logic replicating real drone dynamics." },
-      { title: "FPV loop", detail: "Built the FPV camera feedback loop for an authentic first-person pilot view." },
-      { title: "HIL validation", detail: "Used the rig for interactive hardware-in-the-loop navigation testing." },
+      { title: "Hardware integration", detail: "Soldered and wired the SpeedyBee F405 V4 BLS 55A flight controller, BLS 55A ESCs and FrSky receiver into the airframe." },
+      { title: "Firmware tuning", detail: "Configured Betaflight — PID loops, rate profiles, throttle response — with the DSHOT protocol and ESC calibration." },
+      { title: "Dual-battery operation", detail: "Enabled 3S/6S battery switching from the transmitter for flexible flight modes." },
+      { title: "Debugging", detail: "Diagnosed and resolved motor desyncs, throttle surges and failsafe events using blackbox logging and CLI tools." },
+      { title: "Tuning & analysis", detail: "Experimented with Acro and Angle modes and analyzed telemetry in Blackbox Explorer for a stable, responsive tune." },
     ],
     roadmap: [
-      { label: "HIL bridge + flight model", done: true },
-      { label: "FPV feedback loop", done: true },
-      { label: "Configurable airframes / tunes", done: false },
-      { label: "Replay + telemetry overlay", done: false },
+      { label: "Stable, responsive build flying", done: true },
+      { label: "Dual-battery + telemetry analysis", done: true },
+      { label: "Gen-2: modularity & autonomy", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "https://example.com", playStore: "" },
+    links: { github: "", demo: "", playStore: "" },
   },
 ];
+
+// ── DEEP-DIVE CONTENT (per project) — keyed by project id ────────────────
+//  Powers the "metrics", "my role", "architecture" and "technical deep dive"
+//  sections on each project page. Everything below was built by Lav.
+export const projectExtra: Record<string, {
+  role: string
+  metrics: { value: string; label: string }[]
+  architecture: string[]
+  deepDive: { title: string; body: string }[]
+}> = {
+  "checkers-multiplayer": {
+    role: "Solo developer — game engine, real-time netcode, backend integration, auth, monetization, social systems, 3D assets and shipped builds.",
+    metrics: [
+      { value: "23K+", label: "Lines of C#" },
+      { value: "57", label: "Scripts" },
+      { value: "2", label: "Platforms · iOS + Android" },
+      { value: "15+", label: "UI screens" },
+    ],
+    architecture: ["Dual WebSockets", "JWT auth", "Region routing", "Pluggable auth abstraction", "Conditional compilation", "Custom Editor tooling"],
+    deepDive: [
+      { title: "Dual-socket networking", body: "Lobby, chat and matchmaking run on one persistent WebSocket while every match opens a second dedicated connection for gameplay. Heartbeats keep both alive; on a drop, an exponential-backoff reconnect with a watchdog restores state, and connections persist across app backgrounding — so locking the phone mid-game doesn't forfeit it." },
+      { title: "JWT auth + region routing", body: "A custom JWT-authenticated WebSocket client refreshes tokens proactively before they expire, with three JWT-delivery methods for proxy compatibility. Backend routing is region-aware (NA / UK / India), auto-selecting the lowest-latency server from the device timezone." },
+      { title: "Rules engine", body: "A full checkers engine supporting multiple variants and 8 configurable rules — flying kings, forced/max capture, orthogonal moves, board sizes 8/10/12 — with complete move validation, captures, promotion, and draw/resign handling. The orbit camera adds a 2D/3D toggle, board-flip animation and auto-fit zoom." },
+      { title: "Social systems", body: "A 1,000+ line real-time chat & friends layer: direct messages, in-game broadcast/targeted chat, friend requests, an address book with block states, unread badges, and private join-code 'Play with Friends' lobbies." },
+      { title: "Monetization", body: "A two-currency wallet with server-driven entry fees and prize payouts feeds matchmaking bet tiers. Three ad networks — Google AdMob, Meta Audience Network and IronSource LevelPlay mediation — serve interstitial + rewarded ads behind conditional-compilation guards." },
+      { title: "Tooling & 3D", body: "Custom Unity Editor tools: an emoji→TMP sprite-atlas builder and an automated iOS build post-processor that patches the Xcode project (ATT, Apple Sign-In framework, Google Sign-In URL schemes). Every 3D asset — pieces, boards, crowns, frames — was modeled by me in Blender via Claude MCP." },
+    ],
+  },
+  "zip-puzzle": {
+    role: "Solo developer — puzzle engine, real-time hint solver, code-driven UI framework, content pipeline and optional backend.",
+    metrics: [
+      { value: "11.5K", label: "Lines of C#" },
+      { value: "45", label: "Scripts" },
+      { value: "80", label: "Hand-authored levels" },
+      { value: "8×8+", label: "Max grid" },
+    ],
+    architecture: ["Service Locator (DI)", "Event Bus", "Factory", "Strategy", "State Machine"],
+    deepDive: [
+      { title: "The hint solver", body: "Generating a hint means solving the puzzle from the player's current position. A naive DFS freezes the game on big grids, so I added connectivity pruning (never explore states that orphan cells) and a node budget to keep the main thread responsive — and short-circuit straight to the authored solution when the player is still on the optimal route." },
+      { title: "Decoupled architecture", body: "Systems never call each other directly — they communicate through a central Event Bus and resolve dependencies via a Service Locator. Audio, UI and gameplay stay independent, which made adding the optional backend level-provider trivial (Strategy pattern)." },
+      { title: "Config in one place", body: "200+ tunable values — colors, sprites, audio, layout, even API config — live in a single ScriptableObject, so the whole look and feel can change without recompiling." },
+      { title: "The backtrack UX detail", body: "Mid-drag I only allow a single-step rewind so you can't accidentally wipe your path; on a fresh finger-down you can jump back to any visited cell. A small detail that makes a big difference to feel." },
+      { title: "Optional API provider", body: "An optional provider loads levels over HTTP with HMAC-SHA256 signed requests, caching and timeout handling — with a local provider as a seamless fallback." },
+    ],
+  },
+  "vr-acrophobia": {
+    role: "Built the VR simulation, the ESP32/BLE biometric pipeline, and the comfort-paced exposure loop.",
+    metrics: [
+      { value: "ESP32", label: "Microcontroller" },
+      { value: "BLE", label: "Wireless link" },
+      { value: "Real-time", label: "Heart rate" },
+    ],
+    architecture: ["ESP32 firmware", "BLE streaming", "Comfort-paced loop", "Unity · Oculus"],
+    deepDive: [
+      { title: "Wireless biometric link", body: "A pulse sensor on an ESP32 reads the patient's heart rate and streams it into Unity wirelessly over BLE in real time — no tethered cables, so the patient can move freely in the headset." },
+      { title: "Comfort-paced exposure", body: "Virtual height only rises while the patient stays calm; a climbing heart rate slows or holds the ascent, turning a fixed scene into a personalized, self-regulating therapy session." },
+    ],
+  },
+  "car-racing": {
+    role: "Gameplay Programmer · Game Architect · Optimization Programmer · Level & UI/UX Designer. Every C# system, the architecture and the optimization are mine; the 3D art is licensed asset packs I integrated.",
+    metrics: [
+      { value: "~35", label: "C# scripts (mine)" },
+      { value: "6", label: "Design patterns" },
+      { value: "Compute", label: "GPU grass" },
+      { value: "Streamed", label: "Terrain" },
+    ],
+    architecture: ["State", "Strategy", "Factory", "Observer", "Singleton", "Dependency Injection"],
+    deepDive: [
+      { title: "Decoupled with an EventBus", body: "An EventBus is a publish/subscribe hub: instead of systems holding references to each other, the race publishes events and the HUD, countdown, results screen and car each subscribe. Adding or changing one system doesn't ripple through the rest — the codebase stays loosely coupled and testable." },
+      { title: "Car physics via WheelColliders", body: "The car drives on Unity's WheelColliders rather than faked transform movement — steering applied to the front wheels, power to the rear, braking on all four. That gives real weight transfer, grip and suspension instead of a car that slides like a sticker." },
+      { title: "Swappable input (Strategy pattern)", body: "Keyboard, mobile touch and AI are interchangeable 'drivers' behind a single input interface. The car asks the interface for steering/throttle and never knows or cares which one is plugged in — so the same vehicle works in the playable build, on a phone, and for AI opponents." },
+      { title: "Terrain streaming", body: "Open worlds are too big to keep fully in memory on mobile, so only the patch of terrain around the player is loaded and distant patches are unloaded as you drive. It's the classic streaming trade-off — a little load logic for a large, steady memory & performance win." },
+      { title: "GPU grass with compute shaders", body: "The most advanced piece: instead of instantiating thousands of grass objects on the CPU, the grass is generated, placed and culled on the GPU with compute shaders. The work happens where it's cheap (the GPU), keeping dense foliage within the frame budget — this is going below normal gameplay scripting into real GPU programming." },
+      { title: "Speed-reactive chase camera", body: "The chase camera widens its field-of-view and ramps motion blur as speed increases, a cheap perceptual trick that makes 'fast' actually feel fast without changing the car's real velocity." },
+      { title: "Interactive garage (UI/UX)", body: "A garage screen with swipe navigation, drag-to-spin the car with realistic inertia (it keeps spinning and eases to a stop), a 'hoist' car-swap animation, and live paint-color changes — all driven by my UI code." },
+      { title: "What's mine vs integrated art (honesty)", body: "All ~35 C# scripts, the architecture, the optimization and the UI are written by me, and I assembled the scenes with ProBuilder geometry and splat-mapped terrain (splat maps blend grass/dirt/rock textures across the ground). The 3D art itself — cars, trees, water, roads, skyboxes — is from licensed asset packs that I imported and integrated, not modeled by me." },
+    ],
+  },
+  "fpv-drone": {
+    role: "Led the FPV / electronics & flight-systems build and worked on the embedded side — hardware integration, Betaflight tuning and blackbox debugging. Final-year major project, Engineering Physics, NIT Hamirpur.",
+    metrics: [
+      { value: "F405", label: "SpeedyBee FC" },
+      { value: "55A", label: "BLS ESCs" },
+      { value: "3S/6S", label: "Dual battery" },
+      { value: "DSHOT", label: "ESC protocol" },
+    ],
+    architecture: ["Betaflight", "DSHOT", "PID tuning", "ESC calibration", "Blackbox Explorer", "CLI debugging"],
+    deepDive: [
+      { title: "Hardware integration", body: "I soldered and wired the full stack: a SpeedyBee F405 V4 flight controller (the drone's 'brain' running the flight firmware), BLS 55A ESCs (electronic speed controllers that drive each motor), and an FrSky receiver for the radio link. Clean wiring and solder joints matter here — a bad joint shows up later as a mid-air glitch." },
+      { title: "Betaflight & PID tuning", body: "Betaflight runs a PID control loop that constantly corrects the drone's attitude — Proportional reacts to current error, Integral to accumulated error, Derivative dampens oscillation. I tuned the PIDs along with rate profiles and throttle response so the craft stays locked-in but responsive." },
+      { title: "DSHOT & ESC calibration", body: "DSHOT is a digital flight-controller↔ESC protocol — more precise and reliable than older analog PWM, with no calibration drift. I set it up and calibrated the ESCs so all four motors respond identically." },
+      { title: "Dual-battery 3S/6S switching", body: "I wired transmitter-controlled switching between 3S and 6S batteries (≈11.1V vs 22.2V) — lower voltage for gentle, longer flights and higher voltage for punchy, aggressive ones — picking the flight mode in the field without rewiring." },
+      { title: "Blackbox debugging", body: "Betaflight's blackbox logs every control loop to flash. When I hit motor desyncs, throttle surges and failsafe events, I replayed the logs in Blackbox Explorer and used the CLI to pinpoint and fix the root cause instead of guessing." },
+      { title: "Flight modes", body: "Tuned and tested both Acro (full manual rate control — the drone holds whatever angle you give it) and Angle (self-levelling) modes for different flying scenarios, from steady FPV cruising to aggressive maneuvers." },
+    ],
+  },
+}
 
 // ── SKILLS (reconciled across résumé versions) ───────────────────────────
 export const skills = {
   "Engine & Language": {
-    items: ["Unity Engine", "C#", "OOP", "Async Programming", "ScriptableObjects"],
+    items: ["Unity Engine", "C#", "OOP", "Async / Coroutines", "URP", "Input System", "ScriptableObjects"],
     color: "#7c6cff",
   },
-  "Mobile & Deployment": {
-    items: ["Android & iOS", "Publishing Pipelines", "Addressables", "Performance Optimization", "Memory Optimization", "Object Pooling"],
-    color: "#5b8cff",
-  },
-  "Monetization & SDKs": {
-    items: ["Unity Ads", "ironSource Mediation", "Google AdMob", "Firebase", "SDK Integration", "REST APIs"],
-    color: "#a78bfa",
-  },
-  "Architecture & Systems": {
-    items: ["Clean Architecture", "Modular System Design", "Reusable Systems", "Gameplay Mechanics", "State Machines"],
+  "Multiplayer & Realtime": {
+    items: ["WebSockets", "Photon PUN", "Authoritative Sync", "Backend / REST APIs", "JWT Auth", "Voice & In-Game Chat"],
     color: "#38bdf8",
   },
-  "UI / UX & Polish": {
-    items: ["UI/UX Systems", "Touch & Interaction", "Animation Systems", "VFX Integration", "DOTween"],
+  "Monetization & SDKs": {
+    items: ["Google AdMob", "Unity Ads", "ironSource (LevelPlay)", "Meta Audience Network", "Firebase", "Google / Apple OAuth"],
+    color: "#a78bfa",
+  },
+  "Architecture & Patterns": {
+    items: ["Clean Architecture", "Service Locator (DI)", "Event Bus (Pub/Sub)", "Factory · Strategy · Observer", "State Machines", "Object Pooling"],
+    color: "#5b8cff",
+  },
+  "Graphics, Perf & Algorithms": {
+    items: ["Compute Shaders (GPU)", "Performance & Memory Optimization", "LOD & Batching", "Terrain Streaming", "DFS / Pathfinding", "WheelCollider Physics"],
     color: "#7c6cff",
   },
-  "Workflow & Range": {
-    items: ["Git & GitHub", "Debugging & Profiling", "Multiplayer (Photon · WebSockets)", "XR (OpenXR · Oculus)"],
+  "UI / UX & Animation": {
+    items: ["Code-Driven UI (UIFactory)", "UI/UX Systems", "Animation Systems", "Cinemachine", "DOTween", "Emoji Systems"],
+    color: "#38bdf8",
+  },
+  "Hardware & Embedded": {
+    items: ["ESP32", "BLE", "Arduino", "Embedded C", "Betaflight / PID", "Serial Comms"],
+    color: "#a78bfa",
+  },
+  "3D, Mobile & Tools": {
+    items: ["Blender (Claude MCP)", "ProBuilder", "Ready Player Me", "Mixamo", "Custom Editor Tooling", "Android & iOS", "Git & GitHub"],
     color: "#5b8cff",
   },
 };
@@ -405,10 +519,10 @@ export const achievements = [
 export const certifications = achievements.map((a) => ({ name: a.title, issuer: a.issuer }));
 
 export const stats = [
-  { label: "Yrs · Unity", value: "2+" },
+  { label: "Live players", value: "2K+" },
+  { label: "Multiplayer titles", value: "4" },
   { label: "FPS · low-end", value: "60" },
-  { label: "SDKs integrated", value: "4+" },
-  { label: "Levels designed", value: "20+" },
+  { label: "Yr · Unity", value: "1+" },
 ];
 
 // ── BIT — the NPC narrator (bottom-right companion) ───────────────────────
@@ -418,7 +532,7 @@ export const guideLines: Record<string, string> = {
   about:
     "ABOUT: a Unity dev who owns the whole pipeline — gameplay systems, Firebase, ad SDKs, optimization, and shipping to the stores.",
   experience:
-    "EXPERIENCE: *sole* developer shipping production mobile games for 2+ years — architecture, monetization, and store releases. The whole team.",
+    "EXPERIENCE: a year+ at RENXO building *real-time multiplayer* games — WebSockets, OAuth, chat, monetization, and store releases.",
   projects:
     "PROJECTS — split by *Games*, *VR/XR* and *Hardware*. Click any card for the full case study: write-up, shots, and a demo video.",
   skills:
