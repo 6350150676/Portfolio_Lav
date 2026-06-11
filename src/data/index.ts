@@ -426,6 +426,10 @@ export const skills = {
     items: ["Code-Driven UI (UIFactory)", "UI/UX Systems", "Animation Systems", "Cinemachine", "DOTween", "Emoji Systems"],
     color: "#38bdf8",
   },
+  "XR / VR Development": {
+    items: ["XR Interaction Toolkit", "VR Interactions", "HMD Deployment", "VR Optimization", "VR Ergonomics", "OpenXR"],
+    color: "#38bdf8",
+  },
   "Hardware & Embedded": {
     items: ["ESP32", "BLE", "Arduino", "Embedded C", "Betaflight / PID", "Serial Comms"],
     color: "#a78bfa",
@@ -478,6 +482,25 @@ export const achievements = [
       "Interactive 2D & 3D gameplay features",
       "Game logic, animation & physics",
       "Debugging, prototyping & real-time problem-solving",
+    ],
+  },
+  {
+    id: "unity-vr",
+    title: "Unity VR Development",
+    issuer: "Unity Technologies",
+    kind: "Certification Pathway",
+    color: "#38bdf8",
+    emblem: "VR",
+    badge: "/badges/unity-vr.png",
+    credentialId: "5f711619-c64b-4034-a0b4-19d302e14b98",
+    link: "https://www.credly.com/earner/earned/badge/5f711619-c64b-4034-a0b4-19d302e14b98",
+    blurb:
+      "Completed the Unity VR Development Pathway — validates the skills to be a proficient junior developer building VR experiences with Unity's XR Interaction Toolkit.",
+    points: [
+      "Deploy VR projects to Unity-supported head-mounted displays (HMDs)",
+      "Build common VR interactions with the XR Interaction Toolkit",
+      "Program custom VR interactions to meet a project brief",
+      "Optimize performance to meet headset framerate requirements",
     ],
   },
   {
