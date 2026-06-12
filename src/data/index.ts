@@ -129,6 +129,49 @@ export const projects = [
     links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
   },
   {
+    id: "vr-paint",
+    title: "VR Paint Studio",
+    subtitle: "Immersive 3D Drawing & Painting · XR Interaction Toolkit",
+    category: "VR / XR",
+    status: "Built",
+    color: "#38bdf8",
+    tech: ["Unity", "C#", "XR Interaction Toolkit", "OpenXR", "Line Renderer", "VR Controllers"],
+    tagline: "Paint in 3D space with your headset — strokes, brushes and shapes, all in VR.",
+    cover: img("vrpaint-cover", 900, 560),
+    description:
+      "A VR drawing & painting app built in Unity with the XR Interaction Toolkit. Draw freely in 3D space with the headset controllers — pick brush strokes, choose colors and stamp different shapes — all through a fully custom in-VR UI I designed and built for the experience.",
+    overview:
+      "An immersive VR painting app built in Unity using the XR Interaction Toolkit. You draw directly in 3D space with the headset controllers: pull the trigger to lay down a continuous brush stroke, switch between stroke styles and brush sizes, change colors, and place primitive shapes as you build a scene around you. Everything — the brush menu, color picker, shape palette and tool panels — runs as a custom in-VR (diegetic) UI I designed and built with the XR Interaction Toolkit's UI and ray-interaction systems. Strokes are rendered as efficient line/mesh geometry so the canvas stays smooth at headset framerate even as the drawing grows.",
+    highlights: [
+      "Free 3D drawing with VR controllers",
+      "Multiple brush strokes & sizes",
+      "Color picker + shape stamping",
+      "Custom in-VR (diegetic) UI",
+      "Built on XR Interaction Toolkit / OpenXR",
+      "Optimized stroke rendering for HMD framerate",
+    ],
+    images: [
+      { src: img("vrpaint-1"), caption: "Drawing a stroke in 3D space." },
+      { src: img("vrpaint-2"), caption: "Brush & color menu in VR." },
+      { src: img("vrpaint-3"), caption: "Shape palette and tool panel." },
+    ],
+    video: DUMMY_VIDEO,
+    process: [
+      { title: "XR setup", detail: "Configured the XR Interaction Toolkit / OpenXR rig — controllers, ray and direct interactors, and headset deployment." },
+      { title: "Drawing system", detail: "Trigger-driven brush strokes drawn as continuous line/mesh geometry in 3D space, with adjustable stroke style and size." },
+      { title: "Tools & shapes", detail: "A color picker, multiple brush types and a palette for stamping primitive shapes into the scene around you." },
+      { title: "In-VR UI", detail: "Designed and built a custom diegetic UI — brush/color menus and tool panels driven by the XR Toolkit's UI & ray interactors." },
+      { title: "Optimization", detail: "Kept stroke geometry lightweight so the canvas holds headset framerate as the drawing grows." },
+    ],
+    roadmap: [
+      { label: "3D drawing + brushes built", done: true },
+      { label: "Custom in-VR UI + shape tools", done: true },
+      { label: "Save / load & share drawings", done: false },
+      { label: "Hand-tracking input", done: false },
+    ],
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
+  },
+  {
     id: "zip-puzzle",
     title: "Zip Puzzle",
     subtitle: "Grid Path-Drawing Puzzle (inspired by LinkedIn Zip)",
@@ -347,6 +390,23 @@ export const projectExtra: Record<string, {
       { title: "Optional API provider", body: "An optional provider loads levels over HTTP with HMAC-SHA256 signed requests, caching and timeout handling — with a local provider as a seamless fallback." },
     ],
   },
+  "vr-paint": {
+    role: "Built the full VR drawing app end-to-end — the XR rig, the 3D brush/stroke system, the shape tools and the custom in-VR UI — in Unity with the XR Interaction Toolkit.",
+    metrics: [
+      { value: "XRIT", label: "XR Interaction Toolkit" },
+      { value: "OpenXR", label: "Runtime" },
+      { value: "3D", label: "Spatial drawing" },
+      { value: "In-VR", label: "Custom UI" },
+    ],
+    architecture: ["XR Interaction Toolkit", "OpenXR", "Ray & direct interactors", "Line/mesh stroke rendering", "Diegetic UI"],
+    deepDive: [
+      { title: "Drawing in 3D space", body: "Pulling the controller trigger lays down a continuous brush stroke that follows the controller tip through space. Each stroke is built as line/mesh geometry on the fly, so you can walk around your drawing and view it from any angle — it's a real 3D object, not a flat canvas." },
+      { title: "Brushes, colors & shapes", body: "A tool layer lets you switch stroke styles and sizes, pick colors, and stamp primitive shapes into the scene — turning a simple doodle tool into a small spatial-creation kit you build around yourself." },
+      { title: "Custom in-VR UI", body: "All the menus live in the world with you: brush/color selectors and tool panels built with the XR Interaction Toolkit's UI and ray interactors, so you point and click in VR instead of reaching for a 2D screen. Designing UI that feels good at arm's length in a headset is its own challenge — placement, scale and feedback all matter." },
+      { title: "Built on XR Interaction Toolkit", body: "The whole experience runs on Unity's XR Interaction Toolkit over OpenXR — controllers, direct and ray interactors, and HMD deployment — the same toolkit and interaction patterns behind production VR apps." },
+      { title: "Performance", body: "Stroke geometry is kept lightweight so the drawing stays smooth at headset framerate even as it fills up. VR is unforgiving about frame drops, so the rendering path has to stay cheap as the canvas grows." },
+    ],
+  },
   "vr-acrophobia": {
     role: "Built the VR simulation, the ESP32/BLE biometric pipeline, and the comfort-paced exposure loop.",
     metrics: [
@@ -427,7 +487,7 @@ export const skills = {
     color: "#38bdf8",
   },
   "XR / VR Development": {
-    items: ["XR Interaction Toolkit", "VR Interactions", "HMD Deployment", "VR Optimization", "VR Ergonomics", "OpenXR"],
+    items: ["XR Interaction Toolkit", "VR Interactions", "Ray & Direct Interactors", "3D Spatial Drawing", "Diegetic VR UI", "HMD Deployment", "VR Optimization", "VR Ergonomics", "OpenXR"],
     color: "#38bdf8",
   },
   "Hardware & Embedded": {
