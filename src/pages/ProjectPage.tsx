@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { projects, projectExtra } from '../data'
 import { getMedia } from '../lib/projectMedia'
+import TechIcon from '../components/ui/TechIcon'
 
 function toYouTubeEmbed(input: string): string {
   if (!input) return ''
@@ -110,10 +111,14 @@ export default function ProjectPage() {
               <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
                 {project.tech.map((t) => (
                   <span key={t} style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
                     fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)',
                     background: 'var(--card)', border: '1px solid var(--border)',
-                    borderRadius: 8, padding: '0.25rem 0.6rem',
-                  }}>{t}</span>
+                    borderRadius: 8, padding: '0.28rem 0.62rem',
+                  }}>
+                    <TechIcon name={t} />
+                    {t}
+                  </span>
                 ))}
               </div>
 
@@ -157,6 +162,35 @@ export default function ProjectPage() {
             ))}
           </div>
         ) : null}
+
+        {/* Challenge · Solution · Result — recruiter quick-scan */}
+        {project.csr && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '2.5rem' }}>
+            {[
+              { label: 'Challenge', body: project.csr.challenge },
+              { label: 'Solution', body: project.csr.solution },
+              { label: 'Result', body: project.csr.result },
+            ].map((b) => (
+              <div key={b.label} className="card" style={{ padding: '1.2rem 1.3rem', borderTop: `3px solid ${c}` }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: c, marginBottom: '0.7rem' }}>
+                  {b.label}
+                </div>
+                {Array.isArray(b.body) ? (
+                  <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {b.body.map((item) => (
+                      <li key={item} style={{ display: 'flex', gap: '0.55rem', alignItems: 'flex-start', fontSize: '0.92rem', color: 'var(--text)', lineHeight: 1.5 }}>
+                        <span style={{ color: c, marginTop: 1 }}>✓</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-dim)', lineHeight: 1.65 }}>{b.body}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Overview */}
         <div className="modal-section-label">Overview</div>

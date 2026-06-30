@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { projects, projectCategories } from '../../data'
 import { getMedia } from '../../lib/projectMedia'
 import Reveal from '../ui/Reveal'
+import TechIcon from '../ui/TechIcon'
 
 export default function Projects() {
   return (
@@ -96,10 +97,14 @@ export default function Projects() {
                       <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '1.1rem' }}>
                         {p.tech.slice(0, 3).map((t) => (
                           <span key={t} style={{
+                            display: 'inline-flex', alignItems: 'center', gap: '0.32rem',
                             fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-dim)',
                             background: 'var(--chip-bg)', border: '1px solid var(--border)',
-                            borderRadius: 6, padding: '0.18rem 0.45rem',
-                          }}>{t}</span>
+                            borderRadius: 6, padding: '0.2rem 0.48rem',
+                          }}>
+                            <TechIcon name={t} size={11} />
+                            {t}
+                          </span>
                         ))}
                       </div>
 

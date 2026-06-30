@@ -16,7 +16,7 @@ export const personalInfo = {
   title: "Unity Game Developer",
   roles: ["Mobile Game Developer", "Gameplay Systems Engineer", "SDK & Monetization Dev", "Performance Optimizer"],
   tagline:
-    "I build production-grade mobile games in Unity — scalable gameplay systems, SDK & ad-monetization integrations, and performance-tuned experiences that ship to the Play Store and App Store.",
+    "I build multiplayer mobile games, XR experiences, and production-ready gameplay systems — with a focus on performance, networking, and clean architecture.",
   email: "lovenaruka514@gmail.com",
   phone: "+91-6350150676",
   linkedin: "https://linkedin.com/in/lavnaruka",
@@ -25,7 +25,7 @@ export const personalInfo = {
   githubHandle: "github.com/6350150676",
   location: "India",
   bio:
-    "I'm a Unity developer focused on real-time multiplayer mobile games. Over the past year at RENXO I've built WebSocket-based titles — Checkers, Ludo, Zip & Tango — one live with 2,000+ players — with in-game chat, Google/Apple OAuth, and ad monetization (AdMob · Unity Ads · ironSource), all tuned for a stable 60 fps on low-end Android & iOS.",
+    "I'm a Unity Developer with professional experience building and shipping multiplayer mobile games. My work focuses on gameplay programming, networking, optimization, and XR applications. I enjoy solving engineering problems that make games scalable, maintainable, and fun to play.",
   bio2:
     "I care about clean, modular architecture and the parts that actually make a game shippable: reusable gameplay systems, object pooling, SDK & backend integration, and reliable real-time networking. My Engineering Physics background from NIT Hamirpur gives me a strong foundation in math, simulation, and systems thinking that I bring to gameplay and tooling.",
 };
@@ -58,6 +58,10 @@ export const experience = [
       "Implemented Firebase with Google & Apple OAuth sign-in, plus full ad monetization via Google AdMob, Unity Ads & ironSource mediation.",
       "Engineered reusable, modular gameplay & UI systems and profiled/optimized for a stable 60 fps on low-end Android & iOS.",
     ],
+    challenge: {
+      problem: "One of the hardest problems was keeping a live match intact when Android tears down the WebSocket the instant the app is backgrounded — locking the phone mid-game can't silently forfeit the match or desync the board.",
+      solution: "I built a reconnection layer with heartbeats and exponential-backoff retries that restores the session on resume and reconciles authoritative state from the server, so a game resumes exactly where it left off instead of corrupting.",
+    },
   },
   {
     role: "Unity Developer Intern",
@@ -71,6 +75,10 @@ export const experience = [
       "Integrated Ready Player Me avatars with Mixamo animations and Cinemachine camera work.",
       "Maintained clean asset pipelines, collaborating across disciplines throughout the project lifecycle.",
     ],
+    challenge: {
+      problem: "Photon voice and avatar sync degrade quickly as players join — at 10 concurrent users, naive voice routing and animation updates burned through bandwidth and frame budget.",
+      solution: "I scoped voice channels and synced only the avatar state that mattered — Mixamo-driven poses with Cinemachine framing — keeping live gameplay smooth at 10 concurrent players.",
+    },
   },
 ];
 
@@ -99,6 +107,11 @@ export const projects = [
     cover: img("vracro-cover", 900, 560),
     description:
       "A VR simulation for acrophobia (fear-of-heights) treatment. The patient is taken through gradually increasing virtual heights while their heart rate is monitored in real time over a pulse sensor, so the experience adapts to their comfort for personalized therapy sessions.",
+    csr: {
+      challenge: "Exposure therapy for fear of heights has to adapt to each patient — too fast and they panic, too slow and it does nothing.",
+      solution: "Streamed live heart rate from an ESP32 + pulse sensor over BLE into Unity and paced the virtual height to the patient's comfort.",
+      result: ["Real-time biometric link (ESP32 · BLE)", "Heights rise only while the patient stays calm", "Personalized, comfort-paced sessions"],
+    },
     overview:
       "A VR acrophobia-therapy simulation built in Unity for Oculus. It guides a patient through gradually rising virtual heights while reading their live heart rate from a pulse sensor wired to an ESP32, which streams the data wirelessly over BLE. The simulation uses that signal to pace the exposure to the patient's comfort — heights only increase as they stay calm — making each session personalized rather than one-size-fits-all.",
     highlights: [
@@ -140,6 +153,11 @@ export const projects = [
     cover: img("vrpaint-cover", 900, 560),
     description:
       "A VR drawing & painting app built in Unity with the XR Interaction Toolkit. Draw freely in 3D space with the headset controllers — pick brush strokes, choose colors and stamp different shapes — all through a fully custom in-VR UI I designed and built for the experience.",
+    csr: {
+      challenge: "Drawing in 3D space needs intuitive controls and a UI that lives inside VR — without dropping headset framerate as the canvas grows.",
+      solution: "Built trigger-driven brush strokes as lightweight line/mesh geometry and a fully custom in-VR (diegetic) UI on the XR Interaction Toolkit.",
+      result: ["Free 3D drawing — brushes, colors & shapes", "Custom in-VR UI, no flat 2D menus", "Holds headset framerate as the drawing grows"],
+    },
     overview:
       "An immersive VR painting app built in Unity using the XR Interaction Toolkit. You draw directly in 3D space with the headset controllers: pull the trigger to lay down a continuous brush stroke, switch between stroke styles and brush sizes, change colors, and place primitive shapes as you build a scene around you. Everything — the brush menu, color picker, shape palette and tool panels — runs as a custom in-VR (diegetic) UI I designed and built with the XR Interaction Toolkit's UI and ray-interaction systems. Strokes are rendered as efficient line/mesh geometry so the canvas stays smooth at headset framerate even as the drawing grows.",
     highlights: [
@@ -183,6 +201,11 @@ export const projects = [
     cover: img("zip-cover", 900, 560),
     description:
       "A complete, polished mobile puzzle game in Unity 6 (~11.5K LOC, 45 scripts). Players draw a single continuous path that connects numbered checkpoints in order and fills every cell exactly once — a Hamiltonian-path puzzle with walls blocking moves. 80 hand-authored levels, a real-time hint solver, and an entirely code-driven UI.",
+    csr: {
+      challenge: "Hamiltonian-path puzzles become computationally expensive on large boards, so a naive solver freezes the game when generating a hint.",
+      solution: "Implemented DFS with connectivity pruning and a node budget so hints solve in real time without blocking the main thread.",
+      result: ["80 handcrafted levels", "Real-time hints", "No frame drops"],
+    },
     overview:
       "Zip Puzzle is a grid path-drawing game where you draw one continuous line that visits numbered checkpoints in order and fills every cell exactly once (a Hamiltonian path), with walls blocking certain moves. I built it end-to-end in Unity 6 / C# — gameplay, UI, audio, save system and tutorial — with a real-time hint solver and a clean, decoupled architecture. The standout piece is the solver: generating a hint means solving the puzzle from the player's current position, so a naive DFS would freeze on big grids; I added connectivity pruning (skip states that orphan cells) and a node budget to keep the main thread responsive.",
     highlights: [
@@ -226,6 +249,11 @@ export const projects = [
     cover: img("checkers-cover", 900, 560),
     description:
       "A production-grade real-time multiplayer checkers game in Unity / C# (~23K lines, 57 scripts): online matchmaking, two-currency betting, chat + friends, three sign-in methods, ad monetization, and shipped Android + iOS builds. Custom 3D pieces & boards modeled in Blender.",
+    csr: {
+      challenge: "Real-time multiplayer has to survive dropped connections, app backgrounding and cross-region latency — without forfeiting a live match.",
+      solution: "Built a dual-WebSocket layer (lobby + per-match) with heartbeats, exponential-backoff reconnect and region-aware routing over a JWT-authed client.",
+      result: ["~23K lines, shipped to iOS + Android", "Auto-reconnect survives backgrounding", "Matchmaking, betting, chat & ad monetization"],
+    },
     overview:
       "A full real-time multiplayer board game built from scratch in Unity / C# — engine, networking, matchmaking, monetization, social systems and store-ready mobile builds. The standout is the netcode: a dual-WebSocket layer (one persistent connection for lobby / chat / matchmaking, a second per-match connection for gameplay) with heartbeats, auto-reconnect using exponential backoff, a reconnect watchdog, and connection persistence across app backgrounding — over a custom JWT-authenticated client with proactive token refresh and region-aware routing (NA / UK / India) that auto-selects the lowest-latency server. All 3D assets — pieces, boards, crowns, frames — were modeled by me in Blender via Claude MCP.",
     highlights: [
@@ -270,6 +298,11 @@ export const projects = [
     cover: img("racing-cover", 900, 560),
     description:
       "A mobile racer built as a systems & architecture showcase: a state-driven race flow, an EventBus-decoupled HUD, WheelCollider car physics with swappable keyboard/mobile/AI input, a speed-reactive chase camera, plus terrain streaming and GPU grass via compute shaders. (The 3D art is from licensed asset packs — I built all the C#, integrated the assets, and assembled the scenes with ProBuilder + splat-mapped terrain.)",
+    csr: {
+      challenge: "Build a racer that stays maintainable as systems grow and still hits frame budget with dense terrain and foliage on mobile.",
+      solution: "Decoupled game phases with a state machine + EventBus, made input swappable behind one interface, and moved terrain streaming and grass onto the GPU.",
+      result: ["35+ decoupled C# systems", "Keyboard / mobile / AI drivers interchangeable", "GPU grass + terrain streaming at frame budget"],
+    },
     overview:
       "A mobile racing game I built primarily as a programming and architecture showcase. Game phases run through a State system (Menu → Racing → Paused → GameOver), and systems stay decoupled through an EventBus — the race fires events while the HUD, countdown, results screen and car all simply listen. The car drives on Unity WheelColliders (steer front, power rear, brake all four), input is an abstraction so keyboard, mobile and AI drivers are interchangeable, and the chase camera widens its FOV and adds motion blur as speed climbs. On the optimization side, terrain streaming loads only the world patch around the player, and grass is drawn with GPU compute shaders. To be clear: the 3D art — cars, trees, water, roads, skyboxes — is from licensed asset packs; what's mine is the ~35 C# systems, the architecture, the optimization, the interactive garage, and the scene assembly (ProBuilder geometry + splat-mapped terrain).",
     highlights: [
@@ -314,6 +347,11 @@ export const projects = [
     cover: img("fpv-cover", 900, 560),
     description:
       "A custom-built FPV quadcopter for immersive VR control, with flexible dual-battery (3S/6S) operation and tuned flight stability. As my Engineering Physics final-year major project I led the FPV/electronics & flight-systems build and worked on the embedded side — full hardware integration, Betaflight firmware tuning, and blackbox-driven debugging.",
+    csr: {
+      challenge: "A custom FPV quadcopter has to fly stable across flight modes despite motor desyncs, throttle surges and failsafe events.",
+      solution: "Soldered and wired the full flight stack, tuned Betaflight (PID loops, rates, DSHOT) and debugged real flights from blackbox logs.",
+      result: ["Stable, responsive custom build", "Dual-battery 3S/6S switching from the TX", "Acro & Angle modes, blackbox-tuned"],
+    },
     overview:
       "An FPV programmable quadcopter I built as my final-year major project in Engineering Physics at NIT Hamirpur. I led the electronics and flight-systems development and worked on the embedded side: full hardware integration (soldered and wired a SpeedyBee F405 V4 BLS 55A flight controller, BLS 55A ESCs and an FrSky receiver), Betaflight firmware tuning (PID loops, rate profiles, throttle response, DSHOT and ESC calibration), and dual-battery 3S/6S switching from the transmitter for flexible flight modes. I diagnosed and fixed real flight issues — motor desyncs, throttle surges and failsafe events — using blackbox logging and CLI debugging, and analyzed flights in Blackbox Explorer across Acro and Angle modes. The result is a stable, responsive build; I'm now working on a second-generation drone focused on modularity and autonomy.",
     highlights: [
@@ -462,41 +500,35 @@ export const projectExtra: Record<string, {
 
 // ── SKILLS (reconciled across résumé versions) ───────────────────────────
 export const skills = {
-  "Engine & Language": {
-    items: ["Unity Engine", "C#", "OOP", "Async / Coroutines", "URP", "Input System", "ScriptableObjects"],
+  "Gameplay": {
+    blurb: "Gameplay systems & clean, scalable architecture.",
+    items: ["Unity Engine", "C# / OOP", "Gameplay Systems", "State Machines", "Clean Architecture", "Event Bus & DI", "Code-Driven UI", "Input System"],
     color: "#7c6cff",
   },
-  "Multiplayer & Realtime": {
-    items: ["WebSockets", "Photon PUN", "Authoritative Sync", "Backend / REST APIs", "JWT Auth", "Voice & In-Game Chat"],
+  "Networking": {
+    blurb: "Real-time multiplayer & backend integration.",
+    items: ["WebSockets", "Photon PUN", "Authoritative Sync", "Auto-Reconnect Netcode", "JWT Auth & OAuth", "Backend / REST APIs", "In-Game Chat & Voice"],
     color: "#38bdf8",
   },
-  "Monetization & SDKs": {
-    items: ["Google AdMob", "Unity Ads", "ironSource (LevelPlay)", "Meta Audience Network", "Firebase", "Google / Apple OAuth"],
-    color: "#a78bfa",
-  },
-  "Architecture & Patterns": {
-    items: ["Clean Architecture", "Service Locator (DI)", "Event Bus (Pub/Sub)", "Factory · Strategy · Observer", "State Machines", "Object Pooling"],
+  "Optimization": {
+    blurb: "60 fps on low-end Android & iOS.",
+    items: ["Memory & CPU Profiling", "Compute Shaders (GPU)", "LOD & Batching", "Terrain Streaming", "Object Pooling", "DFS / Pathfinding"],
     color: "#5b8cff",
   },
-  "Graphics, Perf & Algorithms": {
-    items: ["Compute Shaders (GPU)", "Performance & Memory Optimization", "LOD & Batching", "Terrain Streaming", "DFS / Pathfinding", "WheelCollider Physics"],
+  "XR": {
+    blurb: "Immersive headset & sensor-driven experiences.",
+    items: ["XR Interaction Toolkit", "OpenXR", "VR Interactions", "Diegetic VR UI", "Ray & Direct Interactors", "3D Spatial Drawing", "HMD Deployment"],
+    color: "#a78bfa",
+  },
+  "AI": {
+    blurb: "Game AI & AI-assisted workflows.",
+    items: ["AI Opponents & Drivers", "Pathfinding & Search", "Hint Solvers (Pruned DFS)", "Behavior State Machines", "Claude MCP Tooling", "AI-Assisted Workflows"],
     color: "#7c6cff",
   },
-  "UI / UX & Animation": {
-    items: ["Code-Driven UI (UIFactory)", "UI/UX Systems", "Animation Systems", "Cinemachine", "DOTween", "Emoji Systems"],
+  "Tools": {
+    blurb: "Content pipeline, SDKs & shipping.",
+    items: ["Blender (Claude MCP)", "ProBuilder", "Custom Editor Tooling", "Firebase", "Ad SDKs (AdMob · ironSource)", "Git & GitHub", "Android & iOS"],
     color: "#38bdf8",
-  },
-  "XR / VR Development": {
-    items: ["XR Interaction Toolkit", "VR Interactions", "Ray & Direct Interactors", "3D Spatial Drawing", "Diegetic VR UI", "HMD Deployment", "VR Optimization", "VR Ergonomics", "OpenXR"],
-    color: "#38bdf8",
-  },
-  "Hardware & Embedded": {
-    items: ["ESP32", "BLE", "Arduino", "Embedded C", "Betaflight / PID", "Serial Comms"],
-    color: "#a78bfa",
-  },
-  "3D, Mobile & Tools": {
-    items: ["Blender (Claude MCP)", "ProBuilder", "Ready Player Me", "Mixamo", "Custom Editor Tooling", "Android & iOS", "Git & GitHub"],
-    color: "#5b8cff",
   },
 };
 

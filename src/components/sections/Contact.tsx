@@ -1,6 +1,15 @@
 import { useState } from 'react'
+import { LuGamepad2, LuGlasses, LuGlobe } from 'react-icons/lu'
+import { SiUnity } from 'react-icons/si'
 import { personalInfo } from '../../data'
 import { openMail, copyToClipboard } from '../../lib/mail'
+
+const LOOKING_FOR = [
+  { icon: LuGamepad2, label: 'Gameplay Programming' },
+  { icon: SiUnity, label: 'Unity Development' },
+  { icon: LuGlasses, label: 'XR Development' },
+  { icon: LuGlobe, label: 'Remote / Relocation' },
+]
 
 export default function Contact() {
   const [copied, setCopied] = useState(false)
@@ -50,6 +59,30 @@ export default function Contact() {
             }}>
               I'm actively looking for game development roles — full-time, freelance, or contract. If you're building a mobile game, XR experience, or need a Unity developer who ships, let's talk.
             </p>
+
+            {/* Looking for — tells recruiters what I'm open to at a glance */}
+            <div style={{ marginBottom: '2.5rem' }}>
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.45rem', marginBottom: '1rem',
+                fontFamily: 'var(--font-mono)', fontSize: '0.62rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--accent)',
+              }}>
+                <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 8px #22c55e' }} />
+                Looking for
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+                {LOOKING_FOR.map(({ icon: Icon, label }) => (
+                  <span key={label} style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+                    fontFamily: 'var(--font-body)', fontSize: '0.88rem', fontWeight: 500, color: 'var(--text)',
+                    background: 'var(--accent-soft)', border: '1px solid var(--border-strong)',
+                    borderRadius: 999, padding: '0.45rem 0.95rem',
+                  }}>
+                    <Icon size={15} style={{ color: 'var(--accent)', flexShrink: 0 }} aria-hidden />
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
 
             {/* Primary actions — copy avoids the OS mail popup entirely */}
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2rem' }}>

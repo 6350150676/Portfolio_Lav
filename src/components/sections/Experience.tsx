@@ -70,6 +70,27 @@ export default function Experience() {
                         </li>
                       ))}
                     </ul>
+
+                    {exp.challenge && (
+                      <div style={{
+                        marginTop: '1.25rem', padding: '1.1rem 1.25rem', borderRadius: 12,
+                        background: exp.color + '0d', border: `1px solid ${exp.color}26`, borderLeft: `3px solid ${exp.color}`,
+                      }}>
+                        <div style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '0.45rem', marginBottom: '0.6rem',
+                          fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: exp.color,
+                        }}>
+                          <span aria-hidden>⚡</span> The hard part
+                        </div>
+                        <p style={{ fontSize: '0.94rem', color: 'var(--text)', lineHeight: 1.65, margin: 0 }}>
+                          {exp.challenge.problem}
+                        </p>
+                        <p style={{ fontSize: '0.92rem', color: 'var(--text-dim)', lineHeight: 1.65, margin: '0.7rem 0 0' }}>
+                          <strong style={{ color: exp.color, fontWeight: 600 }}>How I solved it — </strong>
+                          {exp.challenge.solution}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Reveal>

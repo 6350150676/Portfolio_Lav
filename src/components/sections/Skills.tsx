@@ -1,5 +1,16 @@
+import type { IconType } from 'react-icons'
+import { LuGamepad2, LuNetwork, LuGauge, LuGlasses, LuBrain, LuWrench } from 'react-icons/lu'
 import { skills } from '../../data'
 import Reveal from '../ui/Reveal'
+
+const CATEGORY_ICON: Record<string, IconType> = {
+  Gameplay: LuGamepad2,
+  Networking: LuNetwork,
+  Optimization: LuGauge,
+  XR: LuGlasses,
+  AI: LuBrain,
+  Tools: LuWrench,
+}
 
 export default function Skills() {
   return (
@@ -15,21 +26,34 @@ export default function Skills() {
           <div className="eyebrow">04 / Skills</div>
           <h2 className="section-title">Technical Skills</h2>
           <p className="lead">
-            The full stack I build with — from real-time multiplayer, monetization &amp; clean architecture
-            to GPU optimization and hands-on embedded hardware.
+            The full stack I build with — from gameplay systems and real-time multiplayer
+            to GPU optimization, XR, and game AI.
           </p>
         </Reveal>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem', marginTop: '3rem' }}>
-          {Object.entries(skills).map(([category, { items, color }], idx) => (
+          {Object.entries(skills).map(([category, { items, color, blurb }], idx) => {
+            const Icon = CATEGORY_ICON[category] ?? LuWrench
+            return (
             <Reveal key={category} delay={idx * 70}>
               <div className="hex-border" style={{ padding: '1.75rem', height: '100%' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', marginBottom: '1.25rem' }}>
-                  <span style={{ width: 9, height: 9, borderRadius: 3, background: color, boxShadow: `0 0 10px ${color}`, flexShrink: 0 }} />
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.14em', color }}>
-                    {category.toUpperCase()}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', marginBottom: '0.4rem' }}>
+                  <span style={{
+                    width: 34, height: 34, borderRadius: 9, flexShrink: 0,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color, background: color + '1a', border: `1px solid ${color}40`, boxShadow: `0 0 14px ${color}22`,
+                  }}>
+                    <Icon size={18} />
+                  </span>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.01em' }}>
+                    {category}
                   </div>
                 </div>
+                {blurb && (
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', lineHeight: 1.5, margin: '0 0 1.1rem' }}>
+                    {blurb}
+                  </p>
+                )}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                   {items.map((skill, i) => (
                     <div
@@ -48,7 +72,8 @@ export default function Skills() {
                 </div>
               </div>
             </Reveal>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
