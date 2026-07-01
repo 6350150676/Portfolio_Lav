@@ -699,7 +699,7 @@ export const achievements = [
 export const certifications = achievements.map((a) => ({ name: a.title, issuer: a.issuer }));
 
 export const stats = [
-  { label: "Live players", value: "2K+" },
+  { label: "Live players", value: "7K+" },
   { label: "Multiplayer titles", value: "4" },
   { label: "FPS · low-end", value: "60" },
   { label: "Yr · Unity", value: "1+" },
