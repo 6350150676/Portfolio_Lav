@@ -240,12 +240,12 @@ export const projects = [
   {
     id: "tango-puzzle",
     title: "Tango",
-    subtitle: "Company Project @ RENXO · Live on Google Play & App Store",
+    subtitle: "Production Title @ RENXO Technologies · Live on Google Play & App Store",
     category: "Games",
     status: "Live",
     color: "#f59e0b",
     tech: ["Unity", "C#", "REST API", "ScriptableObjects", "Mobile", "iOS", "Android"],
-    tagline: "A live company game — Tango-style logic puzzle with 3 board sizes × 5 difficulties.",
+    tagline: "A live production title — Tango-style logic puzzle with 3 board sizes × 5 difficulties.",
     cover: img("tango-cover", 900, 560),
     description:
       "A live mobile logic-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a deeper, more advanced rule set. It's published and live on both the Google Play Store and the Apple App Store. My work on it was the game design and the gameplay logic, the ad monetization, and the release itself — I deployed the game to both stores. The puzzle-generation logic lives in the backend and is served to the client over a REST API.",
@@ -255,7 +255,7 @@ export const projects = [
       result: ["Live on Google Play & App Store", "3 board sizes × 5 difficulties = 15 modes", "Server-generated, always-solvable boards"],
     },
     overview:
-      "Tango is a live logic grid-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a more advanced rule set. When a game starts the player picks a board size — 4×4, 6×6 or 8×8 — then a difficulty from Beginner to Expert (five tiers), giving roughly 15 distinct customizations. My part on this company project spanned the game design and gameplay logic, the ad monetization, and the release: laying out the grid, placing the symbols, validating the row/column and adjacency constraints in real time, driving the play loop, wiring up the ads, and then deploying the finished game to both stores myself. The puzzle-creation logic itself runs on the backend, which generates solvable boards and delivers them to the client over a REST API — so the client stays light while the server handles level generation. The game is published and live on both the Google Play Store and the Apple App Store.",
+      "Tango is a live logic grid-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a more advanced rule set. When a game starts the player picks a board size — 4×4, 6×6 or 8×8 — then a difficulty from Beginner to Expert (five tiers), giving roughly 15 distinct customizations. My contribution to this production title spanned the game design and gameplay logic, the ad monetization, and the release: laying out the grid, placing the symbols, validating the row/column and adjacency constraints in real time, driving the play loop, wiring up the ads, and then deploying the finished game to both stores myself. The puzzle-creation logic itself runs on the backend, which generates solvable boards and delivers them to the client over a REST API — so the client stays light while the server handles level generation. The game is published and live on both the Google Play Store and the Apple App Store.",
     highlights: [
       "Live on Google Play & Apple App Store",
       "Deployed to both stores myself",
@@ -477,7 +477,7 @@ export const projectExtra: Record<string, {
     ],
   },
   "tango-puzzle": {
-    role: "Company project at RENXO Technologies. My part: game design & gameplay programming, ad monetization, and the store deployment — I designed the ruleset and difficulty progression, built the client-side gameplay logic, wired up the ads, and deployed the game to both stores myself; the backend team's service generates the puzzles and serves them over a REST API. Live on Google Play & the App Store.",
+    role: "Production title developed at RENXO Technologies. My contribution: game design & gameplay programming, ad monetization, and the store deployment — I designed the ruleset and difficulty progression, built the client-side gameplay logic, wired up the ads, and deployed the game to both stores myself; the backend team's service generates the puzzles and serves them over a REST API. Live on Google Play & the App Store.",
     metrics: [
       { value: "2", label: "Stores · Play + App" },
       { value: "3", label: "Board sizes" },
