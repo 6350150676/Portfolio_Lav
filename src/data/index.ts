@@ -283,7 +283,7 @@ export const projects = [
       { label: "Live on Google Play & App Store", done: true },
       { label: "Daily challenges & leaderboards", done: false },
     ],
-    links: { github: "", demo: "", playStore: "https://play.google.com/store/apps/details?id=com.gatch.tango", appStore: "" },
+    links: { github: "", demo: "", playStore: "https://play.google.com/store/apps/details?id=com.gatch.tango", appStore: "https://apps.apple.com/us/app/tango-game/id6762611647" },
   },
   {
     id: "checkers-multiplayer",
