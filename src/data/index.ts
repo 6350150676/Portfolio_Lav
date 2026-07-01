@@ -240,22 +240,22 @@ export const projects = [
   {
     id: "tango-puzzle",
     title: "Tango",
-    subtitle: "Logic Grid Puzzle · Live on Google Play & App Store",
+    subtitle: "Company Project @ RENXO · Live on Google Play & App Store",
     category: "Games",
-    status: "Shipped",
+    status: "Live",
     color: "#f59e0b",
     tech: ["Unity", "C#", "REST API", "ScriptableObjects", "Mobile", "iOS", "Android"],
-    tagline: "A shipped Tango-style logic puzzle — 3 board sizes × 5 difficulties, server-generated levels.",
+    tagline: "A live company game — Tango-style logic puzzle with 3 board sizes × 5 difficulties.",
     cover: img("tango-cover", 900, 560),
     description:
-      "A published mobile logic-puzzle game inspired by LinkedIn's Tango, with a deeper, more advanced rule set. It's live on both the Google Play Store and the Apple App Store. I designed the game and built the gameplay logic — the puzzle-generation logic lives in the backend and is served to the client over a REST API.",
+      "A live mobile logic-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a deeper, more advanced rule set. It's published and live on both the Google Play Store and the Apple App Store. My work on it was the game design and the gameplay logic — the puzzle-generation logic lives in the backend and is served to the client over a REST API.",
     csr: {
       challenge: "A good logic puzzle needs the right difficulty curve and constraint-checking that feels instant — and fresh, always-solvable boards across every size and skill level.",
       solution: "I designed the game and built the client-side gameplay & constraint logic, while a backend service generates guaranteed-solvable puzzles and serves them to the game over a REST API.",
       result: ["Live on Google Play & App Store", "3 board sizes × 5 difficulties = 15 modes", "Server-generated, always-solvable boards"],
     },
     overview:
-      "Tango is a logic grid-puzzle game I designed and built, inspired by LinkedIn's Tango but with a more advanced rule set. When a game starts the player picks a board size — 4×4, 6×6 or 8×8 — then a difficulty from Beginner to Expert (five tiers), giving roughly 15 distinct customizations. My focus was the game design and gameplay logic: laying out the grid, placing the symbols, validating the row/column and adjacency constraints in real time, and driving the whole play loop. The puzzle-creation logic itself runs on the backend, which generates solvable boards and delivers them to the client over a REST API — so the client stays light while the server handles level generation.",
+      "Tango is a live logic grid-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a more advanced rule set. When a game starts the player picks a board size — 4×4, 6×6 or 8×8 — then a difficulty from Beginner to Expert (five tiers), giving roughly 15 distinct customizations. My part on this company project was the game design and the gameplay logic: laying out the grid, placing the symbols, validating the row/column and adjacency constraints in real time, and driving the whole play loop. The puzzle-creation logic itself runs on the backend, which generates solvable boards and delivers them to the client over a REST API — so the client stays light while the server handles level generation. The game is published and live on both the Google Play Store and the Apple App Store.",
     highlights: [
       "Live on Google Play & Apple App Store",
       "3 board sizes: 4×4, 6×6, 8×8",
@@ -476,7 +476,7 @@ export const projectExtra: Record<string, {
     ],
   },
   "tango-puzzle": {
-    role: "Game designer & gameplay programmer — designed the ruleset and difficulty progression and built the client-side gameplay logic; the backend generates the puzzles and serves them over a REST API. Shipped to Google Play & the App Store.",
+    role: "Company project at RENXO Technologies. My part: game design & gameplay programming — I designed the ruleset and difficulty progression and built the client-side gameplay logic; the backend team's service generates the puzzles and serves them over a REST API. Live on Google Play & the App Store.",
     metrics: [
       { value: "2", label: "Stores · Play + App" },
       { value: "3", label: "Board sizes" },
