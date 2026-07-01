@@ -126,6 +126,12 @@ export default function ProjectPage() {
                 {project.links.demo && (
                   <a href={project.links.demo} target="_blank" rel="noreferrer" className="btn btn-primary">View live →</a>
                 )}
+                {project.links.playStore && (
+                  <a href={project.links.playStore} target="_blank" rel="noreferrer" className="btn btn-primary">Google Play →</a>
+                )}
+                {project.links.appStore && (
+                  <a href={project.links.appStore} target="_blank" rel="noreferrer" className="btn btn-ghost">App Store →</a>
+                )}
                 {project.links.github && (
                   <a href={project.links.github} target="_blank" rel="noreferrer" className="btn btn-ghost">GitHub</a>
                 )}

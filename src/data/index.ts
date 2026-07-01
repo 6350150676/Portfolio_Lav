@@ -139,7 +139,7 @@ export const projects = [
       { label: "Session logs for clinicians", done: false },
       { label: "More phobia scenarios", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
   },
   {
     id: "vr-paint",
@@ -187,7 +187,7 @@ export const projects = [
       { label: "Save / load & share drawings", done: false },
       { label: "Hand-tracking input", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
   },
   {
     id: "zip-puzzle",
@@ -235,7 +235,54 @@ export const projects = [
       { label: "WebGL / APK build to share", done: false },
       { label: "Deploy the optional level API", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
+  },
+  {
+    id: "tango-puzzle",
+    title: "Tango",
+    subtitle: "Logic Grid Puzzle · Live on Google Play & App Store",
+    category: "Games",
+    status: "Shipped",
+    color: "#f59e0b",
+    tech: ["Unity", "C#", "REST API", "ScriptableObjects", "Mobile", "iOS", "Android"],
+    tagline: "A shipped Tango-style logic puzzle — 3 board sizes × 5 difficulties, server-generated levels.",
+    cover: img("tango-cover", 900, 560),
+    description:
+      "A published mobile logic-puzzle game inspired by LinkedIn's Tango, with a deeper, more advanced rule set. It's live on both the Google Play Store and the Apple App Store. I designed the game and built the gameplay logic — the puzzle-generation logic lives in the backend and is served to the client over a REST API.",
+    csr: {
+      challenge: "A good logic puzzle needs the right difficulty curve and constraint-checking that feels instant — and fresh, always-solvable boards across every size and skill level.",
+      solution: "I designed the game and built the client-side gameplay & constraint logic, while a backend service generates guaranteed-solvable puzzles and serves them to the game over a REST API.",
+      result: ["Live on Google Play & App Store", "3 board sizes × 5 difficulties = 15 modes", "Server-generated, always-solvable boards"],
+    },
+    overview:
+      "Tango is a logic grid-puzzle game I designed and built, inspired by LinkedIn's Tango but with a more advanced rule set. When a game starts the player picks a board size — 4×4, 6×6 or 8×8 — then a difficulty from Beginner to Expert (five tiers), giving roughly 15 distinct customizations. My focus was the game design and gameplay logic: laying out the grid, placing the symbols, validating the row/column and adjacency constraints in real time, and driving the whole play loop. The puzzle-creation logic itself runs on the backend, which generates solvable boards and delivers them to the client over a REST API — so the client stays light while the server handles level generation.",
+    highlights: [
+      "Live on Google Play & Apple App Store",
+      "3 board sizes: 4×4, 6×6, 8×8",
+      "5 difficulty tiers: Beginner → Expert",
+      "~15 customization combinations",
+      "Advanced logic beyond the original Tango",
+      "Backend puzzle generation over REST API",
+    ],
+    images: [
+      { src: img("tango-1"), caption: "Board-size & difficulty selection." },
+      { src: img("tango-2"), caption: "Solving a board — live constraint checks." },
+      { src: img("tango-3"), caption: "Completed puzzle — win state." },
+    ],
+    video: DUMMY_VIDEO,
+    process: [
+      { title: "Game design", detail: "Designed the Tango-inspired ruleset and difficulty curve — 4×4 / 6×6 / 8×8 boards across five tiers from Beginner to Expert, for ~15 distinct customizations." },
+      { title: "Gameplay logic", detail: "Built the client-side play loop: grid layout, symbol placement, and real-time validation of row/column balance and adjacency constraints." },
+      { title: "Backend integration", detail: "Connected the game to a backend that generates solvable puzzles, pulling levels into the client over a REST API so board generation stays server-side." },
+      { title: "Shipping", detail: "Took the game through to release on both the Google Play Store and the Apple App Store." },
+    ],
+    roadmap: [
+      { label: "Core gameplay + 3 board sizes", done: true },
+      { label: "5 difficulty tiers + backend levels", done: true },
+      { label: "Live on Google Play & App Store", done: true },
+      { label: "Daily challenges & leaderboards", done: false },
+    ],
+    links: { github: "", demo: "", playStore: "https://play.google.com/store/apps/details?id=com.gatch.tango", appStore: "" },
   },
   {
     id: "checkers-multiplayer",
@@ -284,7 +331,7 @@ export const projects = [
       { label: "Ranked / tournaments", done: false },
       { label: "Live-ops & analytics dashboard", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
   },
   {
     id: "car-racing",
@@ -333,7 +380,7 @@ export const projects = [
       { label: "More environments & opponents", done: false },
       { label: "Online time-trial leaderboards", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "", playStore: "" },
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
   },
   {
     id: "fpv-drone",
@@ -380,7 +427,7 @@ export const projects = [
       { label: "Dual-battery + telemetry analysis", done: true },
       { label: "Gen-2: modularity & autonomy", done: false },
     ],
-    links: { github: "", demo: "", playStore: "" },
+    links: { github: "", demo: "", playStore: "", appStore: "" },
   },
 ];
 
@@ -426,6 +473,23 @@ export const projectExtra: Record<string, {
       { title: "Config in one place", body: "200+ tunable values — colors, sprites, audio, layout, even API config — live in a single ScriptableObject, so the whole look and feel can change without recompiling." },
       { title: "The backtrack UX detail", body: "Mid-drag I only allow a single-step rewind so you can't accidentally wipe your path; on a fresh finger-down you can jump back to any visited cell. A small detail that makes a big difference to feel." },
       { title: "Optional API provider", body: "An optional provider loads levels over HTTP with HMAC-SHA256 signed requests, caching and timeout handling — with a local provider as a seamless fallback." },
+    ],
+  },
+  "tango-puzzle": {
+    role: "Game designer & gameplay programmer — designed the ruleset and difficulty progression and built the client-side gameplay logic; the backend generates the puzzles and serves them over a REST API. Shipped to Google Play & the App Store.",
+    metrics: [
+      { value: "2", label: "Stores · Play + App" },
+      { value: "3", label: "Board sizes" },
+      { value: "5", label: "Difficulty tiers" },
+      { value: "15", label: "Mode combinations" },
+    ],
+    architecture: ["Unity · C#", "REST API level provider", "Real-time constraint validation", "ScriptableObject config", "Backend puzzle generation"],
+    deepDive: [
+      { title: "Designing the puzzle", body: "Tango is a logic puzzle in the spirit of LinkedIn's Tango: fill the grid so each row and column stays balanced and no run of the same symbol breaks the adjacency rules. I designed a deeper ruleset than the original and shaped the difficulty curve across five tiers so a 4×4 Beginner board feels welcoming while an 8×8 Expert board is genuinely hard." },
+      { title: "Sizes & difficulty", body: "At the start of a game the player chooses a board size — 4×4, 6×6 or 8×8 — and then a difficulty from Beginner to Expert. That's three sizes across five tiers, roughly 15 distinct ways to play, so the game scales from a quick casual round to a real brain-teaser." },
+      { title: "Gameplay logic", body: "My focus on the client was the play loop: laying out the grid, placing and toggling symbols, and validating the row/column and adjacency constraints in real time so the player gets instant feedback on every move and knows immediately when the board is solved." },
+      { title: "Backend puzzle generation", body: "The puzzle-creation logic lives on the backend rather than the device. A server generates solvable boards for each size and difficulty and the game pulls them in over a REST API — keeping the client light and letting level generation evolve server-side without shipping a new app build." },
+      { title: "Shipped to both stores", body: "The game is live on both the Google Play Store (com.gatch.tango) and the Apple App Store — taken all the way through build, submission and release on Android and iOS." },
     ],
   },
   "vr-paint": {
