@@ -248,19 +248,19 @@ export const projects = [
     tagline: "A live company game — Tango-style logic puzzle with 3 board sizes × 5 difficulties.",
     cover: img("tango-cover", 900, 560),
     description:
-      "A live mobile logic-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a deeper, more advanced rule set. It's published and live on both the Google Play Store and the Apple App Store. My work on it was the game design and the gameplay logic — the puzzle-generation logic lives in the backend and is served to the client over a REST API.",
+      "A live mobile logic-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a deeper, more advanced rule set. It's published and live on both the Google Play Store and the Apple App Store. My work on it was the game design and the gameplay logic, the ad monetization, and the release itself — I deployed the game to both stores. The puzzle-generation logic lives in the backend and is served to the client over a REST API.",
     csr: {
       challenge: "A good logic puzzle needs the right difficulty curve and constraint-checking that feels instant — and fresh, always-solvable boards across every size and skill level.",
       solution: "I designed the game and built the client-side gameplay & constraint logic, while a backend service generates guaranteed-solvable puzzles and serves them to the game over a REST API.",
       result: ["Live on Google Play & App Store", "3 board sizes × 5 difficulties = 15 modes", "Server-generated, always-solvable boards"],
     },
     overview:
-      "Tango is a live logic grid-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a more advanced rule set. When a game starts the player picks a board size — 4×4, 6×6 or 8×8 — then a difficulty from Beginner to Expert (five tiers), giving roughly 15 distinct customizations. My part on this company project was the game design and the gameplay logic: laying out the grid, placing the symbols, validating the row/column and adjacency constraints in real time, and driving the whole play loop. The puzzle-creation logic itself runs on the backend, which generates solvable boards and delivers them to the client over a REST API — so the client stays light while the server handles level generation. The game is published and live on both the Google Play Store and the Apple App Store.",
+      "Tango is a live logic grid-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a more advanced rule set. When a game starts the player picks a board size — 4×4, 6×6 or 8×8 — then a difficulty from Beginner to Expert (five tiers), giving roughly 15 distinct customizations. My part on this company project spanned the game design and gameplay logic, the ad monetization, and the release: laying out the grid, placing the symbols, validating the row/column and adjacency constraints in real time, driving the play loop, wiring up the ads, and then deploying the finished game to both stores myself. The puzzle-creation logic itself runs on the backend, which generates solvable boards and delivers them to the client over a REST API — so the client stays light while the server handles level generation. The game is published and live on both the Google Play Store and the Apple App Store.",
     highlights: [
       "Live on Google Play & Apple App Store",
-      "3 board sizes: 4×4, 6×6, 8×8",
-      "5 difficulty tiers: Beginner → Expert",
-      "~15 customization combinations",
+      "Deployed to both stores myself",
+      "Ad monetization integrated",
+      "3 board sizes × 5 difficulty tiers (~15 modes)",
       "Advanced logic beyond the original Tango",
       "Backend puzzle generation over REST API",
     ],
@@ -274,7 +274,8 @@ export const projects = [
       { title: "Game design", detail: "Designed the Tango-inspired ruleset and difficulty curve — 4×4 / 6×6 / 8×8 boards across five tiers from Beginner to Expert, for ~15 distinct customizations." },
       { title: "Gameplay logic", detail: "Built the client-side play loop: grid layout, symbol placement, and real-time validation of row/column balance and adjacency constraints." },
       { title: "Backend integration", detail: "Connected the game to a backend that generates solvable puzzles, pulling levels into the client over a REST API so board generation stays server-side." },
-      { title: "Shipping", detail: "Took the game through to release on both the Google Play Store and the Apple App Store." },
+      { title: "Monetization", detail: "Integrated ad monetization into the game as part of my work on the project." },
+      { title: "Deployment", detail: "Handled the release myself — built, submitted and deployed the game to both the Google Play Store and the Apple App Store." },
     ],
     roadmap: [
       { label: "Core gameplay + 3 board sizes", done: true },
@@ -476,7 +477,7 @@ export const projectExtra: Record<string, {
     ],
   },
   "tango-puzzle": {
-    role: "Company project at RENXO Technologies. My part: game design & gameplay programming — I designed the ruleset and difficulty progression and built the client-side gameplay logic; the backend team's service generates the puzzles and serves them over a REST API. Live on Google Play & the App Store.",
+    role: "Company project at RENXO Technologies. My part: game design & gameplay programming, ad monetization, and the store deployment — I designed the ruleset and difficulty progression, built the client-side gameplay logic, wired up the ads, and deployed the game to both stores myself; the backend team's service generates the puzzles and serves them over a REST API. Live on Google Play & the App Store.",
     metrics: [
       { value: "2", label: "Stores · Play + App" },
       { value: "3", label: "Board sizes" },
@@ -489,7 +490,7 @@ export const projectExtra: Record<string, {
       { title: "Sizes & difficulty", body: "At the start of a game the player chooses a board size — 4×4, 6×6 or 8×8 — and then a difficulty from Beginner to Expert. That's three sizes across five tiers, roughly 15 distinct ways to play, so the game scales from a quick casual round to a real brain-teaser." },
       { title: "Gameplay logic", body: "My focus on the client was the play loop: laying out the grid, placing and toggling symbols, and validating the row/column and adjacency constraints in real time so the player gets instant feedback on every move and knows immediately when the board is solved." },
       { title: "Backend puzzle generation", body: "The puzzle-creation logic lives on the backend rather than the device. A server generates solvable boards for each size and difficulty and the game pulls them in over a REST API — keeping the client light and letting level generation evolve server-side without shipping a new app build." },
-      { title: "Shipped to both stores", body: "The game is live on both the Google Play Store (com.gatch.tango) and the Apple App Store — taken all the way through build, submission and release on Android and iOS." },
+      { title: "Monetization & deployment", body: "Beyond the gameplay I integrated the ad monetization and owned the release: I took the game all the way through build, submission and store deployment myself, and it's now live on both the Google Play Store (com.gatch.tango) and the Apple App Store on Android and iOS." },
     ],
   },
   "vr-paint": {
