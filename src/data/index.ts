@@ -244,7 +244,7 @@ export const projects = [
     category: "Games",
     status: "Live",
     color: "#f59e0b",
-    tech: ["Unity", "C#", "REST API", "ScriptableObjects", "Mobile", "iOS", "Android"],
+    tech: ["Game Design", "Gameplay Logic", "REST API", "Ad Monetization", "Store Deployment", "iOS", "Android"],
     tagline: "A live production title — Tango-style logic puzzle with 3 board sizes × 5 difficulties.",
     cover: img("tango-cover", 900, 560),
     description:
@@ -484,7 +484,7 @@ export const projectExtra: Record<string, {
       { value: "5", label: "Difficulty tiers" },
       { value: "15", label: "Mode combinations" },
     ],
-    architecture: ["Unity · C#", "REST API level provider", "Real-time constraint validation", "ScriptableObject config", "Backend puzzle generation"],
+    architecture: ["Client gameplay logic", "REST API level provider", "Real-time constraint validation", "Ad monetization", "Backend puzzle generation"],
     deepDive: [
       { title: "Designing the puzzle", body: "Tango is a logic puzzle in the spirit of LinkedIn's Tango: fill the grid so each row and column stays balanced and no run of the same symbol breaks the adjacency rules. I designed a deeper ruleset than the original and shaped the difficulty curve across five tiers so a 4×4 Beginner board feels welcoming while an 8×8 Expert board is genuinely hard." },
       { title: "Sizes & difficulty", body: "At the start of a game the player chooses a board size — 4×4, 6×6 or 8×8 — and then a difficulty from Beginner to Expert. That's three sizes across five tiers, roughly 15 distinct ways to play, so the game scales from a quick casual round to a real brain-teaser." },
