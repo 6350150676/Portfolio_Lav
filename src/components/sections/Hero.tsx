@@ -76,7 +76,7 @@ export default function Hero() {
 
           {/* recruiter quick-scan facts */}
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.55rem 0.85rem', marginTop: '1.1rem', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-dim)' }}>
-            {['India · remote-friendly', '1+ year Unity', 'Full-time / Contract', 'Multiplayer · Monetization · SDKs'].map((f, i) => (
+            {['India · remote-friendly', '1+ year Unity', 'Full-time / Contract', 'Game Design · Multiplayer · Monetization'].map((f, i) => (
               <span key={f} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.85rem' }}>
                 {i > 0 && <span style={{ width: 3, height: 3, borderRadius: '50%', background: 'var(--text-faint)' }} />}
                 {f}

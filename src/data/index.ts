@@ -14,9 +14,9 @@
 export const personalInfo = {
   name: "Lav Naruka",
   title: "Unity Game Developer",
-  roles: ["Mobile Game Developer", "Gameplay Systems Engineer", "SDK & Monetization Dev", "Performance Optimizer"],
+  roles: ["Mobile Game Developer", "Game Systems Designer", "Gameplay Systems Engineer", "SDK & Monetization Dev", "Performance Optimizer"],
   tagline:
-    "I build multiplayer mobile games, XR experiences, and production-ready gameplay systems — with a focus on performance, networking, and clean architecture.",
+    "I design and build multiplayer mobile games, XR experiences, and production-ready gameplay systems — from ruleset and difficulty design to performance, networking, and clean architecture.",
   email: "lovenaruka514@gmail.com",
   phone: "+91-6350150676",
   linkedin: "https://linkedin.com/in/lavnaruka",
@@ -25,13 +25,15 @@ export const personalInfo = {
   githubHandle: "github.com/6350150676",
   location: "India",
   bio:
-    "I'm a Unity Developer with professional experience building and shipping multiplayer mobile games. My work focuses on gameplay programming, networking, optimization, and XR applications. I enjoy solving engineering problems that make games scalable, maintainable, and fun to play.",
+    "I'm a Unity Developer with professional experience building and shipping multiplayer mobile games. My work spans game design and gameplay programming, networking, optimization, and XR applications — I designed the ruleset and difficulty curve for a live puzzle title, and built the content pipeline and difficulty-scored curve behind a full 80-level puzzle set. I enjoy solving engineering problems that make games scalable, maintainable, and fun to play.",
   bio2:
     "I care about clean, modular architecture and the parts that actually make a game shippable: reusable gameplay systems, object pooling, SDK & backend integration, and reliable real-time networking. My Engineering Physics background from NIT Hamirpur gives me a strong foundation in math, simulation, and systems thinking that I bring to gameplay and tooling.",
 };
 
 // "What I work on" — capability highlights for the About section
 export const capabilities = [
+  "Game design — rulesets, difficulty curves & progression (live Tango title)",
+  "Level pipeline & difficulty curves — a solver-validated 80-level set sorted into a smooth ramp",
   "Real-time multiplayer with WebSockets & backend integration",
   "In-game chat & custom emoji systems in Unity",
   "Firebase with Google & Apple OAuth sign-in",
@@ -84,8 +86,8 @@ export const experience = [
 
 // ── PROJECT CATEGORIES (the page splits work into these groups) ───────────
 export const projectCategories = [
+  { key: "Games", blurb: "Production mobile games — design, gameplay systems & monetization." },
   { key: "VR / XR", blurb: "Immersive headset & sensor-driven experiences." },
-  { key: "Games", blurb: "Production mobile games & gameplay systems." },
   { key: "Hardware & Simulation", blurb: "Unity talking to real-world hardware." },
 ];
 
@@ -95,6 +97,200 @@ const DUMMY_VIDEO = "";
 const img = (seed: string, w = 1280, h = 720) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
 export const projects = [
+  {
+    id: "tango-puzzle",
+    title: "Tango",
+    subtitle: "Production Title @ RENXO Technologies · Live on Google Play & App Store",
+    category: "Games",
+    status: "Live",
+    color: "#f59e0b",
+    tech: ["Game Design", "Gameplay Logic", "REST API", "Ad Monetization", "Store Deployment", "iOS", "Android"],
+    tagline: "A live production title — Tango-style logic puzzle with 3 board sizes × 5 difficulties.",
+    cover: img("tango-cover", 900, 560),
+    description:
+      "A live mobile logic-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a deeper, more advanced rule set. It's published and live on both the Google Play Store and the Apple App Store. My work on it was the game design and the gameplay logic, the ad monetization, and the release itself — I deployed the game to both stores. The puzzle-generation logic lives in the backend and is served to the client over a REST API.",
+    csr: {
+      challenge: "A good logic puzzle needs the right difficulty curve and constraint-checking that feels instant — and fresh, always-solvable boards across every size and skill level.",
+      solution: "I designed the game and built the client-side gameplay & constraint logic, while a backend service generates guaranteed-solvable puzzles and serves them to the game over a REST API.",
+      result: ["Live on Google Play & App Store", "3 board sizes × 5 difficulties = 15 modes", "Server-generated, always-solvable boards"],
+    },
+    overview:
+      "Tango is a live logic grid-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a more advanced rule set. When a game starts the player picks a board size — 4×4, 6×6 or 8×8 — then a difficulty from Beginner to Expert (five tiers), giving roughly 15 distinct customizations. My contribution to this production title spanned the game design and gameplay logic, the ad monetization, and the release: laying out the grid, placing the symbols, validating the row/column and adjacency constraints in real time, driving the play loop, wiring up the ads, and then deploying the finished game to both stores myself. The puzzle-creation logic itself runs on the backend, which generates solvable boards and delivers them to the client over a REST API — so the client stays light while the server handles level generation. The game is published and live on both the Google Play Store and the Apple App Store.",
+    highlights: [
+      "Live on Google Play & Apple App Store",
+      "Deployed to both stores myself",
+      "Ad monetization integrated",
+      "3 board sizes × 5 difficulty tiers (~15 modes)",
+      "Advanced logic beyond the original Tango",
+      "Backend puzzle generation over REST API",
+    ],
+    images: [
+      { src: img("tango-1"), caption: "Board-size & difficulty selection." },
+      { src: img("tango-2"), caption: "Solving a board — live constraint checks." },
+      { src: img("tango-3"), caption: "Completed puzzle — win state." },
+    ],
+    video: DUMMY_VIDEO,
+    process: [
+      { title: "Game design", detail: "Designed the Tango-inspired ruleset and difficulty curve — 4×4 / 6×6 / 8×8 boards across five tiers from Beginner to Expert, for ~15 distinct customizations." },
+      { title: "Gameplay logic", detail: "Built the client-side play loop: grid layout, symbol placement, and real-time validation of row/column balance and adjacency constraints." },
+      { title: "Backend integration", detail: "Connected the game to a backend that generates solvable puzzles, pulling levels into the client over a REST API so board generation stays server-side." },
+      { title: "Monetization", detail: "Integrated ad monetization into the game as part of my work on the project." },
+      { title: "Deployment", detail: "Handled the release myself — built, submitted and deployed the game to both the Google Play Store and the Apple App Store." },
+    ],
+    roadmap: [
+      { label: "Core gameplay + 3 board sizes", done: true },
+      { label: "5 difficulty tiers + backend levels", done: true },
+      { label: "Live on Google Play & App Store", done: true },
+      { label: "Daily challenges & leaderboards", done: false },
+    ],
+    links: { github: "", demo: "", playStore: "https://play.google.com/store/apps/details?id=com.gatch.tango", appStore: "https://apps.apple.com/us/app/tango-game/id6762611647" },
+  },
+  {
+    id: "zip-puzzle",
+    title: "Zip Puzzle",
+    subtitle: "Grid Path-Drawing Puzzle (inspired by LinkedIn Zip)",
+    category: "Games",
+    status: "Complete",
+    color: "#7c6cff",
+    tech: ["Unity 6", "C#", "URP", "Input System", "Mobile", "ScriptableObjects"],
+    tagline: "Draw one path through every cell — with a real-time hint solver.",
+    cover: img("zip-cover", 900, 560),
+    description:
+      "A complete, polished mobile puzzle game in Unity 6 (~11.5K LOC, 45 scripts). Players draw a single continuous path that connects numbered checkpoints in order and fills every cell exactly once — a Hamiltonian-path puzzle with walls blocking moves. An 80-level set built through a custom pipeline — difficulty-scored and sorted into a smooth curve — a real-time hint solver, and an entirely code-driven UI.",
+    csr: {
+      challenge: "Hamiltonian-path puzzles become computationally expensive on large boards, so a naive solver freezes the game when generating a hint.",
+      solution: "Implemented DFS with connectivity pruning and a node budget so hints solve in real time without blocking the main thread.",
+      result: ["80-level difficulty curve", "Real-time hints", "No frame drops"],
+    },
+    overview:
+      "Zip Puzzle is a grid path-drawing game where you draw one continuous line that visits numbered checkpoints in order and fills every cell exactly once (a Hamiltonian path), with walls blocking certain moves. I built it end-to-end in Unity 6 / C# — gameplay, UI, audio, save system and tutorial — with a real-time hint solver and a clean, decoupled architecture. The standout piece is the solver: generating a hint means solving the puzzle from the player's current position, so a naive DFS would freeze on big grids; I added connectivity pruning (skip states that orphan cells) and a node budget to keep the main thread responsive.",
+    highlights: [
+      "80-level set — pipeline-built & solver-validated",
+      "Hamiltonian-path validation engine",
+      "Real-time DFS hint solver (pruned + budgeted)",
+      "100% code-driven UI (UIFactory)",
+      "Decoupled: Service Locator · Event Bus · FSM",
+      "Optional API level provider (HMAC-signed)",
+    ],
+    images: [
+      { src: img("zip-1"), caption: "Drawing a path across the grid." },
+      { src: img("zip-2"), caption: "Completed path — win state." },
+      { src: img("zip-3"), caption: "Level select with non-linear progression." },
+    ],
+    video: DUMMY_VIDEO,
+    process: [
+      { title: "Core puzzle engine", detail: "Hamiltonian-path validation — adjacency checks, wall-blocking, checkpoint ordering, and a drag-to-backtrack mechanic returning rich move results (Success / Backtrack / Win / DeadEnd / Invalid)." },
+      { title: "Hint solver", detail: "Depth-first search with connectivity pruning and a node budget so hints stay responsive on larger grids; short-circuits to the authored solution when the player is still on the optimal route." },
+      { title: "Decoupled architecture", detail: "Service Locator (DI), Event Bus (pub/sub), Factory, Strategy and State Machine so gameplay, UI and audio never call each other directly." },
+      { title: "Code-driven UI + config", detail: "Every panel built in code via a UIFactory with tween transitions; 200+ design values centralized in one ScriptableObject for no-code tuning." },
+      { title: "Level pipeline + optional API", detail: "80 levels defined in a compact 'RLUD' move-string format, brought in through an AI-assisted transcription step guarded by a parity (graph-coloring) feasibility check and validated by the DFS solver so nothing unsolvable ships — with a guaranteed-solvable 'snake' generator filling any gap. An optional provider also loads levels over HTTP with HMAC-SHA256 signed requests, caching & timeout, with a local fallback (Strategy)." },
+    ],
+    roadmap: [
+      { label: "80 levels + solver + UI complete", done: true },
+      { label: "Responsive 3×3 → 8×8+ boards", done: true },
+      { label: "WebGL / APK build to share", done: false },
+      { label: "Deploy the optional level API", done: false },
+    ],
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
+  },
+  {
+    id: "checkers-multiplayer",
+    title: "Online Multiplayer Checkers",
+    subtitle: "Real-Time Multiplayer Board Game · Android + iOS",
+    category: "Games",
+    status: "Shipped",
+    color: "#38bdf8",
+    tech: ["Unity", "C#", "WebSockets", "JWT Auth", "Firebase", "AdMob/Meta/LevelPlay", "Blender"],
+    tagline: "Real-time online checkers — 23K+ lines: dual-socket netcode, matchmaking, betting & ads.",
+    cover: img("checkers-cover", 900, 560),
+    description:
+      "A production-grade real-time multiplayer checkers game in Unity / C# (~23K lines, 57 scripts): online matchmaking, two-currency betting, chat + friends, three sign-in methods, ad monetization, and shipped Android + iOS builds. Custom 3D pieces & boards modeled in Blender.",
+    csr: {
+      challenge: "Real-time multiplayer has to survive dropped connections, app backgrounding and cross-region latency — without forfeiting a live match.",
+      solution: "Built a dual-WebSocket layer (lobby + per-match) with heartbeats, exponential-backoff reconnect and region-aware routing over a JWT-authed client.",
+      result: ["~23K lines, shipped to iOS + Android", "Auto-reconnect survives backgrounding", "Matchmaking, betting, chat & ad monetization"],
+    },
+    overview:
+      "A full real-time multiplayer board game built from scratch in Unity / C# — engine, networking, matchmaking, monetization, social systems and store-ready mobile builds. The standout is the netcode: a dual-WebSocket layer (one persistent connection for lobby / chat / matchmaking, a second per-match connection for gameplay) with heartbeats, auto-reconnect using exponential backoff, a reconnect watchdog, and connection persistence across app backgrounding — over a custom JWT-authenticated client with proactive token refresh and region-aware routing (NA / UK / India) that auto-selects the lowest-latency server. All 3D assets — pieces, boards, crowns, frames — were modeled by me in Blender via Claude MCP.",
+    highlights: [
+      "Dual-WebSocket netcode + auto-reconnect",
+      "JWT auth + region-aware server routing",
+      "Checkers engine: variants & 8 custom rules",
+      "Two-currency wallet & bet tiers",
+      "3 sign-ins: Google · Apple · Guest",
+      "AdMob · Meta · LevelPlay + custom 3D (Blender)",
+    ],
+    images: [
+      { src: img("checkers-1"), caption: "In-game HUD — turn timer & capture counts." },
+      { src: img("checkers-2"), caption: "Animated matchmaking VS reveal." },
+      { src: img("checkers-3"), caption: "Theme customization — pieces, boards, crowns." },
+    ],
+    video: DUMMY_VIDEO,
+    process: [
+      { title: "Game engine", detail: "Full checkers rules with multiple variants and 8 configurable rules (flying kings, forced/max capture, orthogonal moves, 8/10/12 boards) — move validation, captures, promotion, draw/resign — plus an orbit camera with 2D/3D toggle and auto-fit zoom." },
+      { title: "Networking", detail: "Dual-WebSocket layer (lobby + per-match) with heartbeats, exponential-backoff reconnect, a watchdog, and persistence across app backgrounding." },
+      { title: "Auth & routing", detail: "Custom JWT-authenticated WebSocket client with proactive token refresh; Google (Firebase), Apple Sign-In (native iOS) and Guest behind a pluggable abstraction; region-aware routing (NA/UK/India)." },
+      { title: "Social", detail: "Real-time chat & friends (1K+ lines): DMs, in-game broadcast/targeted chat, friend requests, block states, unread badges, and private join-code 'Play with Friends' lobbies." },
+      { title: "Monetization", detail: "Two-currency wallet & server-driven bet tiers with prize payouts; AdMob + Meta Audience Network + IronSource LevelPlay mediation (interstitial + rewarded)." },
+      { title: "UI, tooling & 3D", detail: "~15 screens via a code-driven UI framework; custom Editor tools (emoji→TMP sprite-atlas builder, automated iOS build post-processor); all 3D pieces/boards/crowns modeled in Blender via Claude MCP." },
+    ],
+    roadmap: [
+      { label: "Engine + dual-socket netcode", done: true },
+      { label: "Android APK + iOS builds shipped", done: true },
+      { label: "Ranked / tournaments", done: false },
+      { label: "Live-ops & analytics dashboard", done: false },
+    ],
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
+  },
+  {
+    id: "car-racing",
+    title: "Multi-Environment Car Racing",
+    subtitle: "Architecture & Optimization-Focused Racer",
+    category: "Games",
+    status: "In Development",
+    color: "#7c6cff",
+    tech: ["Unity", "C#", "WheelColliders", "Compute Shaders", "ProBuilder", "Mobile"],
+    tagline: "WheelCollider physics, terrain streaming & GPU-grass compute shaders.",
+    cover: img("racing-cover", 900, 560),
+    description:
+      "A mobile racer built as a systems & architecture showcase: a state-driven race flow, an EventBus-decoupled HUD, WheelCollider car physics with swappable keyboard/mobile/AI input, a speed-reactive chase camera, plus terrain streaming and GPU grass via compute shaders. Still in active development — I'm expanding environments, opponents and content. (The 3D art is from licensed asset packs — I built all the C#, integrated the assets, and assembled the scenes with ProBuilder + splat-mapped terrain.)",
+    csr: {
+      challenge: "Build a racer that stays maintainable as systems grow and still hits frame budget with dense terrain and foliage on mobile.",
+      solution: "Decoupled game phases with a state machine + EventBus, made input swappable behind one interface, and moved terrain streaming and grass onto the GPU.",
+      result: ["35+ decoupled C# systems", "Keyboard / mobile / AI drivers interchangeable", "GPU grass + terrain streaming at frame budget"],
+    },
+    overview:
+      "A mobile racing game I built primarily as a programming and architecture showcase. Game phases run through a State system (Menu → Racing → Paused → GameOver), and systems stay decoupled through an EventBus — the race fires events while the HUD, countdown, results screen and car all simply listen. The car drives on Unity WheelColliders (steer front, power rear, brake all four), input is an abstraction so keyboard, mobile and AI drivers are interchangeable, and the chase camera widens its FOV and adds motion blur as speed climbs. On the optimization side, terrain streaming loads only the world patch around the player, and grass is drawn with GPU compute shaders. To be clear: the 3D art — cars, trees, water, roads, skyboxes — is from licensed asset packs; what's mine is the ~35 C# systems, the architecture, the optimization, the interactive garage, and the scene assembly (ProBuilder geometry + splat-mapped terrain). It's still a work in progress — I'm actively building it out with more environments and opponents.",
+    highlights: [
+      "State machine: Menu → Race → Pause → GameOver",
+      "EventBus-decoupled HUD & race flow",
+      "WheelCollider car physics",
+      "Swappable input: keyboard · mobile · AI",
+      "Speed-reactive chase cam (FOV + blur)",
+      "Terrain streaming + GPU-grass compute shaders",
+    ],
+    images: [
+      { src: img("racing-1"), caption: "Race HUD — timer, checkpoints, speed." },
+      { src: img("racing-2"), caption: "Interactive garage — drag-to-spin & paint." },
+      { src: img("racing-3"), caption: "Streamed terrain with GPU grass." },
+    ],
+    video: DUMMY_VIDEO,
+    process: [
+      { title: "Race systems", detail: "Countdown, timer, checkpoints, finish line and win/lose flow, with WheelCollider car control — steer the front wheels, power the rear, brake all four." },
+      { title: "Decoupled architecture", detail: "A State system drives game phases and an EventBus lets the car, HUD, countdown and results screen communicate without holding references to each other." },
+      { title: "Swappable input", detail: "Keyboard, mobile touch and AI are interchangeable drivers behind one input interface (Strategy), so the car code never changes." },
+      { title: "Optimization", detail: "Terrain streaming loads only the world patch around the player; grass is generated & culled on the GPU with compute shaders for dense foliage at frame budget." },
+      { title: "Garage UI/UX", detail: "Swipe between screens, drag-to-spin the car with realistic inertia, a 'hoist' car-swap animation, and live paint-color changes." },
+      { title: "Levels & art", detail: "Assembled the scenes with ProBuilder geometry and splat-mapped terrain; the cars, trees, water, roads and skyboxes are licensed asset packs I integrated." },
+    ],
+    roadmap: [
+      { label: "Core systems + optimization", done: true },
+      { label: "Interactive garage", done: true },
+      { label: "More environments & opponents", done: false },
+      { label: "Online time-trial leaderboards", done: false },
+    ],
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
+  },
   {
     id: "vr-acrophobia",
     title: "VR Acrophobia Therapy",
@@ -190,200 +386,6 @@ export const projects = [
     links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
   },
   {
-    id: "zip-puzzle",
-    title: "Zip Puzzle",
-    subtitle: "Grid Path-Drawing Puzzle (inspired by LinkedIn Zip)",
-    category: "Games",
-    status: "Complete",
-    color: "#7c6cff",
-    tech: ["Unity 6", "C#", "URP", "Input System", "Mobile", "ScriptableObjects"],
-    tagline: "Draw one path through every cell — with a real-time hint solver.",
-    cover: img("zip-cover", 900, 560),
-    description:
-      "A complete, polished mobile puzzle game in Unity 6 (~11.5K LOC, 45 scripts). Players draw a single continuous path that connects numbered checkpoints in order and fills every cell exactly once — a Hamiltonian-path puzzle with walls blocking moves. 80 hand-authored levels, a real-time hint solver, and an entirely code-driven UI.",
-    csr: {
-      challenge: "Hamiltonian-path puzzles become computationally expensive on large boards, so a naive solver freezes the game when generating a hint.",
-      solution: "Implemented DFS with connectivity pruning and a node budget so hints solve in real time without blocking the main thread.",
-      result: ["80 handcrafted levels", "Real-time hints", "No frame drops"],
-    },
-    overview:
-      "Zip Puzzle is a grid path-drawing game where you draw one continuous line that visits numbered checkpoints in order and fills every cell exactly once (a Hamiltonian path), with walls blocking certain moves. I built it end-to-end in Unity 6 / C# — gameplay, UI, audio, save system and tutorial — with a real-time hint solver and a clean, decoupled architecture. The standout piece is the solver: generating a hint means solving the puzzle from the player's current position, so a naive DFS would freeze on big grids; I added connectivity pruning (skip states that orphan cells) and a node budget to keep the main thread responsive.",
-    highlights: [
-      "80 hand-authored levels",
-      "Hamiltonian-path validation engine",
-      "Real-time DFS hint solver (pruned + budgeted)",
-      "100% code-driven UI (UIFactory)",
-      "Decoupled: Service Locator · Event Bus · FSM",
-      "Optional API level provider (HMAC-signed)",
-    ],
-    images: [
-      { src: img("zip-1"), caption: "Drawing a path across the grid." },
-      { src: img("zip-2"), caption: "Completed path — win state." },
-      { src: img("zip-3"), caption: "Level select with non-linear progression." },
-    ],
-    video: DUMMY_VIDEO,
-    process: [
-      { title: "Core puzzle engine", detail: "Hamiltonian-path validation — adjacency checks, wall-blocking, checkpoint ordering, and a drag-to-backtrack mechanic returning rich move results (Success / Backtrack / Win / DeadEnd / Invalid)." },
-      { title: "Hint solver", detail: "Depth-first search with connectivity pruning and a node budget so hints stay responsive on larger grids; short-circuits to the authored solution when the player is still on the optimal route." },
-      { title: "Decoupled architecture", detail: "Service Locator (DI), Event Bus (pub/sub), Factory, Strategy and State Machine so gameplay, UI and audio never call each other directly." },
-      { title: "Code-driven UI + config", detail: "Every panel built in code via a UIFactory with tween transitions; 200+ design values centralized in one ScriptableObject for no-code tuning." },
-      { title: "Content + optional API", detail: "80 levels authored via an 'RLUD' move-string DSL; an optional provider loads levels over HTTP with HMAC-SHA256 signed requests, caching & timeout, with a local fallback (Strategy)." },
-    ],
-    roadmap: [
-      { label: "80 levels + solver + UI complete", done: true },
-      { label: "Responsive 3×3 → 8×8+ boards", done: true },
-      { label: "WebGL / APK build to share", done: false },
-      { label: "Deploy the optional level API", done: false },
-    ],
-    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
-  },
-  {
-    id: "tango-puzzle",
-    title: "Tango",
-    subtitle: "Production Title @ RENXO Technologies · Live on Google Play & App Store",
-    category: "Games",
-    status: "Live",
-    color: "#f59e0b",
-    tech: ["Game Design", "Gameplay Logic", "REST API", "Ad Monetization", "Store Deployment", "iOS", "Android"],
-    tagline: "A live production title — Tango-style logic puzzle with 3 board sizes × 5 difficulties.",
-    cover: img("tango-cover", 900, 560),
-    description:
-      "A live mobile logic-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a deeper, more advanced rule set. It's published and live on both the Google Play Store and the Apple App Store. My work on it was the game design and the gameplay logic, the ad monetization, and the release itself — I deployed the game to both stores. The puzzle-generation logic lives in the backend and is served to the client over a REST API.",
-    csr: {
-      challenge: "A good logic puzzle needs the right difficulty curve and constraint-checking that feels instant — and fresh, always-solvable boards across every size and skill level.",
-      solution: "I designed the game and built the client-side gameplay & constraint logic, while a backend service generates guaranteed-solvable puzzles and serves them to the game over a REST API.",
-      result: ["Live on Google Play & App Store", "3 board sizes × 5 difficulties = 15 modes", "Server-generated, always-solvable boards"],
-    },
-    overview:
-      "Tango is a live logic grid-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a more advanced rule set. When a game starts the player picks a board size — 4×4, 6×6 or 8×8 — then a difficulty from Beginner to Expert (five tiers), giving roughly 15 distinct customizations. My contribution to this production title spanned the game design and gameplay logic, the ad monetization, and the release: laying out the grid, placing the symbols, validating the row/column and adjacency constraints in real time, driving the play loop, wiring up the ads, and then deploying the finished game to both stores myself. The puzzle-creation logic itself runs on the backend, which generates solvable boards and delivers them to the client over a REST API — so the client stays light while the server handles level generation. The game is published and live on both the Google Play Store and the Apple App Store.",
-    highlights: [
-      "Live on Google Play & Apple App Store",
-      "Deployed to both stores myself",
-      "Ad monetization integrated",
-      "3 board sizes × 5 difficulty tiers (~15 modes)",
-      "Advanced logic beyond the original Tango",
-      "Backend puzzle generation over REST API",
-    ],
-    images: [
-      { src: img("tango-1"), caption: "Board-size & difficulty selection." },
-      { src: img("tango-2"), caption: "Solving a board — live constraint checks." },
-      { src: img("tango-3"), caption: "Completed puzzle — win state." },
-    ],
-    video: DUMMY_VIDEO,
-    process: [
-      { title: "Game design", detail: "Designed the Tango-inspired ruleset and difficulty curve — 4×4 / 6×6 / 8×8 boards across five tiers from Beginner to Expert, for ~15 distinct customizations." },
-      { title: "Gameplay logic", detail: "Built the client-side play loop: grid layout, symbol placement, and real-time validation of row/column balance and adjacency constraints." },
-      { title: "Backend integration", detail: "Connected the game to a backend that generates solvable puzzles, pulling levels into the client over a REST API so board generation stays server-side." },
-      { title: "Monetization", detail: "Integrated ad monetization into the game as part of my work on the project." },
-      { title: "Deployment", detail: "Handled the release myself — built, submitted and deployed the game to both the Google Play Store and the Apple App Store." },
-    ],
-    roadmap: [
-      { label: "Core gameplay + 3 board sizes", done: true },
-      { label: "5 difficulty tiers + backend levels", done: true },
-      { label: "Live on Google Play & App Store", done: true },
-      { label: "Daily challenges & leaderboards", done: false },
-    ],
-    links: { github: "", demo: "", playStore: "https://play.google.com/store/apps/details?id=com.gatch.tango", appStore: "https://apps.apple.com/us/app/tango-game/id6762611647" },
-  },
-  {
-    id: "checkers-multiplayer",
-    title: "Online Multiplayer Checkers",
-    subtitle: "Real-Time Multiplayer Board Game · Android + iOS",
-    category: "Games",
-    status: "Shipped",
-    color: "#38bdf8",
-    tech: ["Unity", "C#", "WebSockets", "JWT Auth", "Firebase", "AdMob/Meta/LevelPlay", "Blender"],
-    tagline: "Real-time online checkers — 23K+ lines: dual-socket netcode, matchmaking, betting & ads.",
-    cover: img("checkers-cover", 900, 560),
-    description:
-      "A production-grade real-time multiplayer checkers game in Unity / C# (~23K lines, 57 scripts): online matchmaking, two-currency betting, chat + friends, three sign-in methods, ad monetization, and shipped Android + iOS builds. Custom 3D pieces & boards modeled in Blender.",
-    csr: {
-      challenge: "Real-time multiplayer has to survive dropped connections, app backgrounding and cross-region latency — without forfeiting a live match.",
-      solution: "Built a dual-WebSocket layer (lobby + per-match) with heartbeats, exponential-backoff reconnect and region-aware routing over a JWT-authed client.",
-      result: ["~23K lines, shipped to iOS + Android", "Auto-reconnect survives backgrounding", "Matchmaking, betting, chat & ad monetization"],
-    },
-    overview:
-      "A full real-time multiplayer board game built from scratch in Unity / C# — engine, networking, matchmaking, monetization, social systems and store-ready mobile builds. The standout is the netcode: a dual-WebSocket layer (one persistent connection for lobby / chat / matchmaking, a second per-match connection for gameplay) with heartbeats, auto-reconnect using exponential backoff, a reconnect watchdog, and connection persistence across app backgrounding — over a custom JWT-authenticated client with proactive token refresh and region-aware routing (NA / UK / India) that auto-selects the lowest-latency server. All 3D assets — pieces, boards, crowns, frames — were modeled by me in Blender via Claude MCP.",
-    highlights: [
-      "Dual-WebSocket netcode + auto-reconnect",
-      "JWT auth + region-aware server routing",
-      "Checkers engine: variants & 8 custom rules",
-      "Two-currency wallet & bet tiers",
-      "3 sign-ins: Google · Apple · Guest",
-      "AdMob · Meta · LevelPlay + custom 3D (Blender)",
-    ],
-    images: [
-      { src: img("checkers-1"), caption: "In-game HUD — turn timer & capture counts." },
-      { src: img("checkers-2"), caption: "Animated matchmaking VS reveal." },
-      { src: img("checkers-3"), caption: "Theme customization — pieces, boards, crowns." },
-    ],
-    video: DUMMY_VIDEO,
-    process: [
-      { title: "Game engine", detail: "Full checkers rules with multiple variants and 8 configurable rules (flying kings, forced/max capture, orthogonal moves, 8/10/12 boards) — move validation, captures, promotion, draw/resign — plus an orbit camera with 2D/3D toggle and auto-fit zoom." },
-      { title: "Networking", detail: "Dual-WebSocket layer (lobby + per-match) with heartbeats, exponential-backoff reconnect, a watchdog, and persistence across app backgrounding." },
-      { title: "Auth & routing", detail: "Custom JWT-authenticated WebSocket client with proactive token refresh; Google (Firebase), Apple Sign-In (native iOS) and Guest behind a pluggable abstraction; region-aware routing (NA/UK/India)." },
-      { title: "Social", detail: "Real-time chat & friends (1K+ lines): DMs, in-game broadcast/targeted chat, friend requests, block states, unread badges, and private join-code 'Play with Friends' lobbies." },
-      { title: "Monetization", detail: "Two-currency wallet & server-driven bet tiers with prize payouts; AdMob + Meta Audience Network + IronSource LevelPlay mediation (interstitial + rewarded)." },
-      { title: "UI, tooling & 3D", detail: "~15 screens via a code-driven UI framework; custom Editor tools (emoji→TMP sprite-atlas builder, automated iOS build post-processor); all 3D pieces/boards/crowns modeled in Blender via Claude MCP." },
-    ],
-    roadmap: [
-      { label: "Engine + dual-socket netcode", done: true },
-      { label: "Android APK + iOS builds shipped", done: true },
-      { label: "Ranked / tournaments", done: false },
-      { label: "Live-ops & analytics dashboard", done: false },
-    ],
-    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
-  },
-  {
-    id: "car-racing",
-    title: "Multi-Environment Car Racing",
-    subtitle: "Architecture & Optimization-Focused Racer",
-    category: "Games",
-    status: "In Development",
-    color: "#7c6cff",
-    tech: ["Unity", "C#", "WheelColliders", "Compute Shaders", "ProBuilder", "Mobile"],
-    tagline: "WheelCollider physics, terrain streaming & GPU-grass compute shaders.",
-    cover: img("racing-cover", 900, 560),
-    description:
-      "A mobile racer built as a systems & architecture showcase: a state-driven race flow, an EventBus-decoupled HUD, WheelCollider car physics with swappable keyboard/mobile/AI input, a speed-reactive chase camera, plus terrain streaming and GPU grass via compute shaders. (The 3D art is from licensed asset packs — I built all the C#, integrated the assets, and assembled the scenes with ProBuilder + splat-mapped terrain.)",
-    csr: {
-      challenge: "Build a racer that stays maintainable as systems grow and still hits frame budget with dense terrain and foliage on mobile.",
-      solution: "Decoupled game phases with a state machine + EventBus, made input swappable behind one interface, and moved terrain streaming and grass onto the GPU.",
-      result: ["35+ decoupled C# systems", "Keyboard / mobile / AI drivers interchangeable", "GPU grass + terrain streaming at frame budget"],
-    },
-    overview:
-      "A mobile racing game I built primarily as a programming and architecture showcase. Game phases run through a State system (Menu → Racing → Paused → GameOver), and systems stay decoupled through an EventBus — the race fires events while the HUD, countdown, results screen and car all simply listen. The car drives on Unity WheelColliders (steer front, power rear, brake all four), input is an abstraction so keyboard, mobile and AI drivers are interchangeable, and the chase camera widens its FOV and adds motion blur as speed climbs. On the optimization side, terrain streaming loads only the world patch around the player, and grass is drawn with GPU compute shaders. To be clear: the 3D art — cars, trees, water, roads, skyboxes — is from licensed asset packs; what's mine is the ~35 C# systems, the architecture, the optimization, the interactive garage, and the scene assembly (ProBuilder geometry + splat-mapped terrain).",
-    highlights: [
-      "State machine: Menu → Race → Pause → GameOver",
-      "EventBus-decoupled HUD & race flow",
-      "WheelCollider car physics",
-      "Swappable input: keyboard · mobile · AI",
-      "Speed-reactive chase cam (FOV + blur)",
-      "Terrain streaming + GPU-grass compute shaders",
-    ],
-    images: [
-      { src: img("racing-1"), caption: "Race HUD — timer, checkpoints, speed." },
-      { src: img("racing-2"), caption: "Interactive garage — drag-to-spin & paint." },
-      { src: img("racing-3"), caption: "Streamed terrain with GPU grass." },
-    ],
-    video: DUMMY_VIDEO,
-    process: [
-      { title: "Race systems", detail: "Countdown, timer, checkpoints, finish line and win/lose flow, with WheelCollider car control — steer the front wheels, power the rear, brake all four." },
-      { title: "Decoupled architecture", detail: "A State system drives game phases and an EventBus lets the car, HUD, countdown and results screen communicate without holding references to each other." },
-      { title: "Swappable input", detail: "Keyboard, mobile touch and AI are interchangeable drivers behind one input interface (Strategy), so the car code never changes." },
-      { title: "Optimization", detail: "Terrain streaming loads only the world patch around the player; grass is generated & culled on the GPU with compute shaders for dense foliage at frame budget." },
-      { title: "Garage UI/UX", detail: "Swipe between screens, drag-to-spin the car with realistic inertia, a 'hoist' car-swap animation, and live paint-color changes." },
-      { title: "Levels & art", detail: "Assembled the scenes with ProBuilder geometry and splat-mapped terrain; the cars, trees, water, roads and skyboxes are licensed asset packs I integrated." },
-    ],
-    roadmap: [
-      { label: "Core systems + optimization", done: true },
-      { label: "Interactive garage", done: true },
-      { label: "More environments & opponents", done: false },
-      { label: "Online time-trial leaderboards", done: false },
-    ],
-    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
-  },
-  {
     id: "fpv-drone",
     title: "FPV Programmable Quadcopter",
     subtitle: "Custom-Built Drone · Final-Year Major Project @ NIT Hamirpur",
@@ -430,6 +432,7 @@ export const projects = [
     ],
     links: { github: "", demo: "", playStore: "", appStore: "" },
   },
+
 ];
 
 // ── DEEP-DIVE CONTENT (per project) — keyed by project id ────────────────
@@ -464,11 +467,12 @@ export const projectExtra: Record<string, {
     metrics: [
       { value: "11.5K", label: "Lines of C#" },
       { value: "45", label: "Scripts" },
-      { value: "80", label: "Hand-authored levels" },
+      { value: "80", label: "Curated levels" },
       { value: "8×8+", label: "Max grid" },
     ],
     architecture: ["Service Locator (DI)", "Event Bus", "Factory", "Strategy", "State Machine"],
     deepDive: [
+      { title: "Difficulty model & the level pipeline", body: "The 80-level set isn't ordered by feel — it's difficulty-scored and sorted into a smooth easy→hard curve. The interesting design insight is that difficulty tracks how open the solution space is: a sparse, wall-free board allows huge numbers of valid paths and is hardest, while every checkpoint and every wall is a constraint that shrinks the search and makes a level easier. Layouts come in through an AI-assisted transcription step that emits my compact JSON/RLUD format, guarded by a parity (graph-coloring) feasibility check that rejects impossible boards, and the DFS solver validates every level so nothing unsolvable can ship — with a guaranteed-solvable 'snake' generator filling any gap. What's mine is the whole pipeline and curve: the authoring format, the validity checks, the solver, and the difficulty ordering." },
       { title: "The hint solver", body: "Generating a hint means solving the puzzle from the player's current position. A naive DFS freezes the game on big grids, so I added connectivity pruning (never explore states that orphan cells) and a node budget to keep the main thread responsive — and short-circuit straight to the authored solution when the player is still on the optimal route." },
       { title: "Decoupled architecture", body: "Systems never call each other directly — they communicate through a central Event Bus and resolve dependencies via a Service Locator. Audio, UI and gameplay stay independent, which made adding the optional backend level-provider trivial (Strategy pattern)." },
       { title: "Config in one place", body: "200+ tunable values — colors, sprites, audio, layout, even API config — live in a single ScriptableObject, so the whole look and feel can change without recompiling." },
@@ -565,6 +569,11 @@ export const projectExtra: Record<string, {
 
 // ── SKILLS (reconciled across résumé versions) ───────────────────────────
 export const skills = {
+  "Game Design": {
+    blurb: "Rulesets, difficulty curves & level design that ship.",
+    items: ["Ruleset & Systems Design", "Difficulty Curves & Progression", "Level Design", "Game Feel & Juice", "Economy Design (currencies · bet tiers)", "Player Onboarding & Tutorials"],
+    color: "#f59e0b",
+  },
   "Gameplay": {
     blurb: "Gameplay systems & clean, scalable architecture.",
     items: ["Unity Engine", "C# / OOP", "Gameplay Systems", "State Machines", "Clean Architecture", "Event Bus & DI", "Code-Driven UI", "Input System"],

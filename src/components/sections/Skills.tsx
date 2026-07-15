@@ -1,9 +1,10 @@
 import type { IconType } from 'react-icons'
-import { LuGamepad2, LuNetwork, LuGauge, LuGlasses, LuBrain, LuWrench } from 'react-icons/lu'
+import { LuGamepad2, LuNetwork, LuGauge, LuGlasses, LuBrain, LuWrench, LuDices } from 'react-icons/lu'
 import { skills } from '../../data'
 import Reveal from '../ui/Reveal'
 
 const CATEGORY_ICON: Record<string, IconType> = {
+  'Game Design': LuDices,
   Gameplay: LuGamepad2,
   Networking: LuNetwork,
   Optimization: LuGauge,

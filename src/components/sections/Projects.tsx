@@ -12,7 +12,7 @@ export default function Projects() {
           <div className="eyebrow">03 / Selected work</div>
           <h2 className="section-title">Projects</h2>
           <p className="lead">
-            Split by what they actually are — VR/XR, games, and hardware. Click any card to open its
+            Split by what they actually are — games, VR/XR, and hardware. Click any card to open its
             full case study: deep write-up, screenshots, and a demo video.
           </p>
         </Reveal>
