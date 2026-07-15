@@ -591,12 +591,12 @@ export const skills = {
   },
   "XR": {
     blurb: "Immersive headset & sensor-driven experiences.",
-    items: ["XR Interaction Toolkit", "OpenXR", "VR Interactions", "Diegetic VR UI", "Ray & Direct Interactors", "3D Spatial Drawing", "HMD Deployment"],
+    items: ["XR Interaction Toolkit", "OpenXR", "Diegetic VR UI", "HMD Deployment"],
     color: "#a78bfa",
   },
   "AI": {
     blurb: "Game AI & AI-assisted workflows.",
-    items: ["AI Opponents & Drivers", "Pathfinding & Search", "Hint Solvers (Pruned DFS)", "Behavior State Machines", "Claude MCP Tooling", "AI-Assisted Workflows"],
+    items: ["AI Opponents & Drivers", "Pathfinding & Search", "Hint Solvers (Pruned DFS)", "Claude MCP Tooling"],
     color: "#7c6cff",
   },
   "Tools": {
