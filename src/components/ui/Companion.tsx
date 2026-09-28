@@ -2,15 +2,17 @@ import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { guideLines } from '../../data'
 
-const SECTION_IDS = ['home', 'about', 'experience', 'projects', 'skills', 'contact']
+const SECTION_IDS = ['home', 'projects', 'bench', 'experience', 'about', 'skills', 'achievements', 'contact']
 const TAGS: Record<string, string> = {
-  home: 'BIT · intro',
-  about: 'BIT · bio',
-  experience: 'BIT · history',
-  projects: 'BIT · work',
-  skills: 'BIT · skills',
-  contact: 'BIT · hire',
-  project: 'BIT · deep dive',
+  home: 'Lab assistant · BIT',
+  projects: 'BIT · experiment files',
+  bench: 'BIT · the bench',
+  experience: 'BIT · lab log',
+  about: 'BIT · the inventor',
+  skills: 'BIT · apparatus',
+  achievements: 'BIT · credentials',
+  contact: 'BIT · requests',
+  project: 'BIT · lab report',
 }
 
 // Render text with *word* → <em>word</em> (BIT's emphasis)
@@ -23,8 +25,11 @@ function renderLine(text: string) {
 
 export default function Companion() {
   const [active, setActive] = useState('home')
-  const [open, setOpen] = useState(true)
+  // starts quiet so it never covers the hero experiment; speaks on first scroll
+  const [open, setOpen] = useState(false)
   const lastSpoken = useRef('home')
+  // once the visitor shushes BIT, it stays quiet until they click it again
+  const dismissed = useRef(false)
   const location = useLocation()
   const onProjectPage = location.pathname.startsWith('/projects/')
 
@@ -32,7 +37,7 @@ export default function Companion() {
   useEffect(() => {
     if (onProjectPage) {
       setActive('project')
-      setOpen(true)
+      if (!dismissed.current) setOpen(true)
     } else {
       setActive('home')
     }
@@ -40,21 +45,20 @@ export default function Companion() {
 
   useEffect(() => {
     if (onProjectPage) return // skip section observer off-home
+    // whichever section crosses the middle of the viewport is "current"
     const observer = new IntersectionObserver(
       (entries) => {
-        // pick the most-visible section currently intersecting
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (visible?.target.id) {
-          setActive(visible.target.id)
-          if (visible.target.id !== lastSpoken.current) {
-            lastSpoken.current = visible.target.id
-            setOpen(true) // re-open BIT when entering a new section
+        for (const e of entries) {
+          if (!e.isIntersecting) continue
+          const id = e.target.id
+          setActive(id)
+          if (id !== lastSpoken.current) {
+            lastSpoken.current = id
+            if (!dismissed.current) setOpen(true)
           }
         }
       },
-      { threshold: [0.25, 0.5, 0.75], rootMargin: '-10% 0px -10% 0px' }
+      { rootMargin: '-45% 0px -50% 0px' }
     )
 
     // small delay so freshly-mounted HomePage sections exist in the DOM
@@ -80,7 +84,7 @@ export default function Companion() {
           <button
             className="bit-bubble-close"
             aria-label="Dismiss BIT"
-            onClick={() => setOpen(false)}
+            onClick={() => { dismissed.current = true; setOpen(false) }}
           >
             ✕
           </button>
@@ -94,7 +98,7 @@ export default function Companion() {
         role="button"
         aria-label="Toggle BIT the guide"
         title={open ? 'Shush BIT' : 'Ask BIT'}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => { dismissed.current = open; setOpen(!open) }}
       >
         <div className="bit-head">
           <span className="bit-eye left" />

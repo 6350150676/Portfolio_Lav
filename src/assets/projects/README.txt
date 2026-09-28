@@ -3,6 +3,7 @@ PROJECT IMAGES — drop your pictures here
 Each project has its OWN folder below. Put as many (or as few) images as
 you want into a project's folder — the site shows exactly what's there.
 
+  src/assets/projects/save-the-cat/
   src/assets/projects/checkers-multiplayer/
   src/assets/projects/zip-puzzle/
   src/assets/projects/vr-acrophobia/

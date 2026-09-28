@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" fill="#050a0f" stroke="#00e5ff" stroke-width="1.5"/>
-  <text x="16" y="21" font-family="monospace" font-size="11" font-weight="bold" fill="#00e5ff" text-anchor="middle">LN</text>
+  <rect width="32" height="32" rx="6" fill="#f2ede3"/>
+  <path d="M13 4.5 V11.7 L5.2 25.6 a2.4 2.4 0 0 0 2.1 3.6 h17.4 a2.4 2.4 0 0 0 2.1 -3.6 L19 11.7 V4.5" fill="#fbf8f1"/>
+  <path d="M9.13 18.6 L5.2 25.6 a2.4 2.4 0 0 0 2.1 3.6 h17.4 a2.4 2.4 0 0 0 2.1 -3.6 L22.87 18.6 z" fill="#d9441c"/>
+  <circle cx="14" cy="15.6" r="1.3" fill="#d9441c"/>
+  <circle cx="17.6" cy="13.4" r="0.9" fill="#d9441c"/>
+  <path d="M13 4.5 V11.7 L5.2 25.6 a2.4 2.4 0 0 0 2.1 3.6 h17.4 a2.4 2.4 0 0 0 2.1 -3.6 L19 11.7 V4.5" fill="none" stroke="#1d1b18" stroke-width="1.8" stroke-linejoin="round"/>
+  <path d="M11 4.5 h10" stroke="#1d1b18" stroke-width="1.8" stroke-linecap="round"/>
 </svg>

@@ -2,13 +2,14 @@
 //  PORTFOLIO CONTENT — single source of truth.
 //  Everything here is pulled straight from Lav Naruka's real résumé.
 //
-//  👉  REPLACING THE DUMMY MEDIA LATER:
-//      Each project has `cover`, `images[]` and `video`. They currently point
-//      at placeholder images (picsum.photos) and a placeholder YouTube video.
-//      Swap them for your real screenshots / gameplay video:
-//        - put real files in /public/projects and use "/projects/your.png"
-//        - paste your real YouTube URL into `video`
-//        - set real `links` (github / playStore / demo)
+//  👉  THE LAB NOTEBOOK:
+//      Every project is filed as a numbered EXPERIMENT (`no`) with the
+//      `question` it set out to answer. The homepage tally (experiments /
+//      playable / shipped / still running / abandoned) is counted from this
+//      file — add a project with status "Abandoned" and it shows up there.
+//
+//      Screenshots come from src/assets/projects/<id>/ (see README.txt in
+//      that folder) — drop images in and they appear automatically.
 // ─────────────────────────────────────────────────────────────────────────
 
 export const personalInfo = {
@@ -24,6 +25,8 @@ export const personalInfo = {
   github: "https://github.com/6350150676",
   githubHandle: "github.com/6350150676",
   location: "India",
+  // CV file in /public — every "Download CV" button points here
+  resume: "/Lav_resume.pdf",
   bio:
     "I'm a Unity Developer with professional experience building and shipping multiplayer mobile games. My work spans game design and gameplay programming, networking, optimization, and XR applications — I designed the ruleset and difficulty curve for a live puzzle title, and built the content pipeline and difficulty-scored curve behind a full 80-level puzzle set. I enjoy solving engineering problems that make games scalable, maintainable, and fun to play.",
   bio2:
@@ -55,7 +58,7 @@ export const experience = [
     color: "#7c6cff",
     stack: ["Unity", "C#", "WebSockets", "Firebase", "OAuth", "AdMob", "Unity Ads", "ironSource"],
     bullets: [
-      "Built real-time multiplayer games as a Unity developer — Checkers, Ludo, Zip & Tango — one live with 2,000+ real players, the rest in final testing.",
+      "Built real-time multiplayer games as a Unity developer — Checkers, Ludo, Zip & Tango — with Tango and Zip now live on the stores (Tango with 15K+ players).",
       "Architected WebSocket-based multiplayer with backend integration, an in-game chat system, and a custom in-Unity emoji system.",
       "Implemented Firebase with Google & Apple OAuth sign-in, plus full ad monetization via Google AdMob, Unity Ads & ironSource mediation.",
       "Engineered reusable, modular gameplay & UI systems and profiled/optimized for a stable 60 fps on low-end Android & iOS.",
@@ -91,14 +94,13 @@ export const projectCategories = [
   { key: "Hardware & Simulation", blurb: "Unity talking to real-world hardware." },
 ];
 
-// No real gameplay clips yet — project pages show a "coming soon" placeholder.
-// When you have a clip, set a project's `video` to its YouTube URL.
-const DUMMY_VIDEO = "";
 const img = (seed: string, w = 1280, h = 720) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
 export const projects = [
   {
     id: "tango-puzzle",
+    no: 1,
+    question: "Can one ruleset stretch from a 4×4 warm-up to an 8×8 brain-burner?",
     title: "Tango",
     subtitle: "Production Title @ RENXO Technologies · Live on Google Play & App Store",
     category: "Games",
@@ -112,11 +114,12 @@ export const projects = [
     csr: {
       challenge: "A good logic puzzle needs the right difficulty curve and constraint-checking that feels instant — and fresh, always-solvable boards across every size and skill level.",
       solution: "I designed the game and built the client-side gameplay & constraint logic, while a backend service generates guaranteed-solvable puzzles and serves them to the game over a REST API.",
-      result: ["Live on Google Play & App Store", "3 board sizes × 5 difficulties = 15 modes", "Server-generated, always-solvable boards"],
+      result: ["15K+ live players on Google Play & App Store", "3 board sizes × 5 difficulties = 15 modes", "Server-generated, always-solvable boards"],
     },
     overview:
       "Tango is a live logic grid-puzzle game I built at RENXO Technologies, inspired by LinkedIn's Tango but with a more advanced rule set. When a game starts the player picks a board size — 4×4, 6×6 or 8×8 — then a difficulty from Beginner to Expert (five tiers), giving roughly 15 distinct customizations. My contribution to this production title spanned the game design and gameplay logic, the ad monetization, and the release: laying out the grid, placing the symbols, validating the row/column and adjacency constraints in real time, driving the play loop, wiring up the ads, and then deploying the finished game to both stores myself. The puzzle-creation logic itself runs on the backend, which generates solvable boards and delivers them to the client over a REST API — so the client stays light while the server handles level generation. The game is published and live on both the Google Play Store and the Apple App Store.",
     highlights: [
+      "15K+ live players",
       "Live on Google Play & Apple App Store",
       "Deployed to both stores myself",
       "Ad monetization integrated",
@@ -129,7 +132,6 @@ export const projects = [
       { src: img("tango-2"), caption: "Solving a board — live constraint checks." },
       { src: img("tango-3"), caption: "Completed puzzle — win state." },
     ],
-    video: DUMMY_VIDEO,
     process: [
       { title: "Game design", detail: "Designed the Tango-inspired ruleset and difficulty curve — 4×4 / 6×6 / 8×8 boards across five tiers from Beginner to Expert, for ~15 distinct customizations." },
       { title: "Gameplay logic", detail: "Built the client-side play loop: grid layout, symbol placement, and real-time validation of row/column balance and adjacency constraints." },
@@ -146,17 +148,70 @@ export const projects = [
     links: { github: "", demo: "", playStore: "https://play.google.com/store/apps/details?id=com.gatch.tango", appStore: "https://apps.apple.com/us/app/tango-game/id6762611647" },
   },
   {
-    id: "zip-puzzle",
-    title: "Zip Puzzle",
-    subtitle: "Grid Path-Drawing Puzzle (inspired by LinkedIn Zip)",
+    id: "save-the-cat",
+    no: 14,
+    question: "Can a physics puzzle reward prediction instead of reflexes?",
+    title: "Save the Cat",
+    subtitle: "One-Stroke Physics Puzzle · Solo Title @ Parlok Studio · Live on Google Play",
     category: "Games",
-    status: "Complete",
+    status: "Live",
+    color: "#f472b6",
+    tech: ["Unity 6", "C#", "URP", "2D Physics", "AdMob", "Supabase", "Python Tooling", "Android"],
+    tagline: "Draw one line to save the cat — the line becomes a real object that falls, tips and rolls.",
+    cover: img("savecat-cover", 900, 560),
+    description:
+      "A one-stroke physics puzzle I designed and shipped solo, published under my own studio label, Parlok Studio — live on Google Play. A cat is in danger; you draw one line; on release that line becomes a real rigid body with mass that falls, tips and rolls, and the simulation decides whether the cat is saved. Unity 6 / C#, the whole game built from code, with a deterministic physics world and an off-screen validator that proves generated levels playable before they're served.",
+    csr: {
+      challenge: "When the drawn line is a real falling object, every level is a physics question — and a level that's unwinnable, or secretly won by doing nothing, looks fine until someone plays it. Levels past the campaign had to be proven playable with no designer checking each one.",
+      solution: "Made the simulation deterministic and stepped by hand, then ran a validator in an off-screen copy of the same world: reject any level that doing nothing wins, accept only if a drawable stroke wins, and tune the ink budget and star thresholds from the cheapest winning stroke.",
+      result: ["Live on Google Play — solo-built & published", "Generated levels proven playable before they're served", "Daily puzzle with a global ink-efficiency leaderboard"],
+    },
+    overview:
+      "Save the Cat is a one-stroke physics puzzle for Android that I designed and shipped on my own, published under my studio name, Parlok Studio. The player studies a frozen scene — a bee swarm, falling rocks, a rolling boulder, a toppling slab — and draws one continuous line. On release the line becomes a fully dynamic 2D rigid body whose mass comes from the ink actually drawn, so it falls, tips and gets shoved; the world only unfreezes when the finger lifts, which makes the game about predicting physics rather than reacting to it. Under the hood the entire game is assembled from code at boot — no prefabs, no authored scene hierarchy — hazards are advanced by a hand-stepped deterministic simulation, and that same simulation runs off-screen as a level validator. A designed campaign comes first; past it, a generator deals new levels, rejects repeats and trivial layouts, proves each one winnable with a stroke a player could actually draw, and tunes its ink budget and stars — prefetched a few milliseconds per frame while the player draws, so NEXT never stalls. A daily puzzle, identical worldwide, ranks one attempt by ink spent on a Supabase leaderboard.",
+    highlights: [
+      "Live on Google Play — solo-built & published",
+      "Drawn line → real rigid body with mass",
+      "Deterministic, hand-stepped physics world",
+      "Off-screen validator proves levels playable",
+      "Endless level generator + daily leaderboard",
+      "Entire game built from code — no prefabs",
+    ],
+    images: [
+      { src: img("savecat-1"), caption: "Frozen scene — study the threat, then draw." },
+      { src: img("savecat-2"), caption: "The stroke becomes a real object and the sim runs." },
+      { src: img("savecat-3"), caption: "Level cleared — stars for ink efficiency." },
+    ],
+    process: [
+      { title: "Game design", detail: "Wrote the design document and a formal puzzle spec: five pillars (one stroke, the drawing is an object, the cat is passive, prediction never reflex, legible failure), ten level archetypes, seven hazards, ten prop types, and hard validity rules every level must pass — starting with 'doing nothing must lose'." },
+      { title: "Ink physics", detail: "Touch samples draw a preview with no collider; on release they're built into a dynamic rigid body whose mass comes from the area actually drawn. The world stays frozen while drawing and runs the instant the finger lifts, so difficulty is understanding — never speed." },
+      { title: "Deterministic simulation", detail: "Hazards are advanced by a hand-stepped SimWorld instead of Update/FixedUpdate, so the validator can run physics hundreds of steps inside one rendered frame and get exactly the result the player will see." },
+      { title: "Level pipeline", detail: "Campaign levels are authored as JSON design data against the spec, audited by Python tools and compiled to C#. Past the campaign, a generate → reject-repeats → validate → tune pipeline serves new levels, with up to 7 re-rolls before a known-good fallback." },
+      { title: "Live features & monetization", detail: "A UTC-seeded daily puzzle with one attempt and a Supabase leaderboard reached through plain UnityWebRequest (no SDK), a version manifest with Play in-app updates, and AdMob banners, paced interstitials and rewarded hints behind Google's UMP consent flow." },
+      { title: "Testing & release", detail: "100+ PlayMode tests across ink physics, hazard interaction, the level pipeline, the daily and safe-area layout; configured the IL2CPP ARMv7/ARM64 Android build and published it to Google Play under Parlok Studio." },
+    ],
+    roadmap: [
+      { label: "One-stroke ink physics + deterministic sim", done: true },
+      { label: "Campaign, level generator & daily leaderboard", done: true },
+      { label: "Live on Google Play", done: true },
+      { label: "iOS build", done: false },
+      { label: "Server-side replay check of daily strokes", done: false },
+    ],
+    links: { github: "", demo: "", playStore: "https://play.google.com/store/apps/details?id=com.parlok.savethecat", appStore: "" },
+  },
+  {
+    id: "zip-puzzle",
+    no: 2,
+    question: "Can a puzzle's difficulty be measured instead of guessed?",
+    title: "Zip Puzzle",
+    subtitle: "Grid Path-Drawing Puzzle (inspired by LinkedIn Zip) · Live on Google Play",
+    category: "Games",
+    status: "Live",
     color: "#7c6cff",
     tech: ["Unity 6", "C#", "URP", "Input System", "Mobile", "ScriptableObjects"],
     tagline: "Draw one path through every cell — with a real-time hint solver.",
     cover: img("zip-cover", 900, 560),
     description:
-      "A complete, polished mobile puzzle game in Unity 6 (~11.5K LOC, 45 scripts). Players draw a single continuous path that connects numbered checkpoints in order and fills every cell exactly once — a Hamiltonian-path puzzle with walls blocking moves. An 80-level set built through a custom pipeline — difficulty-scored and sorted into a smooth curve — a real-time hint solver, and an entirely code-driven UI.",
+      "A complete, polished mobile puzzle game in Unity 6. Players draw a single continuous path that connects numbered checkpoints in order and fills every cell exactly once — a Hamiltonian-path puzzle with walls blocking moves. An 80-level set built through a custom pipeline — difficulty-scored and sorted into a smooth curve — a real-time hint solver, and an entirely code-driven UI.",
     csr: {
       challenge: "Hamiltonian-path puzzles become computationally expensive on large boards, so a naive solver freezes the game when generating a hint.",
       solution: "Implemented DFS with connectivity pruning and a node budget so hints solve in real time without blocking the main thread.",
@@ -165,6 +220,7 @@ export const projects = [
     overview:
       "Zip Puzzle is a grid path-drawing game where you draw one continuous line that visits numbered checkpoints in order and fills every cell exactly once (a Hamiltonian path), with walls blocking certain moves. I built it end-to-end in Unity 6 / C# — gameplay, UI, audio, save system and tutorial — with a real-time hint solver and a clean, decoupled architecture. The standout piece is the solver: generating a hint means solving the puzzle from the player's current position, so a naive DFS would freeze on big grids; I added connectivity pruning (skip states that orphan cells) and a node budget to keep the main thread responsive.",
     highlights: [
+      "Live on Google Play",
       "80-level set — pipeline-built & solver-validated",
       "Hamiltonian-path validation engine",
       "Real-time DFS hint solver (pruned + budgeted)",
@@ -177,7 +233,6 @@ export const projects = [
       { src: img("zip-2"), caption: "Completed path — win state." },
       { src: img("zip-3"), caption: "Level select with non-linear progression." },
     ],
-    video: DUMMY_VIDEO,
     process: [
       { title: "Core puzzle engine", detail: "Hamiltonian-path validation — adjacency checks, wall-blocking, checkpoint ordering, and a drag-to-backtrack mechanic returning rich move results (Success / Backtrack / Win / DeadEnd / Invalid)." },
       { title: "Hint solver", detail: "Depth-first search with connectivity pruning and a node budget so hints stay responsive on larger grids; short-circuits to the authored solution when the player is still on the optimal route." },
@@ -188,27 +243,30 @@ export const projects = [
     roadmap: [
       { label: "80 levels + solver + UI complete", done: true },
       { label: "Responsive 3×3 → 8×8+ boards", done: true },
-      { label: "WebGL / APK build to share", done: false },
+      { label: "Live on Google Play", done: true },
+      { label: "WebGL build to share", done: false },
       { label: "Deploy the optional level API", done: false },
     ],
-    links: { github: "https://github.com/6350150676", demo: "", playStore: "", appStore: "" },
+    links: { github: "https://github.com/6350150676", demo: "", playStore: "https://play.google.com/store/apps/details?id=com.gatch.zip", appStore: "" },
   },
   {
     id: "checkers-multiplayer",
+    no: 3,
+    question: "What does it take for a board game to survive the real internet?",
     title: "Online Multiplayer Checkers",
     subtitle: "Real-Time Multiplayer Board Game · Android + iOS",
     category: "Games",
     status: "Shipped",
     color: "#38bdf8",
     tech: ["Unity", "C#", "WebSockets", "JWT Auth", "Firebase", "AdMob/Meta/LevelPlay", "Blender"],
-    tagline: "Real-time online checkers — 23K+ lines: dual-socket netcode, matchmaking, betting & ads.",
+    tagline: "Real-time online checkers — dual-socket netcode, matchmaking, betting & ads.",
     cover: img("checkers-cover", 900, 560),
     description:
-      "A production-grade real-time multiplayer checkers game in Unity / C# (~23K lines, 57 scripts): online matchmaking, two-currency betting, chat + friends, three sign-in methods, ad monetization, and shipped Android + iOS builds. Custom 3D pieces & boards modeled in Blender.",
+      "A production-grade real-time multiplayer checkers game in Unity / C#: online matchmaking, two-currency betting, chat + friends, three sign-in methods, ad monetization, and shipped Android + iOS builds. Custom 3D pieces & boards modeled in Blender.",
     csr: {
       challenge: "Real-time multiplayer has to survive dropped connections, app backgrounding and cross-region latency — without forfeiting a live match.",
       solution: "Built a dual-WebSocket layer (lobby + per-match) with heartbeats, exponential-backoff reconnect and region-aware routing over a JWT-authed client.",
-      result: ["~23K lines, shipped to iOS + Android", "Auto-reconnect survives backgrounding", "Matchmaking, betting, chat & ad monetization"],
+      result: ["Shipped to iOS + Android", "Auto-reconnect survives backgrounding", "Matchmaking, betting, chat & ad monetization"],
     },
     overview:
       "A full real-time multiplayer board game built from scratch in Unity / C# — engine, networking, matchmaking, monetization, social systems and store-ready mobile builds. The standout is the netcode: a dual-WebSocket layer (one persistent connection for lobby / chat / matchmaking, a second per-match connection for gameplay) with heartbeats, auto-reconnect using exponential backoff, a reconnect watchdog, and connection persistence across app backgrounding — over a custom JWT-authenticated client with proactive token refresh and region-aware routing (NA / UK / India) that auto-selects the lowest-latency server. All 3D assets — pieces, boards, crowns, frames — were modeled by me in Blender via Claude MCP.",
@@ -225,12 +283,11 @@ export const projects = [
       { src: img("checkers-2"), caption: "Animated matchmaking VS reveal." },
       { src: img("checkers-3"), caption: "Theme customization — pieces, boards, crowns." },
     ],
-    video: DUMMY_VIDEO,
     process: [
       { title: "Game engine", detail: "Full checkers rules with multiple variants and 8 configurable rules (flying kings, forced/max capture, orthogonal moves, 8/10/12 boards) — move validation, captures, promotion, draw/resign — plus an orbit camera with 2D/3D toggle and auto-fit zoom." },
       { title: "Networking", detail: "Dual-WebSocket layer (lobby + per-match) with heartbeats, exponential-backoff reconnect, a watchdog, and persistence across app backgrounding." },
       { title: "Auth & routing", detail: "Custom JWT-authenticated WebSocket client with proactive token refresh; Google (Firebase), Apple Sign-In (native iOS) and Guest behind a pluggable abstraction; region-aware routing (NA/UK/India)." },
-      { title: "Social", detail: "Real-time chat & friends (1K+ lines): DMs, in-game broadcast/targeted chat, friend requests, block states, unread badges, and private join-code 'Play with Friends' lobbies." },
+      { title: "Social", detail: "Real-time chat & friends: DMs, in-game broadcast/targeted chat, friend requests, block states, unread badges, and private join-code 'Play with Friends' lobbies." },
       { title: "Monetization", detail: "Two-currency wallet & server-driven bet tiers with prize payouts; AdMob + Meta Audience Network + IronSource LevelPlay mediation (interstitial + rewarded)." },
       { title: "UI, tooling & 3D", detail: "~15 screens via a code-driven UI framework; custom Editor tools (emoji→TMP sprite-atlas builder, automated iOS build post-processor); all 3D pieces/boards/crowns modeled in Blender via Claude MCP." },
     ],
@@ -244,6 +301,8 @@ export const projects = [
   },
   {
     id: "car-racing",
+    no: 4,
+    question: "Can a mobile racer keep growing without its code — or its frame rate — falling apart?",
     title: "Multi-Environment Car Racing",
     subtitle: "Architecture & Optimization-Focused Racer",
     category: "Games",
@@ -257,10 +316,10 @@ export const projects = [
     csr: {
       challenge: "Build a racer that stays maintainable as systems grow and still hits frame budget with dense terrain and foliage on mobile.",
       solution: "Decoupled game phases with a state machine + EventBus, made input swappable behind one interface, and moved terrain streaming and grass onto the GPU.",
-      result: ["35+ decoupled C# systems", "Keyboard / mobile / AI drivers interchangeable", "GPU grass + terrain streaming at frame budget"],
+      result: ["State machine + EventBus decoupling", "Keyboard / mobile / AI drivers interchangeable", "GPU grass + terrain streaming at frame budget"],
     },
     overview:
-      "A mobile racing game I built primarily as a programming and architecture showcase. Game phases run through a State system (Menu → Racing → Paused → GameOver), and systems stay decoupled through an EventBus — the race fires events while the HUD, countdown, results screen and car all simply listen. The car drives on Unity WheelColliders (steer front, power rear, brake all four), input is an abstraction so keyboard, mobile and AI drivers are interchangeable, and the chase camera widens its FOV and adds motion blur as speed climbs. On the optimization side, terrain streaming loads only the world patch around the player, and grass is drawn with GPU compute shaders. To be clear: the 3D art — cars, trees, water, roads, skyboxes — is from licensed asset packs; what's mine is the ~35 C# systems, the architecture, the optimization, the interactive garage, and the scene assembly (ProBuilder geometry + splat-mapped terrain). It's still a work in progress — I'm actively building it out with more environments and opponents.",
+      "A mobile racing game I built primarily as a programming and architecture showcase. Game phases run through a State system (Menu → Racing → Paused → GameOver), and systems stay decoupled through an EventBus — the race fires events while the HUD, countdown, results screen and car all simply listen. The car drives on Unity WheelColliders (steer front, power rear, brake all four), input is an abstraction so keyboard, mobile and AI drivers are interchangeable, and the chase camera widens its FOV and adds motion blur as speed climbs. On the optimization side, terrain streaming loads only the world patch around the player, and grass is drawn with GPU compute shaders. To be clear: the 3D art — cars, trees, water, roads, skyboxes — is from licensed asset packs; what's mine is all the C# systems, the architecture, the optimization, the interactive garage, and the scene assembly (ProBuilder geometry + splat-mapped terrain). It's still a work in progress — I'm actively building it out with more environments and opponents.",
     highlights: [
       "State machine: Menu → Race → Pause → GameOver",
       "EventBus-decoupled HUD & race flow",
@@ -274,7 +333,6 @@ export const projects = [
       { src: img("racing-2"), caption: "Interactive garage — drag-to-spin & paint." },
       { src: img("racing-3"), caption: "Streamed terrain with GPU grass." },
     ],
-    video: DUMMY_VIDEO,
     process: [
       { title: "Race systems", detail: "Countdown, timer, checkpoints, finish line and win/lose flow, with WheelCollider car control — steer the front wheels, power the rear, brake all four." },
       { title: "Decoupled architecture", detail: "A State system drives game phases and an EventBus lets the car, HUD, countdown and results screen communicate without holding references to each other." },
@@ -293,6 +351,8 @@ export const projects = [
   },
   {
     id: "vr-acrophobia",
+    no: 5,
+    question: "Can exposure therapy listen to the patient's body?",
     title: "VR Acrophobia Therapy",
     subtitle: "Heart-Rate-Driven Exposure Therapy",
     category: "VR / XR",
@@ -322,7 +382,6 @@ export const projects = [
       { src: img("vracro-2"), caption: "Live heart-rate readout pacing the experience." },
       { src: img("vracro-3"), caption: "ESP32 + pulse-sensor biometric rig (BLE)." },
     ],
-    video: DUMMY_VIDEO,
     process: [
       { title: "Biometric rig", detail: "Wired a pulse sensor to an ESP32 and streamed heart-rate data wirelessly over BLE." },
       { title: "Unity link", detail: "Ingested the live heart-rate stream into Unity over BLE in real time." },
@@ -339,6 +398,8 @@ export const projects = [
   },
   {
     id: "vr-paint",
+    no: 6,
+    question: "Can a menu live inside the world instead of on a screen?",
     title: "VR Paint Studio",
     subtitle: "Immersive 3D Drawing & Painting · XR Interaction Toolkit",
     category: "VR / XR",
@@ -369,7 +430,6 @@ export const projects = [
       { src: img("vrpaint-2"), caption: "Brush & color menu in VR." },
       { src: img("vrpaint-3"), caption: "Shape palette and tool panel." },
     ],
-    video: DUMMY_VIDEO,
     process: [
       { title: "XR setup", detail: "Configured the XR Interaction Toolkit / OpenXR rig — controllers, ray and direct interactors, and headset deployment." },
       { title: "Drawing system", detail: "Trigger-driven brush strokes drawn as continuous line/mesh geometry in 3D space, with adjustable stroke style and size." },
@@ -387,6 +447,8 @@ export const projects = [
   },
   {
     id: "fpv-drone",
+    no: 7,
+    question: "Can a drone tell you what's wrong with it?",
     title: "FPV Programmable Quadcopter",
     subtitle: "Custom-Built Drone · Final-Year Major Project @ NIT Hamirpur",
     category: "Hardware & Simulation",
@@ -417,7 +479,6 @@ export const projects = [
       { src: img("fpvdrone-2"), caption: "Soldered flight controller, ESCs & wiring." },
       { src: img("fpvdrone-3"), caption: "Blackbox log analysis in Betaflight." },
     ],
-    video: DUMMY_VIDEO,
     process: [
       { title: "Hardware integration", detail: "Soldered and wired the SpeedyBee F405 V4 BLS 55A flight controller, BLS 55A ESCs and FrSky receiver into the airframe." },
       { title: "Firmware tuning", detail: "Configured Betaflight — PID loops, rate profiles, throttle response — with the DSHOT protocol and ESC calibration." },
@@ -447,9 +508,9 @@ export const projectExtra: Record<string, {
   "checkers-multiplayer": {
     role: "Solo developer — game engine, real-time netcode, backend integration, auth, monetization, social systems, 3D assets and shipped builds.",
     metrics: [
-      { value: "23K+", label: "Lines of C#" },
-      { value: "57", label: "Scripts" },
       { value: "2", label: "Platforms · iOS + Android" },
+      { value: "3", label: "Sign-ins · Google, Apple, Guest" },
+      { value: "3", label: "Ad networks" },
       { value: "15+", label: "UI screens" },
     ],
     architecture: ["Dual WebSockets", "JWT auth", "Region routing", "Pluggable auth abstraction", "Conditional compilation", "Custom Editor tooling"],
@@ -457,7 +518,7 @@ export const projectExtra: Record<string, {
       { title: "Dual-socket networking", body: "Lobby, chat and matchmaking run on one persistent WebSocket while every match opens a second dedicated connection for gameplay. Heartbeats keep both alive; on a drop, an exponential-backoff reconnect with a watchdog restores state, and connections persist across app backgrounding — so locking the phone mid-game doesn't forfeit it." },
       { title: "JWT auth + region routing", body: "A custom JWT-authenticated WebSocket client refreshes tokens proactively before they expire, with three JWT-delivery methods for proxy compatibility. Backend routing is region-aware (NA / UK / India), auto-selecting the lowest-latency server from the device timezone." },
       { title: "Rules engine", body: "A full checkers engine supporting multiple variants and 8 configurable rules — flying kings, forced/max capture, orthogonal moves, board sizes 8/10/12 — with complete move validation, captures, promotion, and draw/resign handling. The orbit camera adds a 2D/3D toggle, board-flip animation and auto-fit zoom." },
-      { title: "Social systems", body: "A 1,000+ line real-time chat & friends layer: direct messages, in-game broadcast/targeted chat, friend requests, an address book with block states, unread badges, and private join-code 'Play with Friends' lobbies." },
+      { title: "Social systems", body: "A real-time chat & friends layer: direct messages, in-game broadcast/targeted chat, friend requests, an address book with block states, unread badges, and private join-code 'Play with Friends' lobbies." },
       { title: "Monetization", body: "A two-currency wallet with server-driven entry fees and prize payouts feeds matchmaking bet tiers. Three ad networks — Google AdMob, Meta Audience Network and IronSource LevelPlay mediation — serve interstitial + rewarded ads behind conditional-compilation guards." },
       { title: "Tooling & 3D", body: "Custom Unity Editor tools: an emoji→TMP sprite-atlas builder and an automated iOS build post-processor that patches the Xcode project (ATT, Apple Sign-In framework, Google Sign-In URL schemes). Every 3D asset — pieces, boards, crowns, frames — was modeled by me in Blender via Claude MCP." },
     ],
@@ -465,10 +526,10 @@ export const projectExtra: Record<string, {
   "zip-puzzle": {
     role: "Solo developer — puzzle engine, real-time hint solver, code-driven UI framework, content pipeline and optional backend.",
     metrics: [
-      { value: "11.5K", label: "Lines of C#" },
-      { value: "45", label: "Scripts" },
       { value: "80", label: "Curated levels" },
       { value: "8×8+", label: "Max grid" },
+      { value: "200+", label: "Tunable values, no recompile" },
+      { value: "5", label: "Design patterns" },
     ],
     architecture: ["Service Locator (DI)", "Event Bus", "Factory", "Strategy", "State Machine"],
     deepDive: [
@@ -480,13 +541,30 @@ export const projectExtra: Record<string, {
       { title: "Optional API provider", body: "An optional provider loads levels over HTTP with HMAC-SHA256 signed requests, caching and timeout handling — with a local provider as a seamless fallback." },
     ],
   },
+  "save-the-cat": {
+    role: "Solo developer & publisher — game design, ink physics and the deterministic simulation, the level pipeline and validator, the daily challenge, ad monetization, and the Google Play release under my own studio label, Parlok Studio.",
+    metrics: [
+      { value: "100+", label: "PlayMode tests" },
+      { value: "1", label: "Stroke per level" },
+      { value: "93%", label: "Generated levels playable first deal" },
+    ],
+    architecture: ["Code-built game (no prefabs)", "Deterministic SimWorld", "Off-screen validator", "Level generator + anti-repetition", "Supabase over UnityWebRequest", "Python level tooling"],
+    deepDive: [
+      { title: "The drawing is an object, not a mark", body: "The finished stroke is a fully dynamic 2D rigid body — free to move and rotate, with mass derived from the ribbon area actually drawn. It's never pinned where the finger left it: during the drag you see a preview with no collider, and the physical body is created on release. So the line is a weight as much as a barrier — a bare vertical wall topples, a line drawn in mid-air falls — and where it comes to rest is half of most puzzles." },
+      { title: "Prediction, never reflex", body: "While the player draws, the whole world is frozen — no hazard moves, the cat doesn't fall, the clock doesn't run — and it starts the moment the finger lifts. That one rule means difficulty can only ever be understanding, never speed or precision, and every loss is legible: 'my wall fell over', 'my roof had a gap'." },
+      { title: "One simulation, two worlds", body: "Hazards tick through a hand-stepped SimWorld rather than Update/FixedUpdate, because the validator has to step physics hundreds of times inside a single rendered frame, where Unity would only call FixedUpdate once. The visible level and the off-screen validation world run the same code path, and the validator builds its candidate strokes through the same function the player's finger does — so a shape it proves stands up is a shape a player can actually draw." },
+      { title: "Proving a generated level is a puzzle", body: "Every generated level has to pass two questions in the off-screen world: does doing nothing already win? (then it's trivial — reject it) and does at least one human-shaped stroke win? (cheapest first). The ink budget and star thresholds are then derived from the cheapest winning stroke, so three stars is provably reachable. A cheap structural check rejects repeats before any physics runs, and the accepted re-roll is saved so a level number always means the same level. In a 300-level sweep, 93% of levels were playable exactly as first dealt; the rest are re-rolled." },
+      { title: "A validator must model the real world", body: "The campaign's Python audit checked levels against a simplified model with no projectiles and no bees — and a model that simple can pass answers the real engine rejects. The in-engine SolutionAudit, which replays stored strokes through the actual SimWorld, is what caught the gap. The lesson: a validator is only as trustworthy as its resemblance to the game it's judging." },
+      { title: "Daily challenge & leaderboard", body: "Everyone in the world gets the same puzzle, seeded from the UTC date, and one attempt — spent the instant the stroke is released and flushed to disk, so force-quitting doesn't give it back. Ranking is by ink spent. The Supabase backend is reached with nothing but UnityWebRequest and JsonUtility — no SDK, no extra bytes in the build — and every path fails silently to a local board. Submissions carry the winning stroke itself: because the simulation is deterministic, a stroke is a checkable claim where a score is only a promise." },
+    ],
+  },
   "tango-puzzle": {
     role: "Production title developed at RENXO Technologies. My contribution: game design & gameplay programming, ad monetization, and the store deployment — I designed the ruleset and difficulty progression, built the client-side gameplay logic, wired up the ads, and deployed the game to both stores myself; the backend team's service generates the puzzles and serves them over a REST API. Live on Google Play & the App Store.",
     metrics: [
+      { value: "15K+", label: "Live players" },
       { value: "2", label: "Stores · Play + App" },
       { value: "3", label: "Board sizes" },
       { value: "5", label: "Difficulty tiers" },
-      { value: "15", label: "Mode combinations" },
     ],
     architecture: ["Client gameplay logic", "REST API level provider", "Real-time constraint validation", "Ad monetization", "Backend puzzle generation"],
     deepDive: [
@@ -530,8 +608,8 @@ export const projectExtra: Record<string, {
   "car-racing": {
     role: "Gameplay Programmer · Game Architect · Optimization Programmer · Level & UI/UX Designer. Every C# system, the architecture and the optimization are mine; the 3D art is licensed asset packs I integrated.",
     metrics: [
-      { value: "~35", label: "C# scripts (mine)" },
       { value: "6", label: "Design patterns" },
+      { value: "3", label: "Swappable drivers" },
       { value: "Compute", label: "GPU grass" },
       { value: "Streamed", label: "Terrain" },
     ],
@@ -544,7 +622,7 @@ export const projectExtra: Record<string, {
       { title: "GPU grass with compute shaders", body: "The most advanced piece: instead of instantiating thousands of grass objects on the CPU, the grass is generated, placed and culled on the GPU with compute shaders. The work happens where it's cheap (the GPU), keeping dense foliage within the frame budget — this is going below normal gameplay scripting into real GPU programming." },
       { title: "Speed-reactive chase camera", body: "The chase camera widens its field-of-view and ramps motion blur as speed increases, a cheap perceptual trick that makes 'fast' actually feel fast without changing the car's real velocity." },
       { title: "Interactive garage (UI/UX)", body: "A garage screen with swipe navigation, drag-to-spin the car with realistic inertia (it keeps spinning and eases to a stop), a 'hoist' car-swap animation, and live paint-color changes — all driven by my UI code." },
-      { title: "What's mine vs integrated art (honesty)", body: "All ~35 C# scripts, the architecture, the optimization and the UI are written by me, and I assembled the scenes with ProBuilder geometry and splat-mapped terrain (splat maps blend grass/dirt/rock textures across the ground). The 3D art itself — cars, trees, water, roads, skyboxes — is from licensed asset packs that I imported and integrated, not modeled by me." },
+      { title: "What's mine vs integrated art (honesty)", body: "All the C# code, the architecture, the optimization and the UI are written by me, and I assembled the scenes with ProBuilder geometry and splat-mapped terrain (splat maps blend grass/dirt/rock textures across the ground). The 3D art itself — cars, trees, water, roads, skyboxes — is from licensed asset packs that I imported and integrated, not modeled by me." },
     ],
   },
   "fpv-drone": {
@@ -708,26 +786,72 @@ export const achievements = [
 export const certifications = achievements.map((a) => ({ name: a.title, issuer: a.issuer }));
 
 export const stats = [
-  { label: "Live players", value: "7K+" },
+  { label: "Live players", value: "15K+" },
   { label: "Multiplayer titles", value: "4" },
   { label: "FPS · low-end", value: "60" },
   { label: "Yr · Unity", value: "1+" },
 ];
 
-// ── BIT — the NPC narrator (bottom-right companion) ───────────────────────
+// ── THE BENCH — small experiments that run right on the page ─────────────
+//  Each one is pulled out of a real project (`from` = project id) and is
+//  numbered in the same series as the projects above.
+export const benchExperiments = [
+  {
+    no: 8,
+    id: "no-instructions",
+    question: "Can you play this without instructions?",
+    from: "zip-puzzle",
+  },
+  {
+    no: 9,
+    id: "walls",
+    question: "Does every wall make a puzzle harder?",
+    from: "zip-puzzle",
+  },
+  {
+    no: 10,
+    id: "speed",
+    question: "Can “fast” be felt without going any faster?",
+    from: "car-racing",
+  },
+  {
+    no: 11,
+    id: "heartbeat",
+    question: "Can a heartbeat set the pace of a climb?",
+    from: "vr-acrophobia",
+  },
+  {
+    no: 12,
+    id: "reconnect",
+    question: "Can a live match survive the player locking their phone?",
+    from: "checkers-multiplayer",
+  },
+  {
+    no: 13,
+    id: "resume-run",
+    question: "Can a résumé be played instead of read?",
+    from: "",
+  },
+];
+
+// ── BIT — the lab assistant (bottom-right companion) ─────────────────────
 export const guideLines: Record<string, string> = {
   home:
-    "Hey — I'm BIT, Lav's pocket guide. He ships *production mobile games* in Unity, solo, end-to-end. Scroll on, I'll narrate.",
-  about:
-    "ABOUT: a Unity dev who owns the whole pipeline — gameplay systems, Firebase, ad SDKs, optimization, and shipping to the stores.",
-  experience:
-    "EXPERIENCE: a year+ at RENXO building *real-time multiplayer* games — WebSockets, OAuth, chat, monetization, and store releases.",
+    "Hi — I'm BIT, the lab assistant. Everything here is an *experiment*. Start with the puzzle: no instructions, on purpose.",
   projects:
-    "PROJECTS — split by *Games*, *VR/XR* and *Hardware*. Click any card for the full case study: write-up, shots, and a demo video.",
+    "The *experiment files*. Every card is a real project — open one for the full lab report: question, method, measurements.",
+  bench:
+    "The *bench*. Small experiments pulled out of real projects. Poke them — nothing here can break. (I checked.)",
+  experience:
+    "The *lab log*: shipping real-time multiplayer games at RENXO, plus a Unity internship at Caarya.",
+  about:
+    "The *inventor*. Engineering Physics at NIT Hamirpur, now designing and building games in Unity.",
   skills:
-    "SKILLS: Unity · C# · Firebase · Unity Ads · ironSource · clean architecture · object pooling. The stuff that ships games. Hover the tags.",
+    "The *apparatus* — what the experiments are built with. Unity, C#, netcode, SDKs, XR… and a soldering iron.",
+  achievements:
+    "*Credentials*, pinned to the wall. Each one links to where it can be verified.",
   contact:
-    "Hiring Lav is the easy path — one email and you're done. He's actively looking right now, so maybe don't leave him on read.",
+    "Got a question worth testing? File a request — Lav is *open to work* right now.",
   project:
-    "Deep dive! Scroll for the build steps, screenshots and a demo video. *Related work* sits at the bottom. Back arrow returns home.",
+    "A full *lab report*: the question up top, measurements on the side, and a trial you can run yourself if there is one.",
 };

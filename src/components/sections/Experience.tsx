@@ -1,101 +1,64 @@
 import { experience } from '../../data'
+import SectionHead from '../ui/SectionHead'
 import Reveal from '../ui/Reveal'
+import Stamp from '../ui/Stamp'
 
 export default function Experience() {
   return (
-    <section id="experience" className="section-pad" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
-      <div style={{
-        position: 'absolute', left: -100, top: '20%', width: 400, height: 400,
-        background: 'radial-gradient(circle, rgba(124,108,255,0.08) 0%, transparent 70%)', pointerEvents: 'none',
-      }} />
-
+    <section id="experience" className="section-pad">
       <div className="container">
-        <Reveal>
-          <div className="eyebrow">02 / Experience</div>
-          <h2 className="section-title">Where I've shipped</h2>
-          <p className="lead">From intern to developer shipping real-time multiplayer games — over a year of production work.</p>
-        </Reveal>
+        <SectionHead
+          no="03"
+          kicker="Lab log"
+          title={<>Where the experiments <em>ran for real.</em></>}
+          lead="From intern to shipping real-time multiplayer games to live players — the production work behind the notebook."
+        />
 
-        <div style={{ position: 'relative', marginTop: '3.5rem' }}>
-          {/* Vertical line */}
-          <div style={{
-            position: 'absolute', left: 23, top: 6, bottom: 6, width: 2, borderRadius: 2,
-            background: 'linear-gradient(to bottom, var(--accent), var(--accent3), transparent)',
-          }} />
+        <div className="log sheet">
+          <span className="log__margin" aria-hidden />
+          {experience.map((exp, i) => (
+            <Reveal key={exp.company} delay={i * 100} className="log__entry">
+              <div className="log__date">
+                <span className="hand">{exp.period.replace('–', '→')}</span>
+                <span className="label">entry {String(i + 1).padStart(2, '0')}</span>
+              </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-            {experience.map((exp, i) => (
-              <Reveal key={i} delay={i * 120}>
-                <div style={{ display: 'flex', gap: '1.75rem', alignItems: 'flex-start' }}>
-                  {/* Timeline dot */}
-                  <div style={{
-                    width: 48, height: 48, minWidth: 48,
-                    background: 'var(--surface)', border: `2px solid ${exp.color}`, borderRadius: '50%',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: `0 0 24px ${exp.color}55`, zIndex: 1,
-                  }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: exp.color }}>{i + 1}</span>
+              <div className="log__body">
+                <div className="log__top">
+                  <div>
+                    <h3 className="display log__role">{exp.role}</h3>
+                    <p className="log__company">{exp.company}</p>
                   </div>
-
-                  {/* Card */}
-                  <div className="hex-border" style={{ flex: 1, padding: '1.5rem 1.75rem', borderColor: exp.color + '40' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.9rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                      <div>
-                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 600, color: 'var(--text)' }}>{exp.role}</div>
-                        <div style={{ fontSize: '1rem', color: exp.color, fontWeight: 500 }}>{exp.company}</div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-dim)', marginBottom: '0.35rem' }}>{exp.period}</div>
-                        <span style={{
-                          fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: exp.color,
-                          border: `1px solid ${exp.color}55`, borderRadius: 999, padding: '0.2rem 0.6rem',
-                        }}>{exp.type}</span>
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1.1rem' }}>
-                      {exp.stack.map((t) => (
-                        <span key={t} style={{
-                          fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: exp.color,
-                          background: exp.color + '14', border: `1px solid ${exp.color}33`, borderRadius: 6, padding: '0.18rem 0.5rem',
-                        }}>{t}</span>
-                      ))}
-                    </div>
-
-                    <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                      {exp.bullets.map((b, j) => (
-                        <li key={j} style={{ display: 'flex', gap: '0.7rem', alignItems: 'flex-start' }}>
-                          <span style={{ color: exp.color, marginTop: 7, width: 6, height: 6, borderRadius: '50%', background: exp.color, flexShrink: 0 }} />
-                          <span style={{ fontSize: '0.96rem', color: 'var(--text-dim)', lineHeight: 1.6 }}>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    {exp.challenge && (
-                      <div style={{
-                        marginTop: '1.25rem', padding: '1.1rem 1.25rem', borderRadius: 12,
-                        background: exp.color + '0d', border: `1px solid ${exp.color}26`, borderLeft: `3px solid ${exp.color}`,
-                      }}>
-                        <div style={{
-                          display: 'inline-flex', alignItems: 'center', gap: '0.45rem', marginBottom: '0.6rem',
-                          fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: exp.color,
-                        }}>
-                          <span aria-hidden>⚡</span> The hard part
-                        </div>
-                        <p style={{ fontSize: '0.94rem', color: 'var(--text)', lineHeight: 1.65, margin: 0 }}>
-                          {exp.challenge.problem}
-                        </p>
-                        <p style={{ fontSize: '0.92rem', color: 'var(--text-dim)', lineHeight: 1.65, margin: '0.7rem 0 0' }}>
-                          <strong style={{ color: exp.color, fontWeight: 600 }}>How I solved it — </strong>
-                          {exp.challenge.solution}
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                  <Stamp tone={exp.type === 'Full-Time' ? 'ok' : 'blue'} rotate={-5}>{exp.type}</Stamp>
                 </div>
-              </Reveal>
-            ))}
-          </div>
+
+                <div className="log__kit">
+                  <span className="label">equipment</span>
+                  {exp.stack.map((t) => <span key={t} className="tag">{t}</span>)}
+                </div>
+
+                <ol className="log__obs">
+                  {exp.bullets.map((b, j) => (
+                    <li key={j}>
+                      <span className="log__obs-n">obs. {j + 1}</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ol>
+
+                {exp.challenge && (
+                  <div className="incident">
+                    <svg className="incident__clip" width="22" height="54" viewBox="0 0 22 54" fill="none" aria-hidden>
+                      <path d="M6 40 V10 a5 5 0 0 1 10 0 V44 a8 8 0 0 1 -16 0 V16" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+                    </svg>
+                    <p className="label incident__label">Incident report — the hard part</p>
+                    <p className="incident__row"><b>Problem</b>{exp.challenge.problem}</p>
+                    <p className="incident__row"><b>Fix</b>{exp.challenge.solution}</p>
+                  </div>
+                )}
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

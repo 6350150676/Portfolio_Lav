@@ -1,128 +1,119 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { projects, projectCategories } from '../../data'
 import { getMedia } from '../../lib/projectMedia'
+import { categoryShort, categoryTone, expNo, statusTone, type Project } from '../../lib/lab'
+import SectionHead from '../ui/SectionHead'
 import Reveal from '../ui/Reveal'
-import TechIcon from '../ui/TechIcon'
+import Stamp from '../ui/Stamp'
+import Spotlight from './Spotlight'
+
+// Specimen photo, or a hatched "photo pending" slot when a project has none yet.
+export function Specimen({ p, fig = 1 }: { p: Project; fig?: number }) {
+  const cover = getMedia(p.id).cover
+  return (
+    <figure className="specimen">
+      <span className="tape tape--tl" />
+      <div className="specimen__frame">
+        {cover ? (
+          <img src={cover} alt={`${p.title} — cover`} loading="lazy" />
+        ) : (
+          <div className="specimen__missing">
+            <span className="display">{expNo(p.no)}</span>
+            <span className="hand">photo pending</span>
+          </div>
+        )}
+      </div>
+      <figcaption className="label">Fig. {fig} — {p.title}</figcaption>
+    </figure>
+  )
+}
+
+function ExperimentCard({ p, featured }: { p: Project; featured: boolean }) {
+  return (
+    <Link to={`/projects/${p.id}`} className={`xcard sheet ${featured ? 'xcard--featured' : ''}`}>
+      <div className="xcard__head">
+        <span className="label">Experiment {expNo(p.no)}</span>
+        <span className={`xcard__tab tone-${categoryTone[p.category] ?? 'blue'}`}>{categoryShort[p.category] ?? p.category}</span>
+      </div>
+
+      <div className="xcard__body">
+        <div className="xcard__fig">
+          <Specimen p={p} />
+          <Stamp tone={statusTone(p.status)} rotate={-9} className="xcard__stamp">{p.status}</Stamp>
+        </div>
+
+        <div className="xcard__text">
+          <p className="xcard__qlabel label">Question</p>
+          <h3 className="display xcard__q">{p.question}</h3>
+          <p className="xcard__title">
+            <strong>{p.title}</strong>
+            <span>{p.subtitle}</span>
+          </p>
+          {featured && <p className="xcard__tagline">{p.tagline}</p>}
+          {p.csr?.result?.[0] && (
+            <p className="xcard__finding">
+              <span className="label">Finding</span>
+              {p.csr.result[0]}
+            </p>
+          )}
+          <span className="xcard__open">Open lab report <span aria-hidden>→</span></span>
+        </div>
+      </div>
+    </Link>
+  )
+}
 
 export default function Projects() {
+  const [filter, setFilter] = useState<string>('All')
+  const tabs = [
+    { key: 'All', label: 'All', n: projects.length },
+    ...projectCategories.map((c) => ({
+      key: c.key,
+      label: categoryShort[c.key] ?? c.key,
+      n: projects.filter((p) => p.category === c.key).length,
+    })),
+  ].filter((t) => t.n > 0)
+  const shown = filter === 'All' ? projects : projects.filter((p) => p.category === filter)
+  const blurb = projectCategories.find((c) => c.key === filter)?.blurb
+  // feature one wide card — or two, if one would leave a lonely card in the 3-column grid
+  const featured = shown.length > 1 && (shown.length - 1) % 3 === 1 ? 2 : 1
+
   return (
-    <section id="projects" className="section-pad" style={{ background: 'var(--bg)' }}>
+    <section id="projects" className="section-pad">
       <div className="container">
-        <Reveal>
-          <div className="eyebrow">03 / Selected work</div>
-          <h2 className="section-title">Projects</h2>
-          <p className="lead">
-            Split by what they actually are — games, VR/XR, and hardware. Click any card to open its
-            full case study: deep write-up, screenshots, and a demo video.
-          </p>
-        </Reveal>
+        <SectionHead
+          no="01"
+          kicker="Experiment files"
+          title={<>Every project started as <em>a question.</em></>}
+          lead={`${projects.length} experiments, filed by what they are. Each file opens a full lab report — the problem, the method, what I measured, and what I'd try next.`}
+        />
 
-        {projectCategories.map((cat) => {
-          const items = projects.filter((p) => p.category === cat.key)
-          if (items.length === 0) return null
-          return (
-            <div key={cat.key} style={{ marginTop: '3.5rem' }}>
-              {/* category header */}
-              <Reveal>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.85rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 600, color: 'var(--text)' }}>
-                    {cat.key}
-                  </h3>
-                  <span style={{ color: 'var(--text-dim)', fontSize: '0.92rem' }}>{cat.blurb}</span>
-                  <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-faint)' }}>
-                    {items.length} {items.length === 1 ? 'project' : 'projects'}
-                  </span>
-                </div>
-              </Reveal>
+        <Spotlight />
 
-              {/* cards */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
-                {items.map((p, ci) => {
-                  const cover = getMedia(p.id).cover
-                  return (
-                  <Reveal key={p.id} delay={ci * 80} style={{ display: 'flex' }}>
-                  <Link
-                    to={`/projects/${p.id}`}
-                    className="card"
-                    style={{ textDecoration: 'none', overflow: 'hidden', display: 'flex', flexDirection: 'column', width: '100%' }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-5px)'
-                      e.currentTarget.style.boxShadow = `0 22px 45px ${p.color}26`
-                      e.currentTarget.style.borderColor = `${p.color}66`
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)'
-                      e.currentTarget.style.boxShadow = 'none'
-                      e.currentTarget.style.borderColor = 'var(--border)'
-                    }}
-                  >
-                    {/* cover */}
-                    <div style={{ position: 'relative' }}>
-                      {cover ? (
-                        <img
-                          src={cover}
-                          alt={p.title}
-                          loading="lazy"
-                          style={{ width: '100%', display: 'block', aspectRatio: '16/10', objectFit: 'cover' }}
-                        />
-                      ) : (
-                        <div style={{ width: '100%', aspectRatio: '16/10', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg, ${p.color}2e, var(--surface))` }}>
-                          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--text)', opacity: 0.75, padding: '0 1rem', textAlign: 'center' }}>{p.title}</span>
-                        </div>
-                      )}
-                      <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, transparent 35%, rgba(9,12,20,0.55) 85%), linear-gradient(120deg, ${p.color}33, transparent 60%)` }} />
-                      <span style={{
-                        position: 'absolute', top: 12, left: 12,
-                        fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.1em',
-                        textTransform: 'uppercase', color: '#fff',
-                        background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)',
-                        border: '1px solid rgba(255,255,255,0.2)', borderRadius: 999, padding: '0.22rem 0.6rem',
-                      }}>
-                        {p.status}
-                      </span>
-                    </div>
+        <div className="dividers" role="tablist" aria-label="Filter experiments by category">
+          {tabs.map((t) => (
+            <button
+              key={t.key}
+              role="tab"
+              aria-selected={filter === t.key}
+              className={`dividers__tab ${filter === t.key ? 'is-on' : ''}`}
+              onClick={() => setFilter(t.key)}
+            >
+              {t.label} <sup>{t.n}</sup>
+            </button>
+          ))}
+          <span className="dividers__rule" />
+        </div>
+        {blurb && <p className="dividers__blurb hand">{blurb}</p>}
 
-                    {/* body */}
-                    <div style={{ padding: '1.25rem 1.4rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                      <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 600, color: 'var(--text)' }}>
-                        {p.title}
-                      </h4>
-                      <div style={{ fontSize: '0.85rem', color: p.color, marginBottom: '0.7rem', fontWeight: 500 }}>
-                        {p.subtitle}
-                      </div>
-                      <p style={{ fontSize: '0.9rem', color: 'var(--text-dim)', lineHeight: 1.6, marginBottom: '1rem' }}>
-                        {p.tagline}
-                      </p>
-
-                      <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '1.1rem' }}>
-                        {p.tech.slice(0, 3).map((t) => (
-                          <span key={t} style={{
-                            display: 'inline-flex', alignItems: 'center', gap: '0.32rem',
-                            fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-dim)',
-                            background: 'var(--chip-bg)', border: '1px solid var(--border)',
-                            borderRadius: 6, padding: '0.2rem 0.48rem',
-                          }}>
-                            <TechIcon name={t} size={11} />
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-
-                      <span style={{
-                        marginTop: 'auto', display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                        fontFamily: 'var(--font-body)', fontSize: '0.85rem', fontWeight: 600, color: p.color,
-                      }}>
-                        View project →
-                      </span>
-                    </div>
-                  </Link>
-                  </Reveal>
-                  )
-                })}
-              </div>
-            </div>
-          )
-        })}
+        <div className="xgrid">
+          {shown.map((p, i) => (
+            <Reveal key={p.id} delay={(i % 3) * 70} className={i < featured ? 'xgrid__featured' : ''}>
+              <ExperimentCard p={p} featured={i < featured} />
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   )

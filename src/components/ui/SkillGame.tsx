@@ -13,7 +13,7 @@ const SKILLS = [
   'Google AdMob', 'Unity Ads', 'ironSource', 'In-Game Chat', 'Emoji Systems',
   'Object Pooling', 'Clean Architecture', 'Cinemachine', 'Optimization',
 ]
-const PCOLORS = ['#7c6cff', '#a78bfa', '#5b8cff', '#38bdf8', '#7c6cff']
+const PCOLORS = ['#2a56c6', '#2d7a4a', '#b8860b', '#d9441c', '#6d4c9a']
 const PLAYER_X = 150
 const GRAV = 0.62
 const JUMP = -11.5
@@ -28,8 +28,8 @@ type Ent =
 type Shot = { wx: number; y: number }
 
 const PAL = {
-  dark: { bg1: '#0a0e1a', bg2: '#0f1422', ground: 'rgba(124,108,255,0.5)', text: '#e7ecf6', sub: '#9aa6bb', star: 'rgba(124,108,255,0.28)', bullet: '#7cf6ff', gun: '#cdbbff' },
-  light: { bg1: '#eaeefb', bg2: '#dde4f5', ground: 'rgba(107,79,251,0.55)', text: '#0e1525', sub: '#5b647a', star: 'rgba(107,79,251,0.22)', bullet: '#6d28d9', gun: '#4c1d95' },
+  dark: { bg1: '#221f1b', bg2: '#181613', ground: 'rgba(239,232,216,0.55)', text: '#efe8d8', sub: '#a39a88', star: 'rgba(142,170,255,0.16)', bullet: '#ff6b3d', gun: '#efe8d8' },
+  light: { bg1: '#fbf8f1', bg2: '#efe8da', ground: '#1d1b18', text: '#1d1b18', sub: '#6b6557', star: 'rgba(42,86,198,0.14)', bullet: '#d9441c', gun: '#1d1b18' },
 }
 
 const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function SkillGame({ height = 360 }, ref) {
@@ -212,7 +212,7 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
           ctx.lineWidth = 2; ctx.strokeStyle = '#c8901a'; ctx.stroke()
           ctx.beginPath(); ctx.ellipse(0, 0, rw * 0.55, 7, 0, 0, Math.PI * 2); ctx.fillStyle = '#ffe28a'; ctx.fill()
           ctx.restore()
-          ctx.fillStyle = pal.text; ctx.font = '600 10px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.fillText(e.label, sx, ey - 22)
+          ctx.fillStyle = pal.text; ctx.font = '600 10px "IBM Plex Mono", monospace'; ctx.textAlign = 'center'; ctx.fillText(e.label, sx, ey - 22)
         } else if (e.type === 'bug' && !e.dead) {
           const ey = groundY - 12 + Math.sin(g.t * 0.06 + e.phase) * 12
           ctx.fillStyle = '#ff5470'; roundRect(ctx, sx - 12, ey - 9, 24, 18, 6); ctx.fill()
@@ -243,11 +243,11 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
             ctx.fillStyle = 'rgba(127,127,127,0.45)'; ctx.fillRect(sx - 26, groundY - 96, 52, 5)
             ctx.fillStyle = c; ctx.fillRect(sx - 26, groundY - 96, 52 * (e.hp / e.max), 5)
             // name + prompt (high-contrast, always readable)
-            ctx.fillStyle = pal.text; ctx.font = '700 8px "Space Grotesk", sans-serif'; wrap(ctx, e.label, sx, groundY - 12, 58, 9)
-            ctx.fillStyle = '#ffd166'; ctx.font = '700 7px "JetBrains Mono", monospace'; ctx.fillText('SHOOT (B)!', sx, groundY - 26)
+            ctx.fillStyle = pal.text; ctx.font = '700 8px "Fraunces", serif'; wrap(ctx, e.label, sx, groundY - 12, 58, 9)
+            ctx.fillStyle = '#ffd166'; ctx.font = '700 7px "IBM Plex Mono", monospace'; ctx.fillText('SHOOT (B)!', sx, groundY - 26)
           } else {
-            ctx.fillStyle = e.color; ctx.font = '700 10px "Space Grotesk", sans-serif'; wrap(ctx, e.label, sx, groundY - 46, 56, 12)
-            ctx.fillStyle = '#22c55e'; ctx.font = '600 7px "JetBrains Mono", monospace'; ctx.fillText('UNLOCKED', sx, groundY + 4)
+            ctx.fillStyle = e.color; ctx.font = '700 10px "Fraunces", serif'; wrap(ctx, e.label, sx, groundY - 46, 56, 12)
+            ctx.fillStyle = '#22c55e'; ctx.font = '600 7px "IBM Plex Mono", monospace'; ctx.fillText('UNLOCKED', sx, groundY + 4)
           }
         }
       }
@@ -275,11 +275,11 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
 
       // player
       const py = groundY + g.py
-      if (g.flash > 0.02) { ctx.globalAlpha = g.flash * 0.5; ctx.fillStyle = '#cdbbff'; ctx.beginPath(); ctx.arc(PLAYER_X, py, PS * 1.35, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1 }
+      if (g.flash > 0.02) { ctx.globalAlpha = g.flash * 0.5; ctx.fillStyle = '#ffc9b5'; ctx.beginPath(); ctx.arc(PLAYER_X, py, PS * 1.35, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1 }
       const grow = 1 + Math.min(gotRef.current.size * 0.014, 0.22) + g.pop * 0.4 // grows as it powers up
       const ps = PS * grow
       const inv = g.invuln > 0 && Math.floor(g.invuln / 4) % 2 === 0
-      ctx.fillStyle = inv ? '#7c84a0' : '#a78bfa'; roundRect(ctx, PLAYER_X - ps / 2, py - ps / 2, ps, ps, 6); ctx.fill()
+      ctx.fillStyle = inv ? '#9a9383' : '#d9441c'; roundRect(ctx, PLAYER_X - ps / 2, py - ps / 2, ps, ps, 6); ctx.fill()
       ctx.fillStyle = pal.bg1; ctx.fillRect(PLAYER_X + ps * 0.12, py - 5, 4, 4)
       ctx.fillStyle = pal.gun; ctx.fillRect(PLAYER_X + ps / 2 - 2, py - 2.5, 14, 6)
 
@@ -287,33 +287,33 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
       ctx.textAlign = 'center'
       for (const f of g.floats) {
         ctx.globalAlpha = Math.max(0, f.life)
-        ctx.fillStyle = f.color; ctx.font = '700 11px "JetBrains Mono", monospace'
+        ctx.fillStyle = f.color; ctx.font = '700 11px "IBM Plex Mono", monospace'
         ctx.fillText('+ ' + f.text, f.wx - g.cam, f.y)
         ctx.globalAlpha = 1
       }
 
       // HUD
-      ctx.textAlign = 'left'; ctx.fillStyle = pal.text; ctx.font = '600 11px "JetBrains Mono", monospace'
+      ctx.textAlign = 'left'; ctx.fillStyle = pal.text; ctx.font = '600 11px "IBM Plex Mono", monospace'
       ctx.fillText(`SCORE ${g.score}`, 14, 20)
-      ctx.fillStyle = pal.sub; ctx.font = '500 10px "JetBrains Mono", monospace'
+      ctx.fillStyle = pal.sub; ctx.font = '500 10px "IBM Plex Mono", monospace'
       ctx.fillText(`SKILLS ${gotRef.current.size}/${SKILLS.length}  ·  PROJECTS ${unlRef.current.size}/${projects.length}`, 14, 36)
       for (let i = 0; i < 3; i++) { ctx.fillStyle = i < g.hp ? '#ff5470' : 'rgba(127,127,127,0.3)'; roundRect(ctx, W - 16 - (3 - i) * 18, 12, 13, 13, 3); ctx.fill() }
       const prog = Math.min(1, g.cam / endX)
-      ctx.fillStyle = 'rgba(127,127,127,0.25)'; ctx.fillRect(W / 2 - 90, 14, 180, 5); ctx.fillStyle = '#7c6cff'; ctx.fillRect(W / 2 - 90, 14, 180 * prog, 5)
+      ctx.fillStyle = 'rgba(127,127,127,0.25)'; ctx.fillRect(W / 2 - 90, 14, 180, 5); ctx.fillStyle = '#2a56c6'; ctx.fillRect(W / 2 - 90, 14, 180 * prog, 5)
 
       ctx.textAlign = 'center'
       if (g.mode === 'idle') {
-        ctx.fillStyle = pal.text; ctx.font = '700 18px "Space Grotesk", sans-serif'; ctx.fillText('SKILL RUN', W / 2, H / 2 - 18)
-        ctx.fillStyle = pal.sub; ctx.font = '500 11px "JetBrains Mono", monospace'
+        ctx.fillStyle = pal.text; ctx.font = '700 18px "Fraunces", serif'; ctx.fillText('SKILL RUN', W / 2, H / 2 - 18)
+        ctx.fillStyle = pal.sub; ctx.font = '500 11px "IBM Plex Mono", monospace'
         ctx.fillText('press A to start — collect skills, defeat projects', W / 2, H / 2 + 4)
         ctx.fillText('A jump · B shoot · X dash · Y codex', W / 2, H / 2 + 22)
       } else if (g.mode === 'done' && !codexRef.current) {
         ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(0, 0, W, H)
-        ctx.fillStyle = '#fff'; ctx.font = '700 22px "Space Grotesk", sans-serif'; ctx.fillText('RUN COMPLETE!', W / 2, H / 2 - 16)
-        ctx.fillStyle = '#ffd166'; ctx.font = '700 14px "Space Grotesk", sans-serif'; ctx.fillText('One more time?', W / 2, H / 2 + 8)
-        ctx.fillStyle = 'rgba(255,255,255,0.82)'; ctx.font = '500 11px "JetBrains Mono", monospace'; ctx.fillText('press A — or click Replay', W / 2, H / 2 + 28)
+        ctx.fillStyle = '#fff'; ctx.font = '700 22px "Fraunces", serif'; ctx.fillText('RUN COMPLETE!', W / 2, H / 2 - 16)
+        ctx.fillStyle = '#ffd166'; ctx.font = '700 14px "Fraunces", serif'; ctx.fillText('One more time?', W / 2, H / 2 + 8)
+        ctx.fillStyle = 'rgba(255,255,255,0.82)'; ctx.font = '500 11px "IBM Plex Mono", monospace'; ctx.fillText('press A — or click Replay', W / 2, H / 2 + 28)
       } else if (g.mode === 'playing') {
-        for (const e of ent.current) if (e.type === 'boss' && e.hp > 0) { const ox = e.wx - g.cam; if (ox > PLAYER_X + 30 && ox < W - 30) { ctx.fillStyle = '#ff4d6d'; ctx.font = '700 11px "JetBrains Mono", monospace'; ctx.fillText('! BOSS AHEAD — SHOOT (B)', W / 2, 58); break } }
+        for (const e of ent.current) if (e.type === 'boss' && e.hp > 0) { const ox = e.wx - g.cam; if (ox > PLAYER_X + 30 && ox < W - 30) { ctx.fillStyle = '#ff4d6d'; ctx.font = '700 11px "IBM Plex Mono", monospace'; ctx.fillText('! BOSS AHEAD — SHOOT (B)', W / 2, 58); break } }
       }
       raf = requestAnimationFrame(loop)
     }
@@ -323,10 +323,10 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
 
   return (
     <div style={{ position: 'relative', width: '100%' }}>
-      <canvas ref={canvasRef} style={{ width: '100%', aspectRatio: '16 / 10', display: 'block', borderRadius: 14, border: '1px solid var(--border-strong)', boxShadow: 'inset 0 0 30px rgba(0,0,0,0.35)' }} />
+      <canvas ref={canvasRef} style={{ width: '100%', aspectRatio: '16 / 10', display: 'block', borderRadius: 3, border: '2px solid var(--ink)', boxShadow: '3px 3px 0 var(--hard-shadow)' }} />
 
       {codex && (
-        <div style={{ position: 'absolute', inset: 0, background: 'color-mix(in srgb, var(--surface) 90%, transparent)', backdropFilter: 'blur(6px)', borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'color-mix(in srgb, var(--surface) 90%, transparent)', backdropFilter: 'blur(6px)', borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
           <div style={{ width: '100%', maxHeight: '100%', overflowY: 'auto', padding: '0.5rem 0.25rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: done ? '0.2rem' : '0.8rem' }}>
               <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.2rem', color: 'var(--text)' }}>{done ? 'Run complete!' : 'Codex'}</h3>
@@ -362,7 +362,7 @@ const SkillGame = forwardRef<SkillGameHandle, { height?: number }>(function Skil
             {done && (
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '1rem' }}>
                 <button onClick={reset} className="btn btn-primary" style={{ fontSize: '0.8rem' }}>▶ Replay</button>
-                <a href="/resume.pdf" download="Lav_Naruka_Resume.pdf" className="btn btn-ghost" style={{ fontSize: '0.8rem' }}>Download CV</a>
+                <a href={personalInfo.resume} download="Lav_Naruka_Resume.pdf" className="btn btn-ghost" style={{ fontSize: '0.8rem' }}>Download CV</a>
                 <a href={personalInfo.github} target="_blank" rel="noreferrer" className="btn btn-ghost" style={{ fontSize: '0.8rem' }}>GitHub</a>
                 <button onClick={() => setCodex(false)} className="btn btn-ghost" style={{ fontSize: '0.8rem' }}>Back to site</button>
               </div>

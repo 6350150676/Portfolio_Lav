@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Lav Naruka — Unity Game Developer — Resume</title>
+<!--
+  Source for resume/Lav_Naruka_Resume.pdf. Edit here, then re-export:
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --no-pdf-header-footer \
+    --print-to-pdf=resume/Lav_Naruka_Resume.pdf resume/resume.html
+  ATS rules: single column, standard headings, real text, no tables/icons/images.
+-->
+<style>
+  @page { size: A4; margin: 10mm 13mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9.6pt;
+    line-height: 1.34;
+    color: #1a1a1a;
+    /* ATS: no ligatures, so "fi"/"ffi" extract as plain letters */
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+  }
+  a { color: inherit; text-decoration: none; }
+  header { margin-bottom: 7pt; }
+  h1 { font-size: 20pt; letter-spacing: 0.02em; line-height: 1.1; }
+  .role { font-size: 11pt; color: #b3401c; font-weight: 600; margin-top: 1pt; }
+  .contact { margin-top: 3pt; font-size: 9pt; color: #333; }
+  h2 {
+    font-size: 9.6pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #b3401c;
+    border-bottom: 0.8pt solid #999;
+    padding-bottom: 1.5pt;
+    margin: 8.5pt 0 4pt;
+  }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10pt; }
+  .row .when { white-space: nowrap; color: #333; }
+  .item { margin-bottom: 5pt; }
+  .item:last-child { margin-bottom: 0; }
+  .title { font-weight: 700; }
+  .org { font-weight: 400; }
+  .stack { font-size: 8.6pt; color: #555; margin-top: 0.5pt; }
+  ul { margin: 2pt 0 0 12pt; }
+  li { margin-bottom: 1.4pt; padding-left: 1pt; }
+  .skills p { margin-bottom: 1.6pt; }
+  .skills b { font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>LAV NARUKA</h1>
+  <p class="role">Unity Game Developer</p>
+  <p class="contact">
+    lovenaruka514@gmail.com | +91-6350150676 | India |
+    <a href="https://linkedin.com/in/lavnaruka">linkedin.com/in/lavnaruka</a> |
+    <a href="https://github.com/6350150676">github.com/6350150676</a> |
+    <a href="https://lavsquest.vercel.app">lavsquest.vercel.app</a>
+  </p>
+</header>
+
+<section>
+  <h2>Summary</h2>
+  <p>
+    Unity game developer who ships mobile games end to end: game design, gameplay systems, real-time multiplayer,
+    monetization and store release. Titles live on Google Play and the App Store, including Tango (15K+ players) and
+    Save the Cat, a profitable, self-published physics puzzle.
+  </p>
+</section>
+
+<section>
+  <h2>Experience</h2>
+
+  <div class="item">
+    <div class="row">
+      <p><span class="title">Unity Game Developer</span> <span class="org">— RENXO Technologies Pvt. Ltd.</span></p>
+      <p class="when">Jul 2024 – Present</p>
+    </div>
+    <ul>
+      <li>Shipped <b>Tango</b>, a logic puzzle live on Google Play and the App Store with <b>15K+ players</b>: designed the ruleset and difficulty curve (3 board sizes × 5 tiers), built the gameplay logic, integrated ads and handled both store releases.</li>
+      <li>Shipped <b>Zip</b>, a path-drawing puzzle live on Google Play: an 80-level set ordered by a difficulty score, and a real-time DFS hint solver (connectivity pruning + node budget) that never blocks the main thread.</li>
+      <li>Built real-time multiplayer (Checkers, Ludo) over WebSockets with in-game chat; integrated Firebase with Google/Apple sign-in and ad mediation (AdMob, Unity Ads, ironSource); held 60 fps on low-end Android and iOS.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="row">
+      <p><span class="title">Unity Developer Intern</span> <span class="org">— Caarya</span></p>
+      <p class="when">Feb 2025 – Jul 2025</p>
+    </div>
+    <ul>
+      <li>Built Photon PUN voice chat and multiplayer for 10 concurrent players.</li>
+      <li>Integrated Ready Player Me avatars with Mixamo animations and Cinemachine cameras; delivered 2 gameplay levels and 8 rigged playable characters.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Projects</h2>
+
+  <div class="item">
+    <div class="row">
+      <p><span class="title">Save the Cat</span> <span class="org">— self-published under Parlok Studio</span></p>
+      <p class="when">Live on Google Play</p>
+    </div>
+    <p class="stack">Unity 6 · C# · 2D Physics · AdMob · Supabase</p>
+    <ul>
+      <li>One-stroke physics puzzle: the drawn line becomes a rigid body with mass. A deterministic, hand-stepped simulation also runs off-screen to prove generated levels winnable before they are served.</li>
+      <li>Designed the monetization: rewarded hints, paced interstitials (150 s cooldown, first 3 levels ad-free, never mid-level), a coin-based skin shop and child-directed ad settings for Google Play Families. The game is profitable.</li>
+      <li>Daily puzzle with a global Supabase leaderboard; 100+ PlayMode tests.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="row">
+      <p><span class="title">Online Multiplayer Checkers</span> <span class="org">— RENXO Technologies</span></p>
+      <p class="when">Android &amp; iOS builds</p>
+    </div>
+    <p class="stack">Unity · C# · WebSockets · JWT · Firebase · AdMob · Meta Audience Network · ironSource LevelPlay</p>
+    <ul>
+      <li>Dual-WebSocket netcode (lobby + per-match) with heartbeats, exponential-backoff reconnect and session restore across app backgrounding; JWT auth with region-aware routing (NA / UK / India).</li>
+      <li>Rules engine with 8 configurable rules (flying kings, forced capture, 8/10/12 boards); Google, Apple and Guest sign-in.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="row">
+      <p><span class="title">VR Acrophobia Therapy</span></p>
+    </div>
+    <p class="stack">Unity · C# · Oculus SDK · ESP32 · BLE</p>
+    <ul>
+      <li>Heart-rate-paced exposure therapy: an ESP32 pulse sensor streams heart rate to Unity over BLE, and virtual height rises only while the patient stays calm.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="skills">
+  <h2>Skills</h2>
+  <p><b>Engine &amp; languages:</b> Unity (2D/3D, URP, Unity 6), C#, C++, Python</p>
+  <p><b>Gameplay &amp; architecture:</b> gameplay systems, level design, difficulty tuning, state machines, EventBus, Service Locator, object pooling, ScriptableObjects</p>
+  <p><b>Multiplayer &amp; backend:</b> WebSockets, Photon PUN, Netcode for GameObjects, Firebase, REST APIs, Supabase, JWT, OAuth (Google, Apple)</p>
+  <p><b>Monetization &amp; release:</b> AdMob, Unity Ads, ironSource LevelPlay, Meta Audience Network, Google UMP consent, Google Play and App Store publishing</p>
+  <p><b>Performance, XR &amp; tools:</b> profiling, memory optimization, GPU instancing, LOD and batching, XR Interaction Toolkit, OpenXR, Git, Blender</p>
+</section>
+
+<section>
+  <h2>Education &amp; Certifications</h2>
+  <div class="row">
+    <p><span class="title">B.Tech, Engineering Physics</span> <span class="org">— NIT Hamirpur</span></p>
+    <p class="when">2021 – 2025</p>
+  </div>
+  <p>Unity Junior Programmer (Unity) · Unity VR Development (Unity) · GATE 2025 Qualified (Computer Science)</p>
+</section>
+
+</body>
+</html>

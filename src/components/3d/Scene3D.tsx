@@ -11,9 +11,9 @@ import * as THREE from 'three'
  *  report the press to the on-screen HUD.
  * ──────────────────────────────────────────────────────────────── */
 
-const BODY = '#222838'
-const BODY_DARK = '#171b27'
-const TRIM = '#2e3650'
+const BODY = '#e8e0cc'
+const BODY_DARK = '#cfc5ae'
+const TRIM = '#bcb198'
 
 type PressInfo = { label: string; color: string }
 
@@ -51,7 +51,7 @@ function FaceButton({
     if (g && m) {
       const targetZ = pressed ? -0.07 : hovered ? 0.05 : 0
       g.position.z = THREE.MathUtils.lerp(g.position.z, position[2] + targetZ, 0.3)
-      m.emissiveIntensity = THREE.MathUtils.lerp(m.emissiveIntensity, hovered || pressed ? 1.8 : 0.55, 0.2)
+      m.emissiveIntensity = THREE.MathUtils.lerp(m.emissiveIntensity, hovered || pressed ? 0.9 : 0.2, 0.2)
     }
     // shockwave ring
     if (ring.current && ringMat.current) {
@@ -73,7 +73,7 @@ function FaceButton({
     >
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[0.135, 0.135, 0.12, 32]} />
-        <meshStandardMaterial ref={mat} color={color} emissive={color} emissiveIntensity={0.55} metalness={0.3} roughness={0.25} />
+        <meshStandardMaterial ref={mat} color={color} emissive={color} emissiveIntensity={0.2} metalness={0.1} roughness={0.45} />
       </mesh>
       {/* shockwave */}
       <mesh ref={ring} position={[0, 0, 0.06]} rotation={[Math.PI / 2, 0, 0]}>
@@ -101,15 +101,15 @@ function Stick({ position }: { position: [number, number, number] }) {
       <group ref={ref}>
         <mesh position={[0, 0, 0.12]} rotation={[Math.PI / 2, 0, 0]}>
           <cylinderGeometry args={[0.07, 0.09, 0.22, 24]} />
-          <meshStandardMaterial color="#2b3147" metalness={0.4} roughness={0.4} />
+          <meshStandardMaterial color="#3a3732" metalness={0.2} roughness={0.6} />
         </mesh>
         <mesh position={[0, 0, 0.24]}>
           <sphereGeometry args={[0.2, 32, 32]} />
-          <meshStandardMaterial color="#11151f" metalness={0.3} roughness={0.35} />
+          <meshStandardMaterial color="#2b2925" metalness={0.1} roughness={0.7} />
         </mesh>
         <mesh position={[0, 0, 0.36]} rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.16, 0.022, 16, 32]} />
-          <meshStandardMaterial color="#7c6cff" emissive="#7c6cff" emissiveIntensity={1.1} />
+          <meshStandardMaterial color="#d9441c" emissive="#d9441c" emissiveIntensity={0.35} />
         </mesh>
       </group>
     </group>
@@ -117,12 +117,12 @@ function Stick({ position }: { position: [number, number, number] }) {
 }
 
 function DPad() {
-  const c = '#2b3147'
+  const c = '#3a3732'
   return (
     <group position={[-0.95, 0.12, 0.34]}>
       <mesh><boxGeometry args={[0.24, 0.72, 0.14]} /><meshStandardMaterial color={c} metalness={0.35} roughness={0.4} /></mesh>
       <mesh><boxGeometry args={[0.72, 0.24, 0.14]} /><meshStandardMaterial color={c} metalness={0.35} roughness={0.4} /></mesh>
-      <mesh position={[0, 0, 0.05]}><boxGeometry args={[0.16, 0.16, 0.12]} /><meshStandardMaterial color="#5b8cff" emissive="#5b8cff" emissiveIntensity={0.7} /></mesh>
+      <mesh position={[0, 0, 0.05]}><boxGeometry args={[0.16, 0.16, 0.12]} /><meshStandardMaterial color="#2a56c6" emissive="#2a56c6" emissiveIntensity={0.3} /></mesh>
     </group>
   )
 }
@@ -154,23 +154,23 @@ function Controller({ rumble, onPress }: { rumble: MutableRefObject<number>; onP
   return (
     <group ref={ref} rotation={[0.2, -0.15, 0]} scale={1.25}>
       <RoundedBox args={[3.0, 1.45, 0.62]} radius={0.32} smoothness={6}>
-        <meshStandardMaterial color={BODY} metalness={0.45} roughness={0.45} />
+        <meshStandardMaterial color={BODY} metalness={0.05} roughness={0.7} />
       </RoundedBox>
 
       <group position={[-1.25, -0.55, 0]} rotation={[0, 0, 0.55]}>
         <RoundedBox args={[0.85, 1.35, 0.62]} radius={0.3} smoothness={5}>
-          <meshStandardMaterial color={BODY} metalness={0.45} roughness={0.5} />
+          <meshStandardMaterial color={BODY} metalness={0.05} roughness={0.7} />
         </RoundedBox>
       </group>
       <group position={[1.25, -0.55, 0]} rotation={[0, 0, -0.55]}>
         <RoundedBox args={[0.85, 1.35, 0.62]} radius={0.3} smoothness={5}>
-          <meshStandardMaterial color={BODY} metalness={0.45} roughness={0.5} />
+          <meshStandardMaterial color={BODY} metalness={0.05} roughness={0.7} />
         </RoundedBox>
       </group>
 
       <mesh position={[0, 0.62, 0.2]}>
         <boxGeometry args={[1.1, 0.06, 0.2]} />
-        <meshStandardMaterial color="#7c6cff" emissive="#7c6cff" emissiveIntensity={1.2} />
+        <meshStandardMaterial color="#d9441c" emissive="#d9441c" emissiveIntensity={0.5} />
       </mesh>
 
       <mesh position={[-1.0, 0.74, 0.05]} rotation={[0.3, 0, 0]}>
@@ -183,10 +183,10 @@ function Controller({ rumble, onPress }: { rumble: MutableRefObject<number>; onP
       <DPad />
 
       <group position={[0.95, 0.12, 0]}>
-        <FaceButton position={[0, 0.34, 0.34]} color="#a78bfa" label="Y" rumble={rumble} onPress={onPress} />
-        <FaceButton position={[0.34, 0, 0.34]} color="#5b8cff" label="B" rumble={rumble} onPress={onPress} />
-        <FaceButton position={[0, -0.34, 0.34]} color="#7c6cff" label="A" rumble={rumble} onPress={onPress} />
-        <FaceButton position={[-0.34, 0, 0.34]} color="#38bdf8" label="X" rumble={rumble} onPress={onPress} />
+        <FaceButton position={[0, 0.34, 0.34]} color="#e0ac1a" label="Y" rumble={rumble} onPress={onPress} />
+        <FaceButton position={[0.34, 0, 0.34]} color="#d9441c" label="B" rumble={rumble} onPress={onPress} />
+        <FaceButton position={[0, -0.34, 0.34]} color="#2d7a4a" label="A" rumble={rumble} onPress={onPress} />
+        <FaceButton position={[-0.34, 0, 0.34]} color="#2a56c6" label="X" rumble={rumble} onPress={onPress} />
       </group>
 
       <Stick position={[-0.42, -0.5, 0.3]} />
@@ -194,7 +194,7 @@ function Controller({ rumble, onPress }: { rumble: MutableRefObject<number>; onP
 
       <mesh position={[0, 0.12, 0.34]}>
         <circleGeometry args={[0.08, 24]} />
-        <meshStandardMaterial color="#7c6cff" emissive="#7c6cff" emissiveIntensity={1.4} />
+        <meshStandardMaterial color="#d9441c" emissive="#d9441c" emissiveIntensity={0.6} />
       </mesh>
     </group>
   )
@@ -207,7 +207,7 @@ function Particles({ count = 220 }: { count?: number }) {
   const geo = useMemo(() => {
     const pos = new Float32Array(COUNT * 3)
     const col = new Float32Array(COUNT * 3)
-    const palette = [new THREE.Color('#7c6cff'), new THREE.Color('#5b8cff'), new THREE.Color('#a78bfa'), new THREE.Color('#38bdf8')]
+    const palette = [new THREE.Color('#d9441c'), new THREE.Color('#2a56c6'), new THREE.Color('#2d7a4a'), new THREE.Color('#8a8374')]
     for (let i = 0; i < COUNT; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 14
       pos[i * 3 + 1] = (Math.random() - 0.5) * 9
@@ -228,7 +228,7 @@ function Particles({ count = 220 }: { count?: number }) {
   })
   return (
     <points ref={ref} geometry={geo}>
-      <pointsMaterial size={0.05} vertexColors transparent opacity={0.7} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} />
+      <pointsMaterial size={0.045} vertexColors transparent opacity={0.55} sizeAttenuation depthWrite={false} />
     </points>
   )
 }
@@ -299,9 +299,9 @@ export default function Scene3D({ onPress, lowPower = false, hologram = true }: 
     <>
       <ambientLight intensity={0.7} />
       <directionalLight position={[4, 6, 6]} intensity={2.2} color="#ffffff" />
-      <pointLight position={[-5, 2, 4]} intensity={1.6} color="#7c6cff" />
-      <pointLight position={[5, -2, 4]} intensity={1.2} color="#5b8cff" />
-      <pointLight position={[0, 4, -4]} intensity={1} color="#a78bfa" />
+      <pointLight position={[-5, 2, 4]} intensity={1.2} color="#fff1dc" />
+      <pointLight position={[5, -2, 4]} intensity={0.9} color="#dfe8ff" />
+      <pointLight position={[0, 4, -4]} intensity={0.8} color="#ffe2cf" />
 
       <Particles count={lowPower ? 70 : 220} />
       <Controller rumble={rumble} onPress={press} />
@@ -318,7 +318,7 @@ export default function Scene3D({ onPress, lowPower = false, hologram = true }: 
       {/* bloom is GPU-heavy — skip it on low-power / mobile */}
       {!lowPower && (
         <EffectComposer>
-          <Bloom intensity={0.9} luminanceThreshold={0.25} luminanceSmoothing={0.5} mipmapBlur />
+          <Bloom intensity={0.3} luminanceThreshold={0.7} luminanceSmoothing={0.4} mipmapBlur />
         </EffectComposer>
       )}
     </>

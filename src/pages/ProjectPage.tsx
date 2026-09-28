@@ -1,376 +1,324 @@
-import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useEffect, useState, type ComponentType } from 'react'
+import { useParams, Link, useLocation } from 'react-router-dom'
 import { projects, projectExtra } from '../data'
 import { getMedia } from '../lib/projectMedia'
+import { benchFor, categoryShort, categoryTone, expNo, statusTone } from '../lib/lab'
 import TechIcon from '../components/ui/TechIcon'
+import Stamp from '../components/ui/Stamp'
+import Reveal from '../components/ui/Reveal'
+import { Specimen } from '../components/sections/Projects'
+import BenchCard from '../components/bench/BenchCard'
+import PathPuzzle from '../components/bench/PathPuzzle'
+import WallsToy from '../components/bench/WallsToy'
+import SpeedToy from '../components/bench/SpeedToy'
+import HeartToy from '../components/bench/HeartToy'
+import ReconnectToy from '../components/bench/ReconnectToy'
+import SaveTheCatEconomy from '../components/report/SaveTheCatEconomy'
 
-function toYouTubeEmbed(input: string): string {
-  if (!input) return ''
-  if (input.includes('/embed/')) return input
-  const m =
-    input.match(/[?&]v=([\w-]{11})/) ||
-    input.match(/youtu\.be\/([\w-]{11})/) ||
-    input.match(/^([\w-]{11})$/)
-  return m ? `https://www.youtube.com/embed/${m[1]}` : ''
+// bench experiments that can be re-run inside a lab report
+const TRIALS: Record<string, ComponentType> = {
+  'no-instructions': PathPuzzle,
+  walls: WallsToy,
+  speed: SpeedToy,
+  heartbeat: HeartToy,
+  reconnect: ReconnectToy,
+}
+
+// project-specific diagram sections, keyed by project id
+const DESIGN_SECTIONS: Record<string, { title: string; anchor: string; Diagram: ComponentType }> = {
+  'save-the-cat': { title: 'Monetization design', anchor: 'monetization', Diagram: SaveTheCatEconomy },
+}
+
+function Section({ n, title, id, children }: { n: number; title: string; id?: string; children: React.ReactNode }) {
+  return (
+    <Reveal className="rsec">
+      <h2 className="rsec__title" id={id}>
+        <span className="rsec__n">§{n}</span>
+        {title}
+      </h2>
+      {children}
+    </Reveal>
+  )
 }
 
 export default function ProjectPage() {
   const { id } = useParams()
+  const { hash } = useLocation()
   const project = projects.find((p) => p.id === id)
-  const [zoom, setZoom] = useState<string | null>(null)
+  const [zoom, setZoom] = useState<{ src: string; caption: string } | null>(null)
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [id])
+    if (!hash) { window.scrollTo(0, 0); return }
+    const t = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth' }), 120)
+    return () => clearTimeout(t)
+  }, [id, hash])
+
+  useEffect(() => {
+    if (!zoom) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setZoom(null)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [zoom])
 
   if (!project) {
     return (
-      <main className="container" style={{ paddingTop: '10rem', paddingBottom: '8rem', textAlign: 'center' }}>
-        <h1 className="section-title" style={{ marginBottom: '1rem' }}>Project not found</h1>
-        <p className="lead" style={{ margin: '0 auto 2rem' }}>That project doesn't exist (yet).</p>
-        <Link to="/#projects" className="btn btn-primary">← Back to projects</Link>
+      <main className="container report report--missing">
+        <p className="label">Error 404 · specimen not found</p>
+        <h1 className="display">This experiment <em>doesn't exist</em> (yet).</h1>
+        <p className="lead">Either it was never logged, or it escaped. Back to the notebook?</p>
+        <Link to="/#projects" className="btn btn--signal">← All experiments</Link>
       </main>
     )
   }
 
-  const c = project.color
   const extra = projectExtra[project.id]
   const media = getMedia(project.id)
-  const embed = toYouTubeEmbed(project.video)
+  const trials = benchFor(project.id).filter((b) => TRIALS[b.id])
+  const design = DESIGN_SECTIONS[project.id]
   const related = projects
     .filter((p) => p.id !== project.id)
     .sort((a, b) => Number(b.category === project.category) - Number(a.category === project.category))
     .slice(0, 3)
+  const links = [
+    project.links.playStore && { href: project.links.playStore, label: 'Google Play ↗', main: true },
+    project.links.appStore && { href: project.links.appStore, label: 'App Store ↗', main: !project.links.playStore },
+    project.links.demo && { href: project.links.demo, label: 'Live demo ↗', main: true },
+    project.links.github && { href: project.links.github, label: 'GitHub ↗', main: false },
+  ].filter(Boolean) as { href: string; label: string; main: boolean }[]
+  let sec = 0
 
   return (
-    <main style={{ paddingTop: 68 }}>
-      {/* ── Hero band ─────────────────────────────── */}
-      <section
-        style={{
-          position: 'relative',
-          borderBottom: '1px solid var(--border)',
-          background: `linear-gradient(180deg, ${c}14, transparent 70%)`,
-        }}
-      >
-        <div className="container" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
-          <Link
-            to="/#projects"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.8rem',
-              color: 'var(--text-dim)',
-              textDecoration: 'none',
-              marginBottom: '2rem',
-            }}
-          >
-            ← All projects
-          </Link>
+    <main className="report">
+      <div className="container">
+        <Link to="/#projects" className="report__back label">← Back to all experiments</Link>
 
-          <div className="responsive-grid-2col" style={{ alignItems: 'center' }}>
-            {/* left: text */}
+        {/* ── Cover sheet ─────────────────────────────── */}
+        <header className="report__head sheet">
+          <div className="report__strip">
+            <span className="label">Lab report · Experiment {expNo(project.no)}</span>
+            <span className={`xcard__tab tone-${categoryTone[project.category] ?? 'blue'}`}>
+              Filed under {categoryShort[project.category] ?? project.category}
+            </span>
+          </div>
+
+          <div className="report__head-grid">
             <div>
-              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap' }}>
-                <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '0.62rem', letterSpacing: '0.12em',
-                  textTransform: 'uppercase', color: c, border: `1px solid ${c}55`,
-                  borderRadius: 999, padding: '0.25rem 0.7rem',
-                }}>
-                  {project.category}
-                </span>
-                <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '0.62rem', letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color: project.status === 'Shipped' ? '#22c55e' : c,
-                  border: `1px solid ${project.status === 'Shipped' ? '#22c55e55' : c + '55'}`,
-                  borderRadius: 999, padding: '0.25rem 0.7rem',
-                }}>
-                  {project.status}
-                </span>
-              </div>
-
-              <h1 style={{
-                fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
-                fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.05, color: 'var(--text)',
-              }}>
-                {project.title}
-              </h1>
-              <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', color: c, marginTop: '0.35rem' }}>
-                {project.subtitle}
-              </p>
-              <p className="lead" style={{ marginTop: '1rem' }}>{project.tagline}</p>
-
-              {extra?.role && (
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-faint)', lineHeight: 1.6, marginTop: '0.85rem' }}>
-                  <strong style={{ color: 'var(--text-dim)' }}>My role: </strong>{extra.role}
-                </p>
+              <p className="label report__qlabel">The question</p>
+              <p className="display report__q">“{project.question}”</p>
+              <h1 className="report__title">{project.title}</h1>
+              <p className="report__sub">{project.subtitle}</p>
+              <p className="report__abstract">{project.tagline}</p>
+              {links.length > 0 && (
+                <div className="report__links">
+                  {links.map((l) => (
+                    <a key={l.href + l.label} href={l.href} target="_blank" rel="noreferrer" className={`btn ${l.main ? 'btn--signal' : ''}`}>
+                      {l.label}
+                    </a>
+                  ))}
+                </div>
               )}
+            </div>
+            <div className="report__fig">
+              <Specimen p={project} />
+              <Stamp tone={statusTone(project.status)} rotate={-10} large className="report__stamp">{project.status}</Stamp>
+            </div>
+          </div>
 
-              <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
+          {extra?.metrics?.length ? (
+            <dl className="report__metrics">
+              {extra.metrics.map((m) => (
+                <div key={m.label}>
+                  <dt className="label">{m.label}</dt>
+                  <dd className="display">{m.value}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+        </header>
+
+        {/* ── Body ────────────────────────────────────── */}
+        <div className="report__grid">
+          <div className="report__main">
+            {design && (
+              <Section n={++sec} title={design.title} id={design.anchor}>
+                <design.Diagram />
+              </Section>
+            )}
+
+            <Section n={++sec} title="Abstract">
+              <p className="rsec__lead">{project.description}</p>
+            </Section>
+
+            {project.csr && (
+              <Section n={++sec} title="Problem · Method · Findings">
+                <div className="pmf">
+                  <div className="pmf__col">
+                    <p className="label">Problem</p>
+                    <p>{project.csr.challenge}</p>
+                  </div>
+                  <div className="pmf__col">
+                    <p className="label">Method</p>
+                    <p>{project.csr.solution}</p>
+                  </div>
+                  <div className="pmf__col pmf__col--find">
+                    <p className="label">Findings</p>
+                    <ul>
+                      {project.csr.result.map((r) => <li key={r}>{r}</li>)}
+                    </ul>
+                  </div>
+                </div>
+              </Section>
+            )}
+
+            <Section n={++sec} title="Observations">
+              <p className="rsec__body">{project.overview}</p>
+            </Section>
+
+            {extra?.deepDive?.length ? (
+              <Section n={++sec} title="Lab notes">
+                <div className="notes">
+                  {extra.deepDive.map((d, i) => (
+                    <article key={d.title} className="note">
+                      <p className="label note__n">Note {String(i + 1).padStart(2, '0')}</p>
+                      <h3 className="note__title">{d.title}</h3>
+                      <p className="note__body">{d.body}</p>
+                    </article>
+                  ))}
+                </div>
+              </Section>
+            ) : null}
+
+            {project.process.length > 0 && (
+              <Section n={++sec} title="Procedure">
+                <ol className="procedure">
+                  {project.process.map((step, i) => (
+                    <li key={step.title}>
+                      <span className="procedure__n">{String(i + 1).padStart(2, '0')}</span>
+                      <div>
+                        <h3>{step.title}</h3>
+                        <p>{step.detail}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </Section>
+            )}
+
+            {media.gallery.length > 0 && (
+              <Section n={++sec} title="Figures">
+                <div className="figures">
+                  {media.gallery.map((im, i) => (
+                    <figure key={im.src} className="figure">
+                      <button className="figure__btn" onClick={() => setZoom(im)} aria-label={`Enlarge figure ${i + 2}`}>
+                        <img src={im.src} alt={im.caption || project.title} loading="lazy" />
+                      </button>
+                      <figcaption className="label">Fig. {i + 2}{im.caption ? ` — ${im.caption}` : ''}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </Section>
+            )}
+
+            {trials.length > 0 && (
+              <Section n={++sec} title="Reproduce it yourself">
+                <p className="rsec__body" style={{ marginBottom: '1.5rem' }}>
+                  A small piece of this project, pulled out so you can run it right here.
+                </p>
+                <div className="report__trials">
+                  {trials.map((t) => {
+                    const Trial = TRIALS[t.id]
+                    return <BenchCard key={t.id} exp={t}><Trial /></BenchCard>
+                  })}
+                </div>
+              </Section>
+            )}
+          </div>
+
+          {/* ── Side panel ──────────────────────────── */}
+          <aside className="report__side">
+            {extra?.role && (
+              <div className="side-block sheet">
+                <p className="label">My role</p>
+                <p className="side-block__text">{extra.role}</p>
+              </div>
+            )}
+
+            {project.highlights.length > 0 && (
+              <div className="side-block sheet">
+                <p className="label">Key results</p>
+                <ul className="checklist checklist--tight">
+                  {project.highlights.map((h) => (
+                    <li key={h}>
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+                        <path d="M2.5 8.5 L6.5 12 L13.5 3.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="side-block sheet">
+              <p className="label">Apparatus</p>
+              <div className="side-block__tags">
                 {project.tech.map((t) => (
-                  <span key={t} style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                    fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text-dim)',
-                    background: 'var(--card)', border: '1px solid var(--border)',
-                    borderRadius: 8, padding: '0.28rem 0.62rem',
-                  }}>
-                    <TechIcon name={t} />
-                    {t}
-                  </span>
+                  <span key={t} className="tag"><TechIcon name={t} size={12} />{t}</span>
                 ))}
               </div>
-
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                {project.links.demo && (
-                  <a href={project.links.demo} target="_blank" rel="noreferrer" className="btn btn-primary">View live →</a>
-                )}
-                {project.links.playStore && (
-                  <a href={project.links.playStore} target="_blank" rel="noreferrer" className="btn btn-primary">Google Play →</a>
-                )}
-                {project.links.appStore && (
-                  <a href={project.links.appStore} target="_blank" rel="noreferrer" className="btn btn-ghost">App Store →</a>
-                )}
-                {project.links.github && (
-                  <a href={project.links.github} target="_blank" rel="noreferrer" className="btn btn-ghost">GitHub</a>
-                )}
-              </div>
-            </div>
-
-            {/* right: cover */}
-            <div style={{
-              borderRadius: 'var(--radius)', overflow: 'hidden', border: '1px solid var(--border)',
-              boxShadow: `0 30px 60px ${c}22`,
-            }}>
-              {media.cover ? (
-                <img src={media.cover} alt={project.title} style={{ width: '100%', display: 'block', aspectRatio: '16/10', objectFit: 'cover' }} />
-              ) : (
-                <div style={{ width: '100%', aspectRatio: '16/10', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg, ${c}2e, var(--surface))` }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.4rem', color: 'var(--text)', opacity: 0.7, padding: '0 1.5rem', textAlign: 'center' }}>{project.title}</span>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Body ──────────────────────────────────── */}
-      <div className="container" style={{ paddingTop: '4rem', paddingBottom: '5rem', maxWidth: 920 }}>
-        {/* Metrics strip */}
-        {extra?.metrics?.length ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '0.75rem', marginBottom: '2.5rem' }}>
-            {extra.metrics.map((m) => (
-              <div key={m.label} className="card" style={{ padding: '1rem 1.1rem' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.02em' }}>{m.value}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.56rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-faint)', marginTop: 3, lineHeight: 1.3 }}>{m.label}</div>
-              </div>
-            ))}
-          </div>
-        ) : null}
-
-        {/* Challenge · Solution · Result — recruiter quick-scan */}
-        {project.csr && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '2.5rem' }}>
-            {[
-              { label: 'Challenge', body: project.csr.challenge },
-              { label: 'Solution', body: project.csr.solution },
-              { label: 'Result', body: project.csr.result },
-            ].map((b) => (
-              <div key={b.label} className="card" style={{ padding: '1.2rem 1.3rem', borderTop: `3px solid ${c}` }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: c, marginBottom: '0.7rem' }}>
-                  {b.label}
-                </div>
-                {Array.isArray(b.body) ? (
-                  <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    {b.body.map((item) => (
-                      <li key={item} style={{ display: 'flex', gap: '0.55rem', alignItems: 'flex-start', fontSize: '0.92rem', color: 'var(--text)', lineHeight: 1.5 }}>
-                        <span style={{ color: c, marginTop: 1 }}>✓</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-dim)', lineHeight: 1.65 }}>{b.body}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Overview */}
-        <div className="modal-section-label">Overview</div>
-        <p style={{ fontSize: '1.1rem', color: 'var(--text-dim)', lineHeight: 1.85 }}>{project.overview}</p>
-
-        {/* Highlights */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0.75rem', marginTop: '2rem' }}>
-          {project.highlights.map((h) => (
-            <div key={h} className="card" style={{ padding: '0.9rem 1.1rem', display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}>
-              <span style={{ color: c, marginTop: 2 }}>◆</span>
-              <span style={{ fontSize: '0.92rem', color: 'var(--text)' }}>{h}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Architecture & patterns */}
-        {extra?.architecture?.length ? (
-          <>
-            <div className="modal-section-label">Architecture &amp; patterns</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
-              {extra.architecture.map((a) => (
-                <span key={a} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.66rem', color: c, border: `1px solid ${c}44`, background: `${c}10`, borderRadius: 999, padding: '0.32rem 0.75rem' }}>{a}</span>
-              ))}
-            </div>
-          </>
-        ) : null}
-
-        {/* Technical deep dive */}
-        {extra?.deepDive?.length ? (
-          <>
-            <div className="modal-section-label">Technical deep dive</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {extra.deepDive.map((d, i) => (
-                <div key={i} className="card" style={{ padding: '1.1rem 1.3rem', borderLeft: `3px solid ${c}` }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '1.02rem', color: 'var(--text)', marginBottom: '0.45rem' }}>{d.title}</div>
-                  <p style={{ color: 'var(--text-dim)', fontSize: '0.95rem', lineHeight: 1.75 }}>{d.body}</p>
-                </div>
-              ))}
-            </div>
-          </>
-        ) : null}
-
-        {/* Video */}
-        <div className="modal-section-label">Demo video</div>
-        {embed ? (
-          <div style={{ position: 'relative', paddingTop: '56.25%', borderRadius: 'var(--radius)', overflow: 'hidden', border: '1px solid var(--border)' }}>
-            <iframe
-              src={embed}
-              title={`${project.title} demo`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
-            />
-          </div>
-        ) : (
-          <div style={{ position: 'relative', paddingTop: '56.25%', borderRadius: 'var(--radius)', overflow: 'hidden', border: `1px dashed ${c}55`, background: `${c}0d` }}>
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', textAlign: 'center', padding: '1rem' }}>
-              <div style={{ width: 56, height: 56, borderRadius: '50%', border: `2px solid ${c}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: c, fontSize: '1.1rem', paddingLeft: 4 }}>▶</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '1.05rem', color: 'var(--text)' }}>Gameplay video — coming soon</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-faint)', letterSpacing: '0.05em' }}>Real footage will be added here</div>
-            </div>
-          </div>
-        )}
-
-        {/* Gallery — only shows if the project's folder has screenshots */}
-        {media.gallery.length > 0 && (
-          <>
-            <div className="modal-section-label">Screens</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem' }}>
-              {media.gallery.map((im, i) => (
-                <figure key={i} style={{ margin: 0, borderRadius: 'var(--radius)', overflow: 'hidden', border: '1px solid var(--border)', background: 'var(--card)' }}>
-                  <img
-                    src={im.src}
-                    alt={im.caption || project.title}
-                    loading="lazy"
-                    onClick={() => setZoom(im.src)}
-                    style={{ width: '100%', display: 'block', aspectRatio: '16/9', objectFit: 'cover', cursor: 'zoom-in', transition: 'opacity 0.2s' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
-                    onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
-                  />
-                  {im.caption && <figcaption style={{ padding: '0.65rem 0.8rem', fontSize: '0.78rem', color: 'var(--text-dim)' }}>{im.caption}</figcaption>}
-                </figure>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* Process */}
-        {project.process.length > 0 && (
-          <>
-            <div className="modal-section-label">How it was built</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-              {project.process.map((step, i) => (
-                <div key={i} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                  <span style={{
-                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.85rem', color: c,
-                    minWidth: 30, height: 30, borderRadius: 8, border: `1px solid ${c}55`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                  }}>{i + 1}</span>
-                  <div>
-                    <div style={{ fontWeight: 600, color: 'var(--text)' }}>{step.title}</div>
-                    <div style={{ color: 'var(--text-dim)', fontSize: '0.95rem', lineHeight: 1.6 }}>{step.detail}</div>
+              {extra?.architecture?.length ? (
+                <>
+                  <p className="label" style={{ marginTop: '1.1rem' }}>Patterns</p>
+                  <div className="side-block__tags">
+                    {extra.architecture.map((a) => <span key={a} className="tag">{a}</span>)}
                   </div>
-                </div>
-              ))}
+                </>
+              ) : null}
             </div>
-          </>
-        )}
 
-        {/* Roadmap */}
-        {project.roadmap.length > 0 && (
-          <>
-            <div className="modal-section-label">Done & next</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
-              {project.roadmap.map((r, i) => (
-                <div key={i} style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
-                  <span style={{ color: r.done ? '#22c55e' : 'var(--text-faint)' }}>{r.done ? '✓' : '○'}</span>
-                  <span style={{ color: r.done ? 'var(--text)' : 'var(--text-dim)', fontSize: '0.95rem' }}>{r.label}</span>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+            {project.roadmap.length > 0 && (
+              <div className="side-block sheet">
+                <p className="label">Status &amp; next trials</p>
+                <ul className="roadmap">
+                  {project.roadmap.map((r) => (
+                    <li key={r.label} className={r.done ? 'is-done' : ''}>
+                      <span className="roadmap__box" aria-hidden>{r.done ? '✓' : ''}</span>
+                      <span>{r.label}</span>
+                      <span className="sr-only">{r.done ? '(done)' : '(next)'}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </aside>
+        </div>
+
+        {/* ── Related ─────────────────────────────────── */}
+        <section className="related">
+          <div className="shead__rule">
+            <span className="shead__no">→</span>
+            <span className="shead__line" />
+            <span className="label shead__kicker">Related experiments</span>
+          </div>
+          <div className="related__grid">
+            {related.map((p) => (
+              <Link key={p.id} to={`/projects/${p.id}`} className="related__card sheet">
+                <span className="label">Experiment {expNo(p.no)} · {categoryShort[p.category] ?? p.category}</span>
+                <span className="display related__q">{p.question}</span>
+                <span className="related__title">{p.title} →</span>
+              </Link>
+            ))}
+          </div>
+        </section>
       </div>
 
-      {/* ── Related projects ──────────────────────── */}
-      <section style={{ borderTop: '1px solid var(--border)', background: 'var(--bg2)' }}>
-        <div className="container" style={{ paddingTop: '3.5rem', paddingBottom: '5rem' }}>
-          <div className="eyebrow">More work</div>
-          <h2 className="section-title" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', marginBottom: '2rem' }}>
-            Related projects
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
-            {related.map((p) => {
-              const rc = getMedia(p.id).cover
-              return (
-              <Link
-                key={p.id}
-                to={`/projects/${p.id}`}
-                className="card"
-                style={{ textDecoration: 'none', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
-              >
-                <div style={{ position: 'relative' }}>
-                  {rc ? (
-                    <img src={rc} alt={p.title} loading="lazy" style={{ width: '100%', display: 'block', aspectRatio: '16/9', objectFit: 'cover' }} />
-                  ) : (
-                    <div style={{ width: '100%', aspectRatio: '16/9', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg, ${p.color}2e, var(--surface))` }}>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: 'var(--text)', opacity: 0.7, padding: '0 0.75rem', textAlign: 'center', fontSize: '0.95rem' }}>{p.title}</span>
-                    </div>
-                  )}
-                  <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, transparent 40%, ${p.color}33)` }} />
-                </div>
-                <div style={{ padding: '1.1rem 1.25rem' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: p.color, marginBottom: '0.4rem' }}>
-                    {p.category}
-                  </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--text)', marginBottom: '0.2rem' }}>{p.title}</div>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--text-dim)' }}>{p.subtitle}</div>
-                </div>
-              </Link>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Image lightbox */}
       {zoom && (
-        <div
-          onClick={() => setZoom(null)}
-          style={{ position: 'fixed', inset: 0, zIndex: 3000, background: 'rgba(2,6,12,0.9)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', cursor: 'zoom-out', animation: 'fadeIn 0.2s ease both' }}
-        >
-          <img src={zoom} alt="" style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: 12, boxShadow: '0 30px 80px rgba(0,0,0,0.6)' }} />
-          <button aria-label="Close" onClick={() => setZoom(null)} style={{ position: 'absolute', top: 18, right: 22, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.25)', color: '#fff', width: 38, height: 38, borderRadius: 10, cursor: 'pointer', fontSize: '1rem' }}>✕</button>
+        <div className="lightbox" onClick={() => setZoom(null)} role="dialog" aria-label="Enlarged figure">
+          <figure onClick={(e) => e.stopPropagation()}>
+            <img src={zoom.src} alt={zoom.caption || project.title} />
+            {zoom.caption && <figcaption className="label">{zoom.caption}</figcaption>}
+          </figure>
+          <button className="lightbox__close btn btn--sm" aria-label="Close" onClick={() => setZoom(null)}>✕ close</button>
         </div>
       )}
     </main>

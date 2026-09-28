@@ -1,6 +1,7 @@
 import type { IconType } from 'react-icons'
 import { LuGamepad2, LuNetwork, LuGauge, LuGlasses, LuBrain, LuWrench, LuDices } from 'react-icons/lu'
 import { skills } from '../../data'
+import SectionHead from '../ui/SectionHead'
 import Reveal from '../ui/Reveal'
 
 const CATEGORY_ICON: Record<string, IconType> = {
@@ -13,66 +14,40 @@ const CATEGORY_ICON: Record<string, IconType> = {
   Tools: LuWrench,
 }
 
+// every third drawer gets a coloured label tape, like a real shelf
+const DYMO_TONE = ['', 'dymo--signal', '', 'dymo--blue']
+
 export default function Skills() {
   return (
-    <section id="skills" className="section-pad" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
-      <div style={{
-        position: 'absolute', inset: 0,
-        backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(124,108,255,0.02) 60px, rgba(124,108,255,0.02) 61px), repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(124,108,255,0.02) 60px, rgba(124,108,255,0.02) 61px)',
-        pointerEvents: 'none',
-      }} />
+    <section id="skills" className="section-pad">
+      <div className="container">
+        <SectionHead
+          no="05"
+          kicker="Apparatus"
+          title={<>What the experiments <em>are built with.</em></>}
+          lead="The full kit — from rulesets and difficulty curves to netcode, GPU optimisation, XR and game AI. Sorted into drawers, labelled, mostly tidy."
+        />
 
-      <div className="container" style={{ position: 'relative' }}>
-        <Reveal>
-          <div className="eyebrow">04 / Skills</div>
-          <h2 className="section-title">Technical Skills</h2>
-          <p className="lead">
-            The full stack I build with — from gameplay systems and real-time multiplayer
-            to GPU optimization, XR, and game AI.
-          </p>
-        </Reveal>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem', marginTop: '3rem' }}>
-          {Object.entries(skills).map(([category, { items, color, blurb }], idx) => {
+        <div className="drawers">
+          {Object.entries(skills).map(([category, { items, blurb }], idx) => {
             const Icon = CATEGORY_ICON[category] ?? LuWrench
             return (
-            <Reveal key={category} delay={idx * 70}>
-              <div className="hex-border" style={{ padding: '1.75rem', height: '100%' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', marginBottom: '0.4rem' }}>
-                  <span style={{
-                    width: 34, height: 34, borderRadius: 9, flexShrink: 0,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color, background: color + '1a', border: `1px solid ${color}40`, boxShadow: `0 0 14px ${color}22`,
-                  }}>
-                    <Icon size={18} />
-                  </span>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.01em' }}>
-                    {category}
+              <Reveal key={category} delay={(idx % 3) * 70} className="drawer-wrap">
+                <div className="drawer sheet">
+                  <div className="drawer__front">
+                    <span className="drawer__icon" aria-hidden><Icon size={18} /></span>
+                    <h3 className={`dymo ${DYMO_TONE[idx % DYMO_TONE.length]}`} style={{ ['--dymo-r' as string]: `${idx % 2 ? 1 : -1.3}deg` }}>
+                      {category}
+                    </h3>
+                    <span className="drawer__count label">{String(items.length).padStart(2, '0')} items</span>
                   </div>
+                  {blurb && <p className="drawer__blurb">{blurb}</p>}
+                  <div className="drawer__items">
+                    {items.map((skill) => <span key={skill} className="tag">{skill}</span>)}
+                  </div>
+                  <span className="drawer__pull" aria-hidden />
                 </div>
-                {blurb && (
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', lineHeight: 1.5, margin: '0 0 1.1rem' }}>
-                    {blurb}
-                  </p>
-                )}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {items.map((skill, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        fontFamily: 'var(--font-body)', fontSize: '0.85rem', fontWeight: 500,
-                        color: 'var(--text)', background: color + '14', border: `1px solid ${color}33`,
-                        padding: '0.32rem 0.7rem', borderRadius: 8, transition: 'all 0.2s', cursor: 'default',
-                      }}
-                      onMouseEnter={e => { e.currentTarget.style.background = color + '2e'; e.currentTarget.style.borderColor = color; e.currentTarget.style.transform = 'translateY(-2px)' }}
-                      onMouseLeave={e => { e.currentTarget.style.background = color + '14'; e.currentTarget.style.borderColor = color + '33'; e.currentTarget.style.transform = 'translateY(0)' }}
-                    >
-                      {skill}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
+              </Reveal>
             )
           })}
         </div>
