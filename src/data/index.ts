@@ -53,7 +53,7 @@ export const experience = [
   {
     role: "Unity Game Developer",
     company: "RENXO Technologies Pvt. Ltd.",
-    period: "Jul 2024 – Present",
+    period: "Jul 2025 – Present",
     type: "Full-Time",
     color: "#7c6cff",
     stack: ["Unity", "C#", "WebSockets", "Firebase", "OAuth", "AdMob", "Unity Ads", "ironSource"],
@@ -71,7 +71,7 @@ export const experience = [
   {
     role: "Unity Developer Intern",
     company: "Caarya",
-    period: "Feb 2025 – Jul 2025",
+    period: "Feb 2023 – Jul 2023",
     type: "Internship",
     color: "#5b8cff",
     stack: ["Unity", "C#", "Photon", "Ready Player Me", "Mixamo", "Cinemachine"],
