@@ -195,6 +195,7 @@ export const projects = [
       { label: "Live on Google Play", done: true },
       { label: "iOS build", done: false },
       { label: "Server-side replay check of daily strokes", done: false },
+      { label: "Firebase Analytics + Crashlytics breadcrumbs — built, ships next update", done: false },
     ],
     links: { github: "", demo: "", playStore: "https://play.google.com/store/apps/details?id=com.parlok.savethecat", appStore: "" },
   },
@@ -207,7 +208,7 @@ export const projects = [
     category: "Games",
     status: "Live",
     color: "#f59e0b",
-    tech: ["Unity 6", "C#", "URP", "2D Physics", "AdMob", "Firebase Analytics", "REST API", "Android", "iOS"],
+    tech: ["Unity 6", "C#", "URP", "2D Physics", "AdMob", "Firebase Analytics", "Crashlytics", "REST API", "Android", "iOS"],
     tagline: "Drop sports balls into a jar and merge them up 12 tiers to a legendary Crown ball.",
     cover: img("ballmerge-cover", 900, 560),
     description:
@@ -226,6 +227,7 @@ export const projects = [
       "Player-chosen mid-run ad breaks",
       "Full run save & resume",
       "Global leaderboard with server-side score checks",
+      "Firebase Analytics + Crashlytics breadcrumbs",
     ],
     images: [
       { src: img("ballmerge-1"), caption: "Endless merge — the jar filling up." },
@@ -607,6 +609,7 @@ export const projectExtra: Record<string, {
       { title: "Fair by construction", body: "A 1.75-second grace before a loss, a half-second arm delay so a falling ball never ends the run, a lid over the jar during a shake, and extra settling grace after a shake, a resume or a second-chance rescue — the game's own actions can never lose the player a run." },
       { title: "Save & resume", body: "Every ball's position, rotation, velocity and spin, plus the score, held ball and queue, are saved every five seconds when something changes and immediately on pause or backgrounding. The main menu isn't quitting — it offers RESUME." },
       { title: "Consent order", body: "Google's UMP consent form always comes first and Apple's tracking prompt second, raised at launch without waiting on the network. Ads and analytics wait for both answers — an order two App Store rejections taught." },
+      { title: "Analytics & crash breadcrumbs", body: "Firebase Analytics (GA4) records run_start, run_end, tier_unlocked, top_tier_cleared, jar_overflowed, power_used and theme_changed — enough to watch D1/D7 retention, run length and how players use power-ups and ad breaks. Every event is also dropped as a Crashlytics breadcrumb before the consent gate (breadcrumbs only leave the phone inside a crash report), and Crashlytics keys hold the phase, score, drops, merges, highest tier, theme and live ball count at the moment of any crash. Collection starts only after consent, and ATT on iOS." },
       { title: "Leaderboard & anti-cheat", body: "Runs started online get a signed token and record drops, merges, highest tier and power uses; the server checks the score is plausible before ranking it. Scores are saved locally before any ad can open and queue for retry when offline." },
     ],
   },
@@ -619,6 +622,7 @@ export const projectExtra: Record<string, {
     ],
     architecture: ["Code-built game (no prefabs)", "Deterministic SimWorld", "Off-screen validator", "Level generator + anti-repetition", "Supabase over UnityWebRequest", "Python level tooling"],
     deepDive: [
+      { title: "Measuring it: analytics & crash breadcrumbs (next update)", body: "Built for the next update. Firebase Analytics logs the whole funnel — tutorial_begin/complete, level_start, level_end (stars, ink used, seconds, attempt), level_quit, hint_offered/unlocked, earn/spend_virtual_currency, skin_unlocked, crate_opened and ad events — so D1/D7 retention and where players drop off can be measured instead of guessed. Crashlytics gets breadcrumbs (level staged with its full spec — seed, archetype, variant — stroke released, ad opened, app backgrounded) plus keys for the current level, mode and attempt, because in a seeded physics game the level line is what actually reproduces a crash." },
       { title: "The drawing is an object, not a mark", body: "The finished stroke is a fully dynamic 2D rigid body — free to move and rotate, with mass derived from the ribbon area actually drawn. It's never pinned where the finger left it: during the drag you see a preview with no collider, and the physical body is created on release. So the line is a weight as much as a barrier — a bare vertical wall topples, a line drawn in mid-air falls — and where it comes to rest is half of most puzzles." },
       { title: "Prediction, never reflex", body: "While the player draws, the whole world is frozen — no hazard moves, the cat doesn't fall, the clock doesn't run — and it starts the moment the finger lifts. That one rule means difficulty can only ever be understanding, never speed or precision, and every loss is legible: 'my wall fell over', 'my roof had a gap'." },
       { title: "One simulation, two worlds", body: "Hazards tick through a hand-stepped SimWorld rather than Update/FixedUpdate, because the validator has to step physics hundreds of times inside a single rendered frame, where Unity would only call FixedUpdate once. The visible level and the off-screen validation world run the same code path, and the validator builds its candidate strokes through the same function the player's finger does — so a shape it proves stands up is a shape a player can actually draw." },

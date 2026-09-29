@@ -4,13 +4,14 @@ import Reveal from '../ui/Reveal'
 import Stamp from '../ui/Stamp'
 
 // Homepage call-out for the work Lav is proudest of: Save the Cat's
-// monetization design. Links straight to the diagrams on its lab report.
-export const SPOTLIGHT_HREF = '/projects/save-the-cat#monetization'
+// retention & monetization design. Links straight to its diagrams.
+export const SPOTLIGHT_HREF = '/projects/save-the-cat#retention'
 
 const FLOW = [
-  { i: '🎮', t: 'Gameplay' },
+  { i: '📅', t: 'Daily puzzle' },
+  { i: '⭐', t: 'Stars' },
   { i: '🪙', t: 'Coins' },
-  { i: '🛒', t: 'Skins' },
+  { i: '🐱', t: 'New cats' },
 ]
 
 export default function Spotlight() {
@@ -28,18 +29,18 @@ export default function Spotlight() {
         <div className="spot__body">
           <div>
             <h3 className="display spot__title">
-              {p.title}: <em>monetization design</em>
+              {p.title}: <em>retention &amp; monetization</em>
             </h3>
-            <p className="spot__motto">Every ad is a choice, never a toll.</p>
+            <p className="spot__motto">A reason to come back every day, and ads players choose.</p>
             <div className="spot__facts">
+              <span className="tag">daily puzzle + global rank</span>
+              <span className="tag">cats to collect</span>
+              <span className="tag">first-week coin pace</span>
               <span className="tag">levels 1–3 ad-free</span>
-              <span className="tag">≥150 s between interstitials</span>
-              <span className="tag">child-directed ads</span>
-              <span className="tag">no pay-to-win</span>
             </div>
           </div>
 
-          <div className="spot__flow" aria-label="Gameplay earns coins, coins buy skins; rewarded ads are optional; gems stay premium">
+          <div className="spot__flow" aria-label="Daily puzzle and stars earn coins, coins unlock new cats: Ginger around day 2, King around day 7">
             <div className="spot__row">
               {FLOW.map((n, k) => (
                 <span key={n.t} className="spot__step">
@@ -49,8 +50,9 @@ export default function Spotlight() {
               ))}
             </div>
             <div className="spot__row spot__row--sub">
-              <span className="spot__node spot__node--soft"><i aria-hidden>🎁</i>Rewarded ads · player chooses</span>
-              <span className="spot__node spot__node--next"><i aria-hidden>💎</i>Gems · premium only</span>
+              <span className="spot__node spot__node--soft"><i aria-hidden>🐱</i>Ginger ≈ day 2</span>
+              <span className="spot__node spot__node--soft"><i aria-hidden>👑</i>King ≈ day 7</span>
+              <span className="spot__node spot__node--next"><i aria-hidden>🎁</i>Ads · player chooses</span>
             </div>
           </div>
         </div>

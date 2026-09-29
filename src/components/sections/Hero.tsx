@@ -77,7 +77,7 @@ export default function Hero() {
             </span>
             <span className="hero__status-item hero__spot">
               <span className="label">★ Worked on most →</span>
-              <Link className="link" to={SPOTLIGHT_HREF}>Save the Cat's monetization design</Link>
+              <Link className="link" to={SPOTLIGHT_HREF}>Save the Cat's retention &amp; monetization design</Link>
             </span>
             {bench && (
               <span className="hero__status-item">

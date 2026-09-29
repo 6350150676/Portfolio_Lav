@@ -14,6 +14,7 @@ import SpeedToy from '../components/bench/SpeedToy'
 import HeartToy from '../components/bench/HeartToy'
 import ReconnectToy from '../components/bench/ReconnectToy'
 import SaveTheCatEconomy from '../components/report/SaveTheCatEconomy'
+import SaveTheCatRetention from '../components/report/SaveTheCatRetention'
 
 // bench experiments that can be re-run inside a lab report
 const TRIALS: Record<string, ComponentType> = {
@@ -25,8 +26,11 @@ const TRIALS: Record<string, ComponentType> = {
 }
 
 // project-specific diagram sections, keyed by project id
-const DESIGN_SECTIONS: Record<string, { title: string; anchor: string; Diagram: ComponentType }> = {
-  'save-the-cat': { title: 'Monetization design', anchor: 'monetization', Diagram: SaveTheCatEconomy },
+const DESIGN_SECTIONS: Record<string, { title: string; anchor: string; Diagram: ComponentType }[]> = {
+  'save-the-cat': [
+    { title: 'Retention design', anchor: 'retention', Diagram: SaveTheCatRetention },
+    { title: 'Monetization design', anchor: 'monetization', Diagram: SaveTheCatEconomy },
+  ],
 }
 
 function Section({ n, title, id, children }: { n: number; title: string; id?: string; children: React.ReactNode }) {
@@ -74,7 +78,7 @@ export default function ProjectPage() {
   const extra = projectExtra[project.id]
   const media = getMedia(project.id)
   const trials = benchFor(project.id).filter((b) => TRIALS[b.id])
-  const design = DESIGN_SECTIONS[project.id]
+  const designs = DESIGN_SECTIONS[project.id] ?? []
   const related = projects
     .filter((p) => p.id !== project.id)
     .sort((a, b) => Number(b.category === project.category) - Number(a.category === project.category))
@@ -139,11 +143,11 @@ export default function ProjectPage() {
         {/* ── Body ────────────────────────────────────── */}
         <div className="report__grid">
           <div className="report__main">
-            {design && (
-              <Section n={++sec} title={design.title} id={design.anchor}>
-                <design.Diagram />
+            {designs.map((d) => (
+              <Section key={d.anchor} n={++sec} title={d.title} id={d.anchor}>
+                <d.Diagram />
               </Section>
-            )}
+            ))}
 
             <Section n={++sec} title="Abstract">
               <p className="rsec__lead">{project.description}</p>
